@@ -1,0 +1,64 @@
+/* 📁 File: /styles/Login.module.css */
+
+.loginWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: url('/midex.jpg') center/cover no-repeat;
+  backdrop-filter: blur(4px);
+}
+
+.loginForm {
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 40px;
+  border-radius: 10px;
+  color: #fff;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.loginForm h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.loginForm label {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.loginForm input {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  margin-top: 5px;
+  background-color: #eee;
+  color: #000;
+}
+
+.loginForm button {
+  margin-top: 25px;
+  padding: 12px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.loginForm button:hover {
+  background-color: #0052cc;
+}
+
+.error {
+  background: #ff4d4d;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}

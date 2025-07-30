@@ -1,0 +1,173 @@
+/* Hero Section */
+.hero {
+  background: url('/midex7.jpg') no-repeat center center / cover;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 2s ease-in;
+  background-attachment: fixed;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.10);
+  padding: 2rem 1rem;
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+  color: white;
+  border-radius: 1rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: fadeIn 2s ease-in;
+}
+
+.title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  opacity: 0.9;
+  margin-bottom: 1rem;
+}
+
+.routeBadge {
+  background: limegreen;
+  color: black;
+  font-weight: bold;
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  animation: fadeIn 1.5s ease-in;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.navBtn {
+  background: black;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.navBtn:hover {
+  background: limegreen;
+  color: black;
+}
+
+.routes {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  justify-items: center;
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+}
+
+.routeCard {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid limegreen;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 100%;
+  min-height: 220px;
+  text-align: center;
+  font-size: 0.95rem;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: transform 0.3s, background 0.3s;
+}
+
+.routeCard:hover {
+  transform: scale(1.02);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.routeCard h3 {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: white;
+  text-transform: capitalize;
+}
+
+.routeCard p {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin: 0.5rem 0;
+}
+
+.updated {
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  color: #999;
+}
+
+.routeBtn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  background: #000;
+  color: white;
+  border: 1px solid white;
+  border-radius: 6px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}
+
+.routeBtn:hover {
+  background: white;
+  color: black;
+}
+
+/* Responsive for Tablets and Phones */
+@media (max-width: 1200px) {
+  .routes {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .routes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .routes {
+    grid-template-columns: 1fr;
+  }
+}

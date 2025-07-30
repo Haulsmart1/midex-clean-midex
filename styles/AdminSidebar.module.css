@@ -1,0 +1,92 @@
+/* AdminSidebar.module.css */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background-color: #111;
+  color: white;
+  width: 200px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.navItem,
+.logout {
+  margin-bottom: 8px;
+  background: transparent;
+  border: 1px solid white;
+  padding: 10px 0;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease, color 0.3s ease;
+  text-align: center;
+  width: 100%;
+  min-width: 120px; /* Optional: enforce width if needed */
+}
+
+.navItem:hover,
+.logout:hover {
+  background: white;
+  color: black;
+}
+
+.main {
+  flex: 1;
+  padding: 40px;
+  background-color: #1c1c1c;
+  color: white;
+}
+
+.heading {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.subheading {
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: #222;
+  border: 1px solid #999;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.cardButton {
+  margin-top: 10px;
+  background: white;
+  color: black;
+  padding: 8px 16px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+/* Active sidebar link style */
+.btn-sidebar.active,
+.btn-sidebar.active-admin {
+  background-color: #fff !important;
+  color: #000 !important;
+  font-weight: bold;
+  border-color: #fff;
+}

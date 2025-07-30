@@ -1,0 +1,58 @@
+.dashboard {
+    padding: 2rem;
+    color: white;
+  }
+  
+  .heading {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .subheading {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    color: #ccc;
+  }
+  
+  .cardContainer {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .card {
+    background-color: #1f1f1f;
+    padding: 1.5rem;
+    border-radius: 8px;
+    flex: 1;
+    min-width: 280px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  
+  .cardTitle {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .cardText {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #aaa;
+  }
+  
+  .cardButton {
+    padding: 10px 16px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid #888;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+  }
+  
+  .cardButton:hover {
+    background-color: #333;
+    border-color: #aaa;
+  }
+  

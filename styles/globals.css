@@ -1,0 +1,267 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #000;
+  color: white;
+}
+
+.hero {
+  background: url('/images/background-road.jpg') no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  position: relative;
+  padding: 2rem;
+}
+
+.overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.navbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.logo-text {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.nav-buttons button {
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.3s ease;
+}
+
+.nav-buttons button:hover {
+  background-color: white;
+  color: black;
+}
+
+.select-lang {
+  color: white;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.routes-container {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.route-card {
+  background-color: rgba(0, 0, 0, 0.75);
+  border: 2px solid limegreen;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.route-card:hover {
+  transform: scale(1.03);
+}
+
+.route-card h2 {
+  font-size: 1.2rem;
+  text-transform: capitalize;
+}
+
+.route-card button {
+  width: 100%;
+  margin-top: 1rem;
+  background: black;
+  color: white;
+  border: 1px solid white;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.route-card button:hover {
+  background-color: white;
+  color: black;
+}
+
+.route-card button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.cookie-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #111;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  z-index: 10;
+}
+
+.cookie-bar button {
+  margin-left: 1rem;
+  background: white;
+  color: black;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+/* Layout Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -0.75rem;
+}
+
+.col-12, .col-sm-6, .col-lg-4 {
+  padding: 0.75rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media (min-width: 576px) {
+  .col-sm-6 {
+    width: 50%;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-4 {
+    width: 33.3333%;
+  }
+}
+/* styles/globals.css or similar */
+.btn-sidebar {
+  background-color: #222;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 10px 16px;
+  text-align: left;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  display: block;
+  text-decoration: none;
+}
+
+.btn-sidebar:hover {
+  background-color: #fff;
+  color: #000;
+}
+.btn-sidebar {
+  display: block;
+  padding: 10px 16px;
+  margin-bottom: 1rem;
+  background-color: #222;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: 0.2s all ease-in-out;
+}
+
+.btn-sidebar:hover {
+  background-color: #fff;
+  color: #000;
+}
+input::placeholder,
+select,
+textarea::placeholder {
+  color: #ccc !important;
+  opacity: 1 !important;
+}
+
+input,
+select,
+textarea {
+  color: #f1f1f1 !important;
+  border-color: #888 !important;
+}
+body {
+  background-color: #0d1117;
+  color: #e4e4e4;
+}
+
+.card, .shadow {
+  border-radius: 8px;
+}
+/* styles/globals.css */
+
+body {
+  background-color: #000; /* black */
+  color: #fff; /* text white */
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Arial', sans-serif; /* Or whatever you use */
+}
+/* globals.css */
+
+/* Make entire app dark by default */
+html, body {
+  background-color: #000; /* BLACK background */
+  color: #fff;            /* WHITE text */
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Form elements dark */
+input, textarea, select {
+  background-color: #111;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 0.5rem;
+}
+
+/* Fix buttons globally if needed */
+button {
+  background-color: #222;
+  color: #fff;
+  border: none;
+}
+input, textarea, select {
+  background-color: #111 !important; /* darker background */
+  color: #fff !important;             /* white text */
+  border: 1px solid #333;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #aaa; /* lighter grey for placeholder */
+}

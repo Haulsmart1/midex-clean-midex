@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Your Pallet | Midnight Express</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('/midex.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 14px 30px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 999;
+    }
+
+    .nav-left {
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-right a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    .form-container {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 2.5rem;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 0 30px rgba(0,0,0,0.6);
+      margin: 8rem auto 3rem;
+      color: white;
+      text-align: center;
+    }
+
+    .form-container h2 {
+      margin-bottom: 1.5rem;
+      font-size: 24px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      backdrop-filter: blur(10px);
+      transition: border 0.2s ease, background 0.2s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #00aaff;
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    ::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    label {
+      font-weight: 600;
+      color: white;
+      margin-bottom: 6px;
+      display: block;
+      text-align: left;
+    }
+
+    .checkboxes {
+      text-align: left;
+      margin-bottom: 1rem;
+    }
+
+    .checkboxes label {
+      display: inline;
+      margin-left: 5px;
+    }
+
+    .checkboxes input {
+      width: auto;
+    }
+
+    button[type="submit"] {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    button[type="submit"]:hover {
+      background: #0056b3;
+    }
+
+    @media (max-width: 500px) {
+      .form-container {
+        padding: 2rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-left">Midnight Express Freight</div>
+    <div class="nav-right">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/booking">Book Now</a>
+      <a href="/availability">Availability</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- FORM -->
+  <div class="form-container">
+    <h2>Book Your Pallet Service</h2>
+    <form>
+      <label for="name">Name:</label>
+      <input type="text" id="name" placeholder="Your Name" />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="you@example.com" />
+
+      <label for="origin">Origin:</label>
+      <select id="origin">
+        <option value="Carlisle">Carlisle</option>
+        <option value="Belfast">Belfast</option>
+      </select>
+
+      <label for="destination">Destination:</label>
+      <select id="destination">
+        <option value="Belfast">Belfast</option>
+        <option value="Carlisle">Carlisle</option>
+      </select>
+
+      <label for="pallets">Number of Pallets:</label>
+      <input type="number" id="pallets" placeholder="e.g. 5" />
+
+      <label for="collectionMiles">Collection Miles:</label>
+      <input type="number" id="collectionMiles" placeholder="From depot to you" />
+
+      <label for="deliveryMiles">Delivery Miles:</label>
+      <input type="number" id="deliveryMiles" placeholder="From destination to receiver" />
+
+      <div class="checkboxes">
+        <input type="checkbox" id="customs" />
+        <label for="customs">Include Customs Documents</label><br />
+
+        <input type="checkbox" id="hazardous" />
+        <label for="hazardous">Hazardous Freight</label>
+      </div>
+
+      <button type="submit">Submit Booking</button>
+    </form>
+  </div>
+
+</body>
+</html>
+
+
+

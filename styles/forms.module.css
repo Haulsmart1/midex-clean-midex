@@ -1,0 +1,37 @@
+/* ✅ forms.module.css (cleaned for Next.js) */
+
+.formInput {
+  width: 100%;
+  background-color: #111;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.formInput::placeholder {
+  color: #aaa; /* Softer grey for placeholder text */
+}
+
+.formInput:focus {
+  background-color: #222;
+  color: #fff;
+  border-color: #777;
+  outline: none;
+}
+
+.selectInput {
+  width: 100%;
+  background-color: #111;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+.selectInput:focus {
+  background-color: #222;
+  color: #fff;
+  border-color: #777;
+  outline: none;
+}

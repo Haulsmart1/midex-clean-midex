@@ -1,0 +1,62 @@
+.consignmentContainer {
+  background-color: #121212;
+  border: 1px solid #333;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  color: #e0e0e0;
+}
+
+.palletCard {
+  background-color: #1a1a1a;
+  border: 1px solid #444;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+.palletCard h5 {
+  color: #0cf;
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  background-color: #101010;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.form-control:focus {
+  background-color: #101010;
+  color: #fff;
+  border-color: #0cf;
+  box-shadow: none;
+}
+
+.form-check-label {
+  color: #ccc;
+}
+
+.form-check-input {
+  margin-right: 0.5rem;
+}
+
+.form-check-input:checked {
+  background-color: #0cf;
+  border-color: #0cf;
+}
+
+.btn-primary {
+  background-color: #0cf;
+  color: black;
+  border: none;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+}

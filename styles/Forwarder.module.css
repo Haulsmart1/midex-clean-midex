@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #121212;
+  color: white;
+}
+
+.main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #000;
+  color: white;
+}
+
+.main {
+  flex: 1;
+  padding: 2rem;
+  background-color: #0f172a;
+}

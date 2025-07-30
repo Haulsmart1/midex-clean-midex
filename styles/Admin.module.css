@@ -1,0 +1,31 @@
+.card {
+  background-color: black;
+  border: 1px solid #ffffff33;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.cardTitle {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.cardDesc {
+  color: #aaa;
+  margin-bottom: 1rem;
+}
+
+.cardBtn {
+  background-color: #fff;
+  color: #000;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+.cardBtn:hover {
+  background-color: #fff;
+  color: #000;
+}

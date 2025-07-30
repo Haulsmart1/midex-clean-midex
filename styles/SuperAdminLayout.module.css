@@ -1,0 +1,44 @@
+/* styles/SuperAdminLayout.module.css */
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #121212;
+  color: white;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-right: 1px solid #333;
+}
+
+.sidebar h3 {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar nav li {
+  margin: 0.5rem 0;
+}
+
+.sidebar nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.sidebar nav a:hover {
+  text-decoration: underline;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+  background-color: #222;
+}

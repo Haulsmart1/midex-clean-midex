@@ -1,0 +1,52 @@
+/* /styles/SuperAdminForms.module.css */
+.inputDark {
+  background-color: #222;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 5px;
+}
+
+.inputDark::placeholder {
+  color: #aaa;
+}
+
+.inputDark:focus {
+  background-color: #222;
+  color: white;
+  border-color: #777;
+  outline: none;
+}
+.inputDark {
+  background-color: #222;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 5px;
+}
+
+.inputDark::placeholder {
+  color: #aaa;
+}
+
+.inputDark:focus {
+  background-color: #222;
+  color: white;
+  border-color: #777;
+  outline: none;
+}
+.inputDark {
+  background-color: #222;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 5px;
+}
+
+.inputDark::placeholder {
+  color: #aaa;
+}
+
+.inputDark:focus {
+  background-color: #222;
+  color: white;
+  border-color: #777;
+  outline: none;
+}

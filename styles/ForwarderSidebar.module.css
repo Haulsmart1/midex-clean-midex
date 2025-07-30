@@ -1,0 +1,78 @@
+.sidebar {
+  background-color: #0b0c2c;
+  width: 220px;
+  min-height: 100vh;
+  padding: 1rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.user {
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  background: #111943;
+  border-radius: 6px;
+  color: #dfe7ff;
+  margin: 6px 0;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.navLink:hover {
+  background-color: #182050;
+  color: white;
+  box-shadow: 0 0 8px rgba(0, 195, 255, 0.5);
+  border-color: #00d2ff;
+}
+
+.active {
+  background: #0055ff;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(0, 195, 255, 0.6);
+}
+
+.logout {
+  margin-top: auto;
+  background-color: #cc0000;
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+}
+
+.logout:hover {
+  background-color: #ff0000;
+}
