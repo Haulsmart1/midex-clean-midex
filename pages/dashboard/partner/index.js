@@ -1,4 +1,5 @@
 'use client';
+
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -13,11 +14,14 @@ export default function PartnerDashboard() {
       router.replace('/login');
       return;
     }
-    if (
-      !Array.isArray(session?.user?.roles) ||
-      !session.user.roles.includes("partner")
-    ) {
-      router.replace('/dashboard'); // or some forbidden page
+
+    // Supports array or single role, case-insensitive
+    const roles = Array.isArray(session?.user?.roles)
+      ? session.user.roles.map(r => r.toLowerCase())
+      : [session?.user?.role?.toLowerCase()].filter(Boolean);
+
+    if (!roles.includes("partner")) {
+      router.replace('/dashboard'); // redirect non-partners to generic dashboard or forbidden page
     }
   }, [session, status, router]);
 
