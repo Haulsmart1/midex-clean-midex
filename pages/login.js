@@ -11,7 +11,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // Handle login form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -44,6 +43,7 @@ export default function LoginPage() {
       else if (role === 'admin') router.replace('/dashboard/admin');
       else if (role === 'forwarder') router.replace('/dashboard/forwarder');
       else if (role === 'user') router.replace('/dashboard/users');
+      else if (role === 'partner') router.replace('/dashboard/partner'); // <- Added!
       else router.replace('/dashboard'); // fallback
     }, 300);
   };
