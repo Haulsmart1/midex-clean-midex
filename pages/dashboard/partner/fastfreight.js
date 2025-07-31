@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation"; // Use next/navigation for App Router!
 import { useSession, signOut } from "next-auth/react";
 import { supabase } from "@/lib/supabaseClient";
 import fastFreightConfig from "@/components/partners/fastFreightConfig";
@@ -14,20 +14,26 @@ export default function FastFreightDashboardPage() {
   const [error, setError] = useState("");
   const [processing, setProcessing] = useState(null);
 
+  // Role-guard and data fetch
   useEffect(() => {
     if (status === "loading") return;
+
     if (!session) {
       router.replace('/login');
       return;
     }
-    const roles = Array.isArray(session?.user?.roles)
-      ? session.user.roles
-      : [session?.user?.role].filter(Boolean);
 
+    // Defensive roles handling
+    const roles = Array.isArray(session?.user?.roles)
+      ? session.user.roles.map(r => r.toLowerCase())
+      : [session?.user?.role?.toLowerCase()].filter(Boolean);
+
+    // Only allow partner, fastfreight, or admin
     if (!roles.includes('partner') && !roles.includes('fastfreight') && !roles.includes('admin')) {
       router.replace('/dashboard');
       return;
     }
+
     fetchFastFreightLegs();
     // eslint-disable-next-line
   }, [session, status, router]);
@@ -36,15 +42,14 @@ export default function FastFreightDashboardPage() {
     setLoading(true);
     setError("");
     try {
-      // Get all bookings for this partner
       let { data, error } = await supabase
         .from("bookings")
         .select("*")
         .eq("transport_partner", "fastfreight");
       if (error) throw error;
 
-      // Also show by postcode (if you want to support postcode matching, e.g. for sub-jobs)
-      // let { data: allData, error: allError } = await supabase.from("bookings").select("*");
+      // Optional postcode filter logic...
+      // const { data: allData, error: allError } = await supabase.from("bookings").select("*");
       // if (allError) throw allError;
       // const filteredByPostcode = (allData || []).filter(fastFreightConfig.filterLeg);
       // data = [...(data || []), ...filteredByPostcode];
@@ -60,11 +65,14 @@ export default function FastFreightDashboardPage() {
     signOut({ callbackUrl: "/" });
   }
 
+  // UI states: loading or not permitted
   if (status === "loading" || !session) return <div className="mt-4">Loading...</div>;
+
   const roles = Array.isArray(session?.user?.roles)
-    ? session.user.roles
-    : [session?.user?.role].filter(Boolean);
-  if (!roles.includes('partner') && !roles.includes('fastfreight') && !roles.includes('admin')) return <div className="mt-4">Redirecting...</div>;
+    ? session.user.roles.map(r => r.toLowerCase())
+    : [session?.user?.role?.toLowerCase()].filter(Boolean);
+  if (!roles.includes('partner') && !roles.includes('fastfreight') && !roles.includes('admin'))
+    return <div className="mt-4">Redirecting...</div>;
 
   return (
     <div

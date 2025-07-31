@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation"; // Unified with App Router!
 import { useSession, signOut } from "next-auth/react";
 import { supabase } from "@/lib/supabaseClient";
-import atechConfig from "@/components/partners/atechConfig"; // your config, e.g. postcode zones
+import atechConfig from "@/components/partners/atechConfig";
 
 export default function AtechDashboardPage() {
   const { data: session, status } = useSession();
@@ -14,7 +14,6 @@ export default function AtechDashboardPage() {
   const [error, setError] = useState("");
   const [processing, setProcessing] = useState(null);
 
-  // ---- RBAC: only "partner" or "atech" can view this ----
   useEffect(() => {
     if (status === "loading") return;
     if (!session) {
@@ -22,10 +21,9 @@ export default function AtechDashboardPage() {
       return;
     }
     const roles = Array.isArray(session?.user?.roles)
-      ? session.user.roles
-      : [session?.user?.role].filter(Boolean);
+      ? session.user.roles.map(r => r.toLowerCase())
+      : [session?.user?.role?.toLowerCase()].filter(Boolean);
 
-    // Change this to match your exact allowed roles:
     if (!roles.includes('partner') && !roles.includes('atech')) {
       router.replace('/dashboard');
       return;
@@ -38,7 +36,6 @@ export default function AtechDashboardPage() {
     setLoading(true);
     setError("");
     try {
-      // Only bookings assigned to Atech as transport_partner
       let { data, error } = await supabase
         .from("bookings")
         .select("*")
@@ -69,10 +66,11 @@ export default function AtechDashboardPage() {
     signOut({ callbackUrl: "/" });
   }
 
+  // UI: Loading or role check
   if (status === "loading" || !session) return <div className="mt-4">Loading...</div>;
   const roles = Array.isArray(session?.user?.roles)
-    ? session.user.roles
-    : [session?.user?.role].filter(Boolean);
+    ? session.user.roles.map(r => r.toLowerCase())
+    : [session?.user?.role?.toLowerCase()].filter(Boolean);
   if (!roles.includes('partner') && !roles.includes('atech')) return <div className="mt-4">Redirecting...</div>;
 
   return (
