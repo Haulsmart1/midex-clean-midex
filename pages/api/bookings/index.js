@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabaseClient';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../auth/[...nextauth]';
+import { authOptions } from '@/lib/authOptions'; // <--- Adjust path as needed
 
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
