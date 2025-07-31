@@ -1,6 +1,7 @@
 'use client';
+
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation"; // <-- Use this in App Router!
 import { useEffect } from "react";
 
 export default function DashboardHome() {
@@ -14,15 +15,12 @@ export default function DashboardHome() {
       return;
     }
 
-    // Parse roles
+    // Defensive roles parsing
     const roles = Array.isArray(session?.user?.roles)
       ? session.user.roles
-      : [session?.user?.role].filter(Boolean);
+      : [session?.user?.role].filter(Boolean) || [];
 
-    if (roles.includes('super_admin') || roles.includes('admin')) {
-      // Show admin dashboard (show menu etc)
-      return;
-    }
+    if (roles.includes('super_admin') || roles.includes('admin')) return;
     if (roles.includes('currys_admin')) {
       router.replace('/dashboard/currys');
       return;
@@ -44,6 +42,5 @@ export default function DashboardHome() {
     router.replace('/login');
   }, [session, status, router]);
 
-  // Show nothing while redirecting
-  return null;
+  return null; // nothing while redirecting
 }
