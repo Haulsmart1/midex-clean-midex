@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { supabase } from "@/lib/supabaseClient";
 
-export const authOptions = { // <<--- THIS LINE IS CRITICAL!
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
