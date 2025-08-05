@@ -9,10 +9,9 @@ export default function PartnerDashboard() {
   const router = useRouter();
   const [config, setConfig] = useState(null);
   const [hydrated, setHydrated] = useState(false);
+  const partnerSlug = 'despatch247';
 
-  const partnerSlug = "atech"; // Static for ATECH
-
-  // Hydration-safe: Wait until client
+  // Hydration guard: only run on client
   useEffect(() => {
     setHydrated(true);
   }, []);
@@ -25,7 +24,7 @@ export default function PartnerDashboard() {
     }
 
     const roles = Array.isArray(session?.user?.roles)
-      ? session.user.roles.map((r) => r && r.toLowerCase())
+      ? session.user.roles.map(r => r?.toLowerCase())
       : [session?.user?.role?.toLowerCase()].filter(Boolean);
 
     if (!roles.includes('partner')) {
@@ -34,15 +33,19 @@ export default function PartnerDashboard() {
     }
 
     import(`@/components/partners/${partnerSlug}Config`)
-      .then((mod) => setConfig(mod.default))
+      .then(mod => setConfig(mod.default))
       .catch(() =>
-        setConfig({ name: 'Partner', primaryColor: '#4ecdc4', coverageAreas: [] })
+        setConfig({
+          name: 'Partner',
+          primaryColor: '#4ecdc4',
+          coverageAreas: [],
+        })
       );
   }, [session, status, hydrated, router]);
 
-  // Only render after hydration and config loaded
+  // Loading: prevents SSR/CSR mismatch
   if (!hydrated || status === 'loading' || !config) {
-    return <div style={{ padding: 30, color: '#fff' }}>Loading dashboard...</div>;
+    return <div style={{ padding: 30, color: '#fff' }}>Loading dashboard…</div>;
   }
 
   return (
@@ -81,12 +84,11 @@ export default function PartnerDashboard() {
         <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', marginBottom: 32 }}>
           <Card title="Bookings" href={`/dashboard/partner/${partnerSlug}/bookings`} color="#1f9aff" />
           <Card title="Finance" href={`/dashboard/partner/${partnerSlug}/finance`} color="#ffc600" />
-          <Card title="Settings" href={`/dashboard/partner/${partnerSlug}/settings`} color="#ff3b6b" />
-          <Card
-            title="Coverage"
-            content={
-              config.coverageAreas?.length
-                ? config.coverageAreas.map((area, i) => (
+          <Card title="Settings" href={`/dashboard/partner/${partnerSlug}/settings`} color="#00ff88" />
+          <Card title="Coverage" content={
+            <div style={{ maxHeight: 180, overflowY: 'auto', paddingRight: 6 }}>
+              {config.coverageAreas?.length
+                ? config.coverageAreas.map((code, i) => (
                     <span key={i} style={{
                       display: 'inline-block',
                       background: '#1e2b40',
@@ -94,13 +96,13 @@ export default function PartnerDashboard() {
                       borderRadius: 6,
                       padding: '4px 8px',
                       marginRight: 8,
-                      marginBottom: 4,
+                      marginBottom: 6,
                       fontSize: 13
-                    }}>{area}</span>
+                    }}>{code}</span>
                   ))
-                : 'N/A'
-            }
-          />
+                : 'N/A'}
+            </div>
+          } />
         </div>
       </div>
     </div>
@@ -117,17 +119,19 @@ function Card({ title, content, href, color }) {
     color: '#fff',
     fontWeight: 600,
     fontSize: 18,
-    minHeight: 100,
+    minHeight: 120,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     cursor: isLink ? 'pointer' : 'default',
-    transition: '0.3s',
-    border: `2px solid ${color || '#2c3e50'}`
+    border: `2px solid ${color || '#2c3e50'}`,
+    transition: 'all 0.25s ease'
   };
 
   return isLink ? (
-    <a href={href} style={baseStyle}><strong>{title}</strong></a>
+    <a href={href} style={baseStyle}>
+      <strong>{title}</strong>
+    </a>
   ) : (
     <div style={baseStyle}>
       <strong style={{ marginBottom: 8 }}>{title}</strong>

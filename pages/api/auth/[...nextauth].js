@@ -26,6 +26,7 @@ export const authOptions = {
           name: user.name || "",
           role: user.role,
           roles: user.roles,
+          partner_type: user.partner_type || "",
         };
       }
     })
@@ -39,16 +40,18 @@ export const authOptions = {
         token.email = user.email;
         token.role = user.role;
         token.roles = user.roles;
+        token.partner_type = user.partner_type || "";
       }
       return token;
     },
     async session({ session, token }) {
       session.user = session.user || {};
-      if (token?.id) session.user.id = token.id;
-      if (token?.name) session.user.name = token.name;
-      if (token?.email) session.user.email = token.email;
-      if (token?.role) session.user.role = token.role;
-      if (token?.roles) session.user.roles = token.roles;
+      session.user.id = token.id;
+      session.user.name = token.name;
+      session.user.email = token.email;
+      session.user.role = token.role;
+      session.user.roles = token.roles;
+      session.user.partner_type = token.partner_type || "";
       return session;
     }
   }

@@ -1,25 +1,45 @@
 // /components/partners/fastFreightConfig.js
-const FAST_FREIGHT_AREAS = [
-  // All relevant SW Scotland, Highlands & Islands postcodes, EXCLUDING 'EH'
-  "AB","DD","FK","G","HS","IV","KA","KW","KY","ML","PA","PH","ZE","DG"
-  // Add/adjust as needed
+
+const FASTFREIGHT_SCOTLAND = [
+  "AB", // Aberdeen
+  "DD", // Dundee
+  "DG", // Dumfries & Galloway
+  "FK", // Falkirk
+  "G",  // Glasgow
+  "HS", // Western Isles
+  "IV", // Inverness
+  "KA", // Kilmarnock
+  "KW", // Kirkwall/Orkney
+  "KY", // Kirkcaldy/Fife
+  "ML", // Motherwell
+  "PA", // Paisley
+  "PH", // Perth
+  "TD", // Borders (partly in England)
+  "ZE"  // Shetland
+  // "EH" intentionally excluded!
 ];
 
-export default {
-  name: "Fast Freight Solutions Ltd",
-  description: "Covers Scotland, Highlands, Islands (excluding EH postcodes).",
-  coverageAreas: FAST_FREIGHT_AREAS,
-  brandColor: "#f77209",
+const fastFreightConfig = {
+  name: "Fast Freight",
+  description: "All Scottish postcodes (including Highlands & Islands) EXCEPT EH (Edinburgh).",
+  coverageAreas: FASTFREIGHT_SCOTLAND,
+  primaryColor: "#09e5fa",
+  logo: "/logos/fastfreight.png",
+  allowedRolesForFinance: ["admin", "finance", "super"],
+
   filterLeg: (leg) => {
-    // Return true if collection or delivery matches, but NOT if starts with EH
-    const startsWith = (pc, areaList) =>
-      !!pc &&
-      areaList.some(area =>
-        pc.toUpperCase().replace(/\s/g,"").startsWith(area)
-      ) && !pc.toUpperCase().replace(/\s/g,"").startsWith("EH");
-    return (
-      startsWith(leg.collection?.postcode, FAST_FREIGHT_AREAS) ||
-      startsWith(leg.delivery?.postcode, FAST_FREIGHT_AREAS)
-    );
+    const startsWith = (pc) =>
+      !!pc && FASTFREIGHT_SCOTLAND.some(area => pc.toUpperCase().replace(/\s/g, "").startsWith(area));
+    return startsWith(leg.collection?.postcode) || startsWith(leg.delivery?.postcode);
   },
+
+  allocateToExchange: async (leg) => {
+    return fetch('/api/haulsmart/post-leg', {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ leg }),
+    });
+  }
 };
+
+export default fastFreightConfig;

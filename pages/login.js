@@ -16,36 +16,50 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
 
-    const res = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-    });
-    setLoading(false);
+    try {
+      const res = await signIn('credentials', {
+        redirect: false,
+        email,
+        password,
+      });
+      setLoading(false);
 
-    if (res?.error) {
-      setError('Login failed. Please try again.');
-      return;
-    }
+      if (res?.error) {
+        setError(res.error || 'Login failed. Please try again.');
+        return;
+      }
 
-    // Wait a moment for the session to update
-    setTimeout(async () => {
+      // Wait for session propagation (NextAuth edge case)
+      await new Promise(res => setTimeout(res, 300));
+
       const response = await fetch('/api/auth/session');
       const session = await response.json();
-      const role = session?.user?.role?.toLowerCase();
+      // Parse role(s) robustly
+      let role = session?.user?.role?.toLowerCase();
+      let roles = Array.isArray(session?.user?.roles)
+        ? session.user.roles.map(r => r.toLowerCase())
+        : role ? [role] : [];
 
-      if (!role) {
+      // Prefer roles array if available
+      const allRoles = roles.length ? roles : [role];
+
+      if (!allRoles.length) {
         setError("Login succeeded but session could not be established. Please try again.");
         return;
       }
-      if (role === 'currys_admin') router.replace('/dashboard/currys');
-      else if (role === 'super_admin') router.replace('/dashboard/admin/super');
-      else if (role === 'admin') router.replace('/dashboard/admin');
-      else if (role === 'forwarder') router.replace('/dashboard/forwarder');
-      else if (role === 'user') router.replace('/dashboard/users');
-      else if (role === 'partner') router.replace('/dashboard/partner'); // <- Added!
-      else router.replace('/dashboard'); // fallback
-    }, 300);
+
+      if (allRoles.includes('currys_admin')) router.replace('/dashboard/currys');
+      else if (allRoles.includes('super_admin')) router.replace('/dashboard/admin/super');
+      else if (allRoles.includes('admin')) router.replace('/dashboard/admin');
+      else if (allRoles.includes('forwarder')) router.replace('/dashboard/forwarder');
+      else if (allRoles.includes('user')) router.replace('/dashboard/users');
+      else if (allRoles.includes('partner')) router.replace('/dashboard/partner');
+      else router.replace('/dashboard');
+    } catch (err) {
+      setLoading(false);
+      setError('Unexpected error. Please try again later.');
+      console.error(err);
+    }
   };
 
   return (
@@ -68,7 +82,11 @@ export default function LoginPage() {
         }}
       >
         <h2 className="mb-4 text-center">Login</h2>
-        {error && <div className="alert alert-danger">{error}</div>}
+        {error && (
+          <div className="alert alert-danger" aria-live="polite">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit} autoComplete="on">
           <div className="mb-3">
             <input
@@ -104,3 +122,4 @@ export default function LoginPage() {
     </div>
   );
 }
+

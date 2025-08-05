@@ -1,56 +1,101 @@
-// --- FILE: pages/dashboard/users/index.js ---
-// User dashboard, for role "user". Others get redirected.
+'use client';
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router"; // ← Use this for /pages directory
-import { useEffect } from "react";
-import UsersLayout from '../../../components/layouts/UsersLayout';
+import { useEffect, useState } from 'react';
+import { useSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
-export default function UserDashboardPage() {
+export default function UserDashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
-
-  // Always treat roles as array
-  const roles = Array.isArray(session?.user?.roles)
-    ? session.user.roles
-    : [session?.user?.role].filter(Boolean);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
     if (status === 'loading') return;
-    if (!session?.user || !roles.includes('user')) {
-      // Redirect by most privileged role present:
-      if (roles.includes('super_admin')) router.replace('/dashboard/admin/super');
-      else if (roles.includes('admin')) router.replace('/dashboard/admin');
-      else if (roles.includes('forwarder')) router.replace('/dashboard/forwarder');
-      else if (roles.includes('partner')) router.replace('/dashboard/partner/fastfreight');
-      else router.replace('/login');
+    if (!session) return router.replace('/login');
+
+    async function verify() {
+      try {
+        const res = await fetch(`/api/subscription-status?userId=${session.user.id}`);
+        const { active } = await res.json();
+        if (!active) return router.replace('/paywall');
+        setIsSubscribed(true);
+      } catch (err) {
+        console.error('Subscription check failed:', err);
+        router.replace('/paywall');
+      }
     }
-    // eslint-disable-next-line
-  }, [session, status, router, roles]);
 
-  // While checking, show loading text
-  if (status === 'loading' || !session?.user || !roles.includes('user')) {
-    return <div className="container text-center mt-5">Checking access...</div>;
-  }
+    verify();
+  }, [session, status]);
 
-  // For troubleshooting: print the session to devtools
-  if (process.env.NODE_ENV !== 'production') {
-    console.log("DEBUG SESSION USER:", session.user);
-  }
+  if (!isSubscribed) return null;
 
   return (
-    <UsersLayout>
-      <h1 className="display-5 fw-bold mb-4">
-        Welcome, {session.user.name ? session.user.name : "User"} 👋
-      </h1>
-      <div className="mb-4">
-        <a href="/dashboard/users/bookings" className="btn btn-primary me-2">📦 My Bookings</a>
-        <a href="/dashboard/users/settings" className="btn btn-secondary">⚙️ Settings</a>
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(to bottom right, #10002b, #240046, #3c096c)',
+      color: '#fff',
+      fontFamily: 'Poppins, sans-serif',
+      padding: '40px 24px',
+    }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 32,
+        }}>
+          <h1 style={{ fontSize: 36, fontWeight: 800 }}>User Dashboard</h1>
+          <button
+            onClick={() => signOut({ callbackUrl: '/' })}
+            style={{
+              background: '#fff',
+              color: '#000',
+              padding: '10px 24px',
+              border: 'none',
+              borderRadius: 10,
+              fontWeight: 700,
+              fontSize: 15,
+              cursor: 'pointer',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
+            }}
+          >
+            Log Out
+          </button>
+        </div>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: 20,
+        }}>
+          <Card title="Bookings" href="/dashboard/users/bookings" color="#1f9aff" />
+          <Card title="Invoices" href="/dashboard/users/invoices" color="#ffaa00" />
+          <Card title="Settings" href="/dashboard/users/settings" color="#ff4fd8" />
+        </div>
       </div>
-      <div className="bg-dark p-4 rounded">
-        <h2 className="h5 mb-3 text-white">📋 Recent Bookings</h2>
-        <p className="text-muted">No recent bookings to show.</p>
-      </div>
-    </UsersLayout>
+    </div>
+  );
+}
+
+function Card({ title, href, color }) {
+  return (
+    <a
+      href={href}
+      style={{
+        padding: 24,
+        borderRadius: 14,
+        background: '#0a192f',
+        color: '#fff',
+        fontWeight: 600,
+        fontSize: 18,
+        textDecoration: 'none',
+        textAlign: 'center',
+        border: `2px solid ${color}`,
+        transition: 'all 0.25s ease',
+      }}
+    >
+      {title}
+    </a>
   );
 }
