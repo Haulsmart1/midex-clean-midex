@@ -11,27 +11,37 @@ export const authOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        const { data: user, error } = await supabase
-          .from('users')
-          .select('*')
-          .eq('email', credentials.email)
-          .maybeSingle();
+        const { email, password } = credentials;
 
-        if (error || !user) return null;
-        if (user.password !== credentials.password) return null;
+        // ✅ Secure login via Supabase Auth
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error || !data.user) {
+          console.error("Login error:", error?.message || "User not found");
+          return null;
+        }
+
+        // Extract custom fields from user_metadata
+        const user = data.user;
+        const metadata = user.user_metadata || {};
 
         return {
           id: user.id,
           email: user.email,
-          name: user.name || "",
-          role: user.role,
-          roles: user.roles,
-          partner_type: user.partner_type || "",
+          name: metadata.name || "",
+          role: metadata.role || "user",
+          roles: metadata.roles || [],
+          partner_type: metadata.partner_type || "",
         };
       }
     })
   ],
+
   secret: process.env.NEXTAUTH_SECRET,
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -40,18 +50,20 @@ export const authOptions = {
         token.email = user.email;
         token.role = user.role;
         token.roles = user.roles;
-        token.partner_type = user.partner_type || "";
+        token.partner_type = user.partner_type;
       }
       return token;
     },
+
     async session({ session, token }) {
-      session.user = session.user || {};
-      session.user.id = token.id;
-      session.user.name = token.name;
-      session.user.email = token.email;
-      session.user.role = token.role;
-      session.user.roles = token.roles;
-      session.user.partner_type = token.partner_type || "";
+      session.user = {
+        id: token.id,
+        name: token.name,
+        email: token.email,
+        role: token.role,
+        roles: token.roles,
+        partner_type: token.partner_type,
+      };
       return session;
     }
   }
