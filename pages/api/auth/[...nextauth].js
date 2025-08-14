@@ -11,37 +11,37 @@ export const authOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        const { email, password } = credentials;
-
-        // ✅ Secure login via Supabase Auth
+        // Use Supabase Auth API
         const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password
+          email: credentials.email,
+          password: credentials.password,
         });
 
-        if (error || !data.user) {
-          console.error("Login error:", error?.message || "User not found");
-          return null;
-        }
+        if (error || !data?.user) return null;
 
-        // Extract custom fields from user_metadata
-        const user = data.user;
-        const metadata = user.user_metadata || {};
+        const userId = data.user.id;
+
+        // Now fetch extended profile info if needed
+        const { data: userMeta, error: userMetaError } = await supabase
+          .from("users")
+          .select("*")
+          .eq("id", userId)
+          .single();
+
+        if (userMetaError || !userMeta) return null;
 
         return {
-          id: user.id,
-          email: user.email,
-          name: metadata.name || "",
-          role: metadata.role || "user",
-          roles: metadata.roles || [],
-          partner_type: metadata.partner_type || "",
+          id: userId,
+          email: data.user.email,
+          name: userMeta.name || "",
+          role: userMeta.role,
+          roles: userMeta.roles,
+          partner_type: userMeta.partner_type || "",
         };
       }
     })
   ],
-
   secret: process.env.NEXTAUTH_SECRET,
-
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -50,11 +50,10 @@ export const authOptions = {
         token.email = user.email;
         token.role = user.role;
         token.roles = user.roles;
-        token.partner_type = user.partner_type;
+        token.partner_type = user.partner_type || "";
       }
       return token;
     },
-
     async session({ session, token }) {
       session.user = {
         id: token.id,
@@ -62,7 +61,7 @@ export const authOptions = {
         email: token.email,
         role: token.role,
         roles: token.roles,
-        partner_type: token.partner_type,
+        partner_type: token.partner_type || "",
       };
       return session;
     }

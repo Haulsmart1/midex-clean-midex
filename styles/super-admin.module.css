@@ -1,0 +1,143 @@
+/* ===== Layout Wrapper ===== */
+.superadminWrapper {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+}
+
+/* ===== Main Content Area ===== */
+.superadminMain {
+  flex: 1;
+  padding: 20px;
+  background-color: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(5px);
+  border-left: 2px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+  margin-left: 240px; /* To offset fixed sidebar */
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  background: linear-gradient(160deg, #1b1f3a 0%, #222c4f 100%);
+  padding: 2rem 1rem;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar h3 {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  background: linear-gradient(to right, #00f7ff, #ff00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===== Navigation ===== */
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav li {
+  margin-bottom: 1.2rem;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #ccc;
+  background-color: rgba(255, 255, 255, 0.02);
+  transition: all 0.25s ease-in-out;
+}
+
+.sidebar nav a:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.activeLink {
+  background: linear-gradient(to right, #00f7ff, #ff00ff);
+  color: #000 !important;
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(0, 247, 255, 0.3);
+}
+
+/* ===== Logout Button ===== */
+.logoutButton {
+  margin-top: auto;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logoutButton:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #ff2e59, #ff2a1f);
+}
+
+/* ===== Scrollbar Styling ===== */
+.superadminMain::-webkit-scrollbar {
+  width: 8px;
+}
+
+.superadminMain::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.superadminMain::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 204, 0.4);
+  border-radius: 4px;
+}
+
+.superadminMain::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 204, 0.6);
+}
+
+.dropdownToggle {
+  background: none;
+  border: none;
+  color: #ccc;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.dropdownToggle:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.subMenu {
+  list-style: none;
+  padding-left: 1rem;
+  margin-top: 0.5rem;
+}

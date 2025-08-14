@@ -1,83 +1,65 @@
-import { useEffect, useState } from 'react';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
-import { supabase } from '@/lib/supabaseClient';
+// File: pages/dashboard/super/index.js
+
+import { useState } from 'react';
 import SuperAdminLayout from '@/components/layouts/SuperAdminLayout';
+import styles from '@/styles/SuperAdminDashboard.module.css';
 
-export default function SuperDashboardHome() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+// Section: Mocked users (replace with actual API or props if needed)
+const initialUsers = [
+  { id: 1, name: 'Alice Johnson', email: 'alice@example.com', disabled: false },
+  { id: 2, name: 'Bob Smith', email: 'bob@example.com', disabled: true },
+  { id: 3, name: 'Charlie Lee', email: 'charlie@example.com', disabled: false },
+];
 
-  // --- RBAC: Super Admin Only ---
-  useEffect(() => {
-    if (status === "loading") return;
-    if (!session) {
-      router.replace('/login');
-      return;
-    }
-    const roles = Array.isArray(session.user?.roles)
-      ? session.user.roles
-      : [session.user?.role].filter(Boolean);
-    if (!roles.includes('super_admin')) {
-      router.replace('/login');
-      return;
-    }
-    // Once RBAC passes, fetch data
-    fetchDashboardData();
-    // eslint-disable-next-line
-  }, [session, status]);
+export default function SuperAdminDashboard() {
+  const user = { role: 'super admin' }; // Replace with actual session user
+  const [users, setUsers] = useState(initialUsers);
 
-  // --- Fetch data (replace table name/columns as needed) ---
-  const fetchDashboardData = async () => {
-    setLoading(true);
-    const { data, error } = await supabase
-      .from('some_table') // <--- REPLACE with your real table name!
-      .select('*');
-    if (!error && data) setItems(data);
-    setLoading(false);
+  // Section: Toggle user status (enabled/disabled)
+  const toggleUserStatus = (userId) => {
+    setUsers((prev) =>
+      prev.map((u) =>
+        u.id === userId ? { ...u, disabled: !u.disabled } : u
+      )
+    );
   };
 
   return (
-    <SuperAdminLayout>
-      <Head>
-        <title>Super Admin Dashboard</title>
-      </Head>
-      <div className="container py-4 text-white">
-        <h1 className="fw-bold mb-4">Super Admin Dashboard</h1>
-        {loading ? (
-          <p>Loading...</p>
-        ) : items.length === 0 ? (
-          <div className="alert alert-warning">No data available.</div>
-        ) : (
-          <div className="table-responsive">
-            <table className="table table-dark table-bordered">
-              <thead>
-                <tr>
-                  {/* Adjust columns here */}
-                  <th>ID</th>
-                  <th>Name</th>
+    <SuperAdminLayout user={user}>
+      <div className={styles.dashboardWrapper}>
+        <h1 className={styles.title}>🌟 Super Admin Dashboard</h1>
+        <p className={styles.subtitle}>
+          Welcome to the super admin area. Manage all user access below.
+        </p>
+
+        {/* Section: User Management Table */}
+        <div className={styles.userTable}>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Toggle</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((u) => (
+                <tr key={u.id}>
+                  <td>{u.name}</td>
+                  <td>{u.email}</td>
+                  <td>{u.disabled ? 'Disabled' : 'Enabled'}</td>
+                  <td>
+                    <button onClick={() => toggleUserStatus(u.id)}>
+                      {u.disabled ? 'Enable' : 'Disable'}
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {items.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td>{item.name}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </SuperAdminLayout>
   );
-}
-
-// Prevent SSG for Supabase (Next.js SSR safety)
-export async function getServerSideProps() {
-  return { props: {} };
 }

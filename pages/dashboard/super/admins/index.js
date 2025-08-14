@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabaseClient';
 import SuperAdminLayout from '@/components/layouts/SuperAdminLayout';
 import Link from 'next/link';
 import { CSVLink } from 'react-csv';
+import styles from '@/styles/Admins.module.css';
 
 export default function AdminsIndexPage() {
   const [admins, setAdmins] = useState([]);
@@ -39,64 +40,66 @@ export default function AdminsIndexPage() {
 
   return (
     <SuperAdminLayout>
-      <div className="container py-4 text-white">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h1 className="display-6 fw-bold">Admins</h1>
-          <CSVLink
-            data={filtered}
-            filename="admins_export.csv"
-            className="btn btn-outline-light"
-          >
-            Export CSV
-          </CSVLink>
-        </div>
+      <div className={styles.container}>
+        <div className={styles.card}>
+          <div className={styles.header}>
+            <h1 className={styles.title}>👑 Admin Management</h1>
+            <CSVLink
+              data={filtered}
+              filename="admins_export.csv"
+              className={styles.exportBtn}
+            >
+              📥 Export CSV
+            </CSVLink>
+          </div>
 
-        <div className="mb-3">
           <input
-            className="form-control"
-            placeholder="Search by name or email..."
+            className={styles.searchInput}
+            placeholder="🔍 Search by name or email..."
             value={search}
             onChange={(e) => handleSearch(e.target.value)}
           />
-        </div>
 
-        <table className="table table-dark table-bordered align-middle">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Position</th>
-              <th>Role</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((admin) => (
-              <tr key={admin.id}>
-                <td>{admin.name}</td>
-                <td>{admin.email}</td>
-                <td>{admin.phone}</td>
-                <td>{admin.position}</td>
-                <td>{admin.admins?.role || 'admin'}</td>
-                <td>
-                  <Link
-                    href={`/dashboard/super/admins/${admin.id}`}
-                    className="btn btn-sm btn-warning me-2"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href={`/dashboard/super/admins/view/${admin.id}`}
-                    className="btn btn-sm btn-outline-info"
-                  >
-                    View
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          <div className={styles.tableWrapper}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th className={styles.th}>Name</th>
+                  <th className={styles.th}>Email</th>
+                  <th className={styles.th}>Phone</th>
+                  <th className={styles.th}>Position</th>
+                  <th className={styles.th}>Role</th>
+                  <th className={styles.th}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((admin) => (
+                  <tr key={admin.id} className={styles.tr}>
+                    <td className={styles.td}>{admin.name}</td>
+                    <td className={styles.td}>{admin.email}</td>
+                    <td className={styles.td}>{admin.phone}</td>
+                    <td className={styles.td}>{admin.position}</td>
+                    <td className={styles.td}>{admin.admins?.role || 'admin'}</td>
+                    <td className={styles.td}>
+                      <Link
+                        href={`/dashboard/super/admins/${admin.id}`}
+                        className={styles.editBtn}
+                      >
+                        ✏️ Edit
+                      </Link>
+                      <Link
+                        href={`/dashboard/super/admins/view/${admin.id}`}
+                        className={styles.viewBtn}
+                      >
+                        👁 View
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </SuperAdminLayout>
   );

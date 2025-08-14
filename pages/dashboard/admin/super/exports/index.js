@@ -1,4 +1,3 @@
-// pages/superadmin/exports.js
 import Head from 'next/head';
 import SuperAdminLayout from '@/components/layouts/SuperAdminLayout';
 import { useState } from 'react';
@@ -27,15 +26,15 @@ export default function ExportDashboard() {
   };
 
   return (
-    <SuperAdminLayout>
+    <SuperAdminLayout user={{ role: 'super admin' }}>
       <Head>
         <title>Freight Export | Super Admin</title>
       </Head>
 
       <div className="container py-4 text-white">
-        <h1 className="mb-4">🚛 Freight Movement Control</h1>
+        <h1 className="mb-4">🚛 Freight Export Control Panel</h1>
 
-        <div className="bg-dark p-4 rounded border border-light">
+        <div className="bg-dark p-4 rounded border border-light" style={{ maxWidth: '900px', margin: '0 auto' }}>
           <label className="form-label">Select Trailer</label>
           <select
             value={selectedTrailer}
@@ -58,7 +57,14 @@ export default function ExportDashboard() {
 
           <button
             onClick={fireExport}
-            className="btn btn-primary"
+            className="btn"
+            style={{
+              background: 'linear-gradient(to right, #00f7ff, #ff00ff)',
+              color: '#000',
+              fontWeight: 'bold',
+              width: '100%',
+              padding: '0.75rem'
+            }}
           >
             🚀 Fire Export Now
           </button>
@@ -66,7 +72,7 @@ export default function ExportDashboard() {
           {exportStatus && <div className="alert alert-info mt-3">{exportStatus}</div>}
 
           <div className="mt-4">
-            <h5>📜 Recent Export Logs</h5>
+            <h5>📜 Export Logs</h5>
             <ul className="list-group">
               {logs.map((log, i) => (
                 <li key={i} className="list-group-item list-group-item-dark">

@@ -1,47 +1,44 @@
 import Head from 'next/head';
-import SuperAdminLayout from '@/components/layouts/SuperAdminLayout'; // ✅ Correct import!
+import Link from 'next/link';
+import SuperAdminLayout from '@/components/layouts/SuperAdminLayout';
+import styles from '@/styles/SuperAdminDashboard.module.css';
 
 export default function SuperAdminDashboard() {
+  const user = { role: 'super admin' }; // Replace with real session later
+
+  const links = [
+    
+    { href: "/dashboard/admin/super/bookings/internal", label: "🏠 Internal Bookings" },
+    { href: "/dashboard/admin/super/bookings/crossborder", label: "🌍 Cross Border Bookings" },
+    { href: '/dashboard/admin/super/haulsmart', label: '🚚 HaulSmart' },
+    { href: '/dashboard/admin/super/exports', label: '📦 Exports' },
+    { href: '/dashboard/admin/super/reports', label: '📋 Reports' },
+    { href: "/dashboard/admin/super/finances", label: "💰 Finances" },
+    { href: '/dashboard/admin/super/settings', label: '⚙️ Settings' },
+    { href: '/dashboard/admin/super/admins', label: '👑 Manage Admins' },
+    { href: '/dashboard/admin/super/forwarders', label: '🚚 Manage Forwarders' },
+    { href: '/dashboard/admin/super/users', label: '👥 Manage Users' },
+    { href: '/dashboard/admin/super/customs', label: '🛃 Customs' },
+    { href: '/dashboard/admin/super/partners', label: '🤝 Partners' },
+    { href: '/dashboard/admin/super/distributors', label: '📦 Distributors' },
+    { href: '/dashboard/admin/super/manufacturers', label: '🏭 Manufacturers' },
+    { href: '/dashboard/admin/super/currys', label: '🚛 Currys' },
+  ];
+
   return (
-    <SuperAdminLayout>
+    <SuperAdminLayout user={user}>
       <Head>
         <title>Super Admin Dashboard | Midnight Express</title>
       </Head>
 
-      <div className="container py-4 text-white">
-        <h1 className="display-5 fw-bold mb-4 text-center">Super Admin Control Panel</h1>
-
-        <div className="row g-4">
-          {/* Add User */}
-          <div className="col-md-4">
-            <h4>Add User</h4>
-            <input type="text" placeholder="Name" className="form-control mb-2" />
-            <input type="text" placeholder="Company Name" className="form-control mb-2" />
-            <input type="email" placeholder="Email" className="form-control mb-2" />
-            <input type="text" placeholder="Phone" className="form-control mb-2" />
-            <input type="text" placeholder="Address" className="form-control mb-2" />
-            <input type="text" placeholder="Postcode" className="form-control mb-2" />
-            <input type="text" placeholder="EORI/XORI" className="form-control mb-3" />
-            <button className="btn btn-primary w-100">Add User</button>
-          </div>
-
-          {/* Add Forwarder */}
-          <div className="col-md-4">
-            <h4>Add Forwarder</h4>
-            <input type="text" placeholder="Name" className="form-control mb-2" />
-            <input type="email" placeholder="Email" className="form-control mb-2" />
-            <input type="text" placeholder="Phone" className="form-control mb-2" />
-            <input type="text" placeholder="Address" className="form-control mb-3" />
-            <button className="btn btn-dark w-100">Add Forwarder</button>
-          </div>
-
-          {/* Add Admin */}
-          <div className="col-md-4">
-            <h4>Add Admin</h4>
-            <input type="text" placeholder="Full Name" className="form-control mb-2" />
-            <input type="email" placeholder="Email" className="form-control mb-3" />
-            <button className="btn btn-warning w-100">Add Admin</button>
-          </div>
+      <div className={styles.dashboardWrapper}>
+        <h1 className={styles.title}>🌌 Super Admin Control Panel</h1>
+        <div className={styles.cardGrid}>
+          {links.map(({ href, label }) => (
+            <Link key={href} href={href} className={styles.navCard}>
+              {label}
+            </Link>
+          ))}
         </div>
       </div>
     </SuperAdminLayout>

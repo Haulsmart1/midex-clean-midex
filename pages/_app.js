@@ -1,8 +1,8 @@
 import '@/styles/globals.css';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { SessionProvider, useSession } from 'next-auth/react';
 import 'animate.css';
+import { SessionProvider, useSession } from 'next-auth/react';
 import Script from 'next/script';
 import { useEffect } from 'react';
 import { getSupabaseClient } from '@/lib/supabaseClient';
@@ -16,7 +16,6 @@ function SupabaseSessionSync() {
       session?.user?.supabaseAccessToken &&
       session?.user?.supabaseRefreshToken
     ) {
-      // Only create client inside effect!
       const supabase = getSupabaseClient(session.user.supabaseAccessToken);
       if (supabase?.auth?.setSession) {
         supabase.auth.setSession({
@@ -57,6 +56,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     </SessionProvider>
   );
 }
+
 
 
 

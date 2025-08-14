@@ -1,31 +1,113 @@
+.container {
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+}
+
 .card {
-  background-color: black;
-  border: 1px solid #ffffff33;
-  padding: 1.5rem;
-  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.header {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.cardTitle {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #00ffcc;
+  letter-spacing: 1px;
 }
 
-.cardDesc {
-  color: #aaa;
-  margin-bottom: 1rem;
-}
-
-.cardBtn {
-  background-color: #fff;
+.exportBtn {
+  background: #00ffcc;
   color: #000;
-  font-weight: 500;
-  transition: all 0.2s ease-in-out;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
-.cardBtn:hover {
-  background-color: #fff;
+.exportBtn:hover {
+  background: #00e6b8;
+  transform: scale(1.05);
+}
+
+.searchInput {
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th {
+  padding: 12px;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.4);
+  color: #00ffcc;
+  font-weight: bold;
+}
+
+.tr {
+  transition: background 0.3s ease;
+}
+.tr:hover {
+  background: rgba(0, 255, 204, 0.1);
+}
+
+.td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.editBtn {
+  margin-right: 8px;
+  background: #ffc107;
+  padding: 6px 10px;
+  border-radius: 5px;
   color: #000;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.editBtn:hover {
+  background: #ffb300;
+  transform: scale(1.05);
+}
+
+.viewBtn {
+  background: #17a2b8;
+  padding: 6px 10px;
+  border-radius: 5px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.viewBtn:hover {
+  background: #138496;
+  transform: scale(1.05);
 }

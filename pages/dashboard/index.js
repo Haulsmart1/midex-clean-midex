@@ -11,22 +11,24 @@ export default function DashboardRedirector() {
   useEffect(() => {
     if (status === "loading") return;
 
-    // 1. If not logged in, but access_token in hash, go to /set-password
-    if (!session) {
+    // If user is not logged in
+    if (!session?.user) {
       if (typeof window !== "undefined" && window.location.hash.includes("access_token")) {
         router.replace('/set-password' + window.location.hash);
-        return;
+      } else {
+        router.replace('/login');
       }
-      router.replace('/login');
       return;
     }
 
-    // 2. If logged in, go to appropriate dashboard
-    const roles = Array.isArray(session?.user?.roles)
+    // Roles and partner
+    const roles = Array.isArray(session.user.roles)
       ? session.user.roles.map(r => r.toLowerCase())
-      : [session?.user?.role?.toLowerCase()].filter(Boolean);
+      : session.user.role
+        ? [session.user.role.toLowerCase()]
+        : [];
 
-    const partner = session?.user?.partner_type?.toLowerCase();
+    const partner = session.user.partner_type?.toLowerCase();
 
     if (roles.includes("super_admin")) {
       router.replace('/dashboard/admin/super');
