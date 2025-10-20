@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 
+// Partner config loader
 const configs = {
   atech: () => import('@/components/partners/atechConfig'),
   fastfreight: () => import('@/components/partners/fastfreightConfig'),
@@ -12,13 +13,13 @@ const configs = {
   tcr: () => import('@/components/partners/tcrConfig'),
   alptrans: () => import('@/components/partners/alptransConfig'),
   '247despatch': () => import('@/components/partners/247despatchConfig'),
-  despatch247: () => import('@/components/partners/247despatchConfig'), // alias for safety
+  despatch247: () => import('@/components/partners/247despatchConfig'), // alias
   dwcook: () => import('@/components/partners/dwcookConfig'),
 };
 
 const fallbackConfig = {
   name: 'Partner',
-  primaryColor: '#0065bd', // Scottish blue
+  primaryColor: '#0065bd',
   coverageAreas: [],
 };
 
@@ -37,15 +38,22 @@ export default function PartnerSettingsPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // Load partner config
+  // Load partner config dynamically
   useEffect(() => {
     if (!partner) return;
 
     const loadConfig = async () => {
       try {
-        const mod = await configs[partner]?.();
+        if (!configs[partner]) {
+          console.warn(`Unknown partner: ${partner}`);
+          setConfig(fallbackConfig);
+          return;
+        }
+
+        const mod = await configs[partner]();
         setConfig(mod?.default || fallbackConfig);
-      } catch {
+      } catch (err) {
+        console.error(`Error loading config for partner "${partner}"`, err);
         setConfig(fallbackConfig);
       }
     };
@@ -311,7 +319,7 @@ export default function PartnerSettingsPage() {
                   }}
                 >
                   <span>
-                    {user.email} {' '}
+                    {user.email}{' '}
                     <span style={{ color: '#00d0ff', fontWeight: 600 }}>({user.role})</span>
                   </span>
                   <button

@@ -41,7 +41,7 @@ export async function getServerSideProps(context) {
   } else if (roles.includes("forwarder")) {
     return { redirect: { destination: "/dashboard/forwarder", permanent: false } };
   } else if (roles.includes("currys_admin")) {
-    return { redirect: { destination: "/dashboard/currys", permanent: false } };
+    return { redirect: { destination: "/dashboard/currys/", permanent: false } };
   } else if (roles.includes("customs_agent")) {
     return { redirect: { destination: "/dashboard/customs", permanent: false } };
   } else if (roles.includes("user")) {
