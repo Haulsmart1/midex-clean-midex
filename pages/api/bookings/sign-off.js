@@ -1,100 +1,98 @@
-import { supabase } from '@/lib/supabaseClient';
+// FULL FILE — server API; uses a per-request Supabase client bound to the user's access token
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
+import { createClient } from '@supabase/supabase-js';
 import { getCommission } from '@/utils/commission';
 
+function supabaseForUser(accessToken) {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  return createClient(url, anon, {
+    global: {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+  });
+}
+
 export default async function handler(req, res) {
-  if (req.method !== 'POST')
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const session = await getServerSession(req, res, authOptions);
-  if (!session)
-    return res.status(401).json({ error: 'Not signed in' });
+  if (!session) return res.status(401).json({ error: 'Not signed in' });
 
-  const { booking_id } = req.body;
-  if (!booking_id)
-    return res.status(400).json({ error: 'Missing booking_id' });
+  const supabase = supabaseForUser(session.user.supabaseAccessToken);
 
-  const { data: booking, error: bookingFetchError } = await supabase
+  const { booking_id } = req.body || {};
+  if (!booking_id) return res.status(400).json({ error: 'Missing booking_id' });
+
+  // 1) Fetch booking owned by this forwarder
+  const { data: booking, error: bookingErr } = await supabase
     .from('bookings')
     .select('*')
     .eq('id', booking_id)
     .eq('forwarder_id', session.user.id)
-    .single();
+    .maybeSingle();
 
-  if (bookingFetchError || !booking)
-    return res.status(404).json({ error: 'Booking not found or not owned' });
+  if (bookingErr) return res.status(400).json({ error: bookingErr.message });
+  if (!booking) return res.status(404).json({ error: 'Booking not found or not owned by you' });
 
-  // --- RELAXED: Allow sign-off if not already signed_off and docs_uploaded ---
-  if (booking.status === 'signed_off')
+  if (booking.status === 'signed_off') {
     return res.status(400).json({ error: 'Booking already signed off' });
+  }
+  if (!booking.docs_uploaded) {
+    return res.status(400).json({ error: 'Documents must be uploaded before signing off' });
+  }
 
-  if (!booking.docs_uploaded)
-    return res.status(400).json({ error: 'Required documents not uploaded' });
-
-  // Allow "booked", "delivered", "ready", etc. (for demo/dev)
-  // In real prod, restrict as needed.
-  // --- END RELAXED ---
-
-  const { data: settingsData, error: settingsError } = await supabase
+  // 2) Load company invoice settings
+  const { data: companySetting, error: settingsErr } = await supabase
     .from('settings')
-    .select('*')
+    .select('value')
     .eq('key', 'company')
-    .single();
+    .maybeSingle();
 
-  if (settingsError || !settingsData)
-    return res.status(500).json({ error: 'Company settings missing' });
-  const company = settingsData.value || {};
+  if (settingsErr) return res.status(500).json({ error: settingsErr.message });
+  if (!companySetting?.value) return res.status(500).json({ error: 'Missing company invoice settings' });
 
+  // 3) Commission
   const { commissionAmount, commissionPercent } = getCommission(booking, {
-    default_commission: {
-      ferry: 10,
-      land: 5,
-    }
+    default_commission: { ferry: 10, land: 5 },
   });
 
-  const invoiceTo = {
-    name: booking.customer || '', // adjust field as needed
+  const invoice_to = {
+    name: booking.customer || '',
     address: booking.customer_address || '',
   };
 
-  try {
-    // (1) Create invoice FIRST
-    const { error: invoiceError } = await supabase.from('invoices').insert({
-      booking_id: booking.id,
-      forwarder_id: booking.forwarder_id,
-      invoice_number: '',
-      invoice_from: company,
-      invoice_to: invoiceTo,
-      subtotal: booking.total_cost || 0,
-      commission_amount: commissionAmount,
-      commission_percent: commissionPercent,
-      vat: booking.vat || 0,
-      total: booking.total_cost || 0,
-      status: 'draft'
-    });
+  // 4) Create invoice (idempotent on (booking_id,user_id) if you have a unique index; else simple insert)
+  const { error: invoiceErr } = await supabase.from('invoices').insert({
+    booking_id: booking.id,
+    user_id: booking.forwarder_id,
+    invoice_number: '',
+    invoice_from: companySetting.value,
+    invoice_to,
+    subtotal: booking.total_cost || 0,
+    commission_amount: commissionAmount,
+    commission_percent: commissionPercent,
+    vat: booking.vat || 0,
+    total: booking.total_cost || 0,
+    status: 'draft',
+  });
 
-    if (invoiceError) {
-      console.error('Invoice creation error:', invoiceError);
-      throw new Error(invoiceError.message || 'Failed to create invoice');
-    }
+  if (invoiceErr) return res.status(400).json({ error: invoiceErr.message });
 
-    // (2) Only update booking status to signed_off if invoice was created
-    const { error: bookingUpdateError } = await supabase
-      .from('bookings')
-      .update({ status: 'signed_off' })
-      .eq('id', booking_id)
-      .eq('forwarder_id', session.user.id);
+  // 5) Update booking status
+  const { error: updateErr } = await supabase
+    .from('bookings')
+    .update({ status: 'signed_off' })
+    .eq('id', booking_id)
+    .eq('forwarder_id', session.user.id);
 
-    if (bookingUpdateError) {
-      console.error('Booking update error:', bookingUpdateError);
-      throw new Error(bookingUpdateError.message || 'Failed to update booking status');
-    }
+  if (updateErr) return res.status(400).json({ error: updateErr.message });
 
-    return res.status(200).json({ success: true, booking_id: booking.id });
-
-  } catch (err) {
-    console.error('Sign-off API error:', err);
-    return res.status(500).json({ error: err.message || 'Unknown server error' });
-  }
+  return res.status(200).json({ success: true, booking_id: booking.id });
 }

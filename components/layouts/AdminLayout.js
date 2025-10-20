@@ -1,11 +1,12 @@
 // components/layouts/AdminLayout.js
-import AdminSidebar from './sidebars/AdminSidebar';
+import AdminSidebar from '@/components/layouts/sidebars/AdminSidebar';
+import styles from '@/styles/AdminLayout.module.css';
 
 export default function AdminLayout({ children }) {
   return (
-    <div className="d-flex">
+    <div className={styles.container}>
       <AdminSidebar />
-      <main className="flex-grow-1 p-4">
+      <main className={styles.main}>
         {children}
       </main>
     </div>

@@ -17,7 +17,7 @@ export default function ForwarderSettings() {
     const { data, error } = await supabase
       .from('internal_users')
       .select('*')
-      .eq('creator_id', session.user.id); // ✅ use RLS filter if needed
+      .eq('creator_id', session.user.id);
 
     if (error) {
       console.error('🔴 Supabase fetch error:', error);
@@ -30,7 +30,7 @@ export default function ForwarderSettings() {
   const addUser = async () => {
     const { error } = await supabase
       .from('internal_users')
-      .insert([{ ...newUser, creator_id: session?.user?.id }]); // ✅ include user for RLS
+      .insert([{ ...newUser, creator_id: session?.user?.id }]);
 
     if (error) {
       toast.error('Error adding user');
@@ -56,27 +56,38 @@ export default function ForwarderSettings() {
 
   return (
     <ForwarderLayout>
-      <div className="container py-4 text-white"> {/* ✅ CONTAINER FIX */}
+      <div style={{ padding: "2rem", maxWidth: "900px", margin: "0 auto" }}>
         <ToastContainer />
-        <h1 className="mb-4">🛠️ Forwarder Settings</h1>
+        <h1
+          style={{
+            color: "#ff7ee2",
+            marginBottom: "2rem",
+            fontWeight: 700,
+            textAlign: "center",
+            textShadow: "0 0 18px rgba(255, 126, 226, 0.7)"
+          }}
+        >
+          🛠️ Forwarder Settings
+        </h1>
 
-        <div className="mb-4 bg-dark p-3 rounded">
-          <h3>Add Internal User</h3>
+        {/* Add user card */}
+        <div className="neon-card p-4 mb-4">
+          <h3 style={{ marginBottom: "1rem", color: "#0af" }}>Add Internal User</h3>
           <input
-            className="form-control mb-2"
+            className="form-control neon-input mb-3"
             placeholder="Name"
             value={newUser.name}
             onChange={(e) => setNewUser((u) => ({ ...u, name: e.target.value }))}
           />
           <input
-            className="form-control mb-2"
+            className="form-control neon-input mb-3"
             placeholder="Email"
             type="email"
             value={newUser.email}
             onChange={(e) => setNewUser((u) => ({ ...u, email: e.target.value }))}
           />
           <select
-            className="form-select mb-2"
+            className="form-select neon-input mb-3"
             value={newUser.role}
             onChange={(e) => setNewUser((u) => ({ ...u, role: e.target.value }))}
           >
@@ -84,22 +95,72 @@ export default function ForwarderSettings() {
             <option value="editor">Editor</option>
             <option value="admin">Admin</option>
           </select>
-          <button className="btn btn-success" onClick={addUser}>➕ Add User</button>
+          <button className="btn neon-btn neon-secondary" onClick={addUser}>➕ Add User</button>
         </div>
 
-        <div className="bg-dark p-3 rounded">
-          <h3>Existing Users</h3>
+        {/* Users list card */}
+        <div className="neon-card p-4">
+          <h3 style={{ marginBottom: "1rem", color: "#0af" }}>Existing Users</h3>
           {users.length === 0 && <p>No users yet.</p>}
           <ul className="list-group">
             {users.map((u) => (
-              <li key={u.id} className="list-group-item d-flex justify-content-between align-items-center">
+              <li
+                key={u.id}
+                className="list-group-item d-flex justify-content-between align-items-center"
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#fff",
+                  borderBottom: "1px solid rgba(255,255,255,0.1)"
+                }}
+              >
                 <span>{u.name} — <em>{u.role}</em></span>
-                <button className="btn btn-danger btn-sm" onClick={() => deleteUser(u.id)}>Delete</button>
+                <button className="btn neon-btn neon-primary btn-sm" onClick={() => deleteUser(u.id)}>❌ Delete</button>
               </li>
             ))}
           </ul>
         </div>
       </div>
+
+      {/* Neon styles */}
+      <style jsx>{`
+        .neon-card {
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(12px);
+          border-radius: 1rem;
+          border: 1px solid rgba(255, 126, 226, 0.25);
+          box-shadow: 0 0 25px rgba(157, 107, 255, 0.2),
+                      0 0 45px rgba(0, 212, 255, 0.15);
+        }
+        .neon-input {
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 126, 226, 0.35);
+          color: #f5f5f5;
+          padding: 0.55rem 0.9rem;
+          border-radius: 10px;
+        }
+        .neon-btn {
+          font-weight: 600;
+          border-radius: 10px;
+          padding: 0.55rem 1rem;
+          border: none;
+          transition: all 0.25s ease;
+        }
+        .neon-primary {
+          background: linear-gradient(90deg, #ff7ee2, #9d6bff);
+          color: #fff;
+        }
+        .neon-primary:hover {
+          box-shadow: 0 0 15px #ff7ee2aa;
+        }
+        .neon-secondary {
+          background: linear-gradient(90deg, #13f1fc, #45ffc2);
+          color: #091821;
+        }
+        .neon-secondary:hover {
+          box-shadow: 0 0 15px #13f1fcaa;
+        }
+      `}</style>
     </ForwarderLayout>
   );
 }

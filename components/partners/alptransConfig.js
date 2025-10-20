@@ -1,27 +1,52 @@
-// /components/partners/alpTransConfig.js
-
 const ALPTRANS_POSTCODES = [
-  // South Wales
+  // Wales
   "CF", "NP", "SA",
-  // Midlands East
-  "B", "CV", "LE", "NG", "NN", "ST", "DE", "WS", "DY",
-  // Oxfordshire
-  "OX",
-  // Anglia
-  "CB", "IP", "NR", "PE",
-  // North/East London & Essex
-  "N", "E", "EN", "IG", "RM", "CM",
-  // Buckinghamshire (and surrounds)
-  "MK", "HP", "LU", "SL", "BU",
+
+  // Midlands
+  "B", "CV",
+  "LE1", "LE2", "LE3", "LE4", "LE5", "LE6", "LE7", "LE8", "LE9",
+  "LE10", "LE11", "LE12", "LE13", "LE14", "LE15", "LE16", "LE17", "LE18", "LE19",
+  "NG", "NN", "ST", "DE", "WS", "DY",
+
+  // East
+  "OX", "CB", "IP", "NR", "PE",
+
+  // Greater London and surroundings
+  "N", "E", "EN", "IG", "RM", "CM", "MK", "HP", "LU", "SL", "BU"
 ];
 
-const alpTransConfig = {
+const alptransConfig = {
   name: "Alp Trans",
-  coverage: ALPTRANS_POSTCODES.join(', '),
-  coverageAreas: ALPTRANS_POSTCODES,
   primaryColor: "#40c4ff",
   logo: "/logos/alptrans.png",
-  allowedRolesForFinance: ["admin", "finance", "super"], // ← Add role access here
+  coverageAreas: ALPTRANS_POSTCODES,
+  allowedRolesForFinance: ["admin", "finance", "super"],
+
+  filterLeg: (leg) => {
+    try {
+      const normalizeOutwardCode = (postcode) => {
+        if (!postcode) return '';
+        const pc = postcode.toUpperCase().replace(/\s/g, '');
+        const match = pc.match(/^([A-Z]{1,2}\d{1,2}[A-Z]?)/);
+        return match ? match[1] : '';
+      };
+
+      const code = normalizeOutwardCode(leg?.postcode);
+
+      const isMatch = ALPTRANS_POSTCODES.some(prefix => {
+        return prefix.length >= 2
+          ? code.startsWith(prefix)
+          : code === prefix;
+      });
+
+      console.log(`[FILTER] AlpTrans checking postcode: ${leg?.postcode} → ${code} → Match: ${isMatch}`);
+      return isMatch;
+    } catch (e) {
+      console.warn('[FILTER ERROR] alptransConfig.filterLeg failed for:', leg, e);
+      return false;
+    }
+  }
 };
 
-export default alpTransConfig;
+export default alptransConfig;
+

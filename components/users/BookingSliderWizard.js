@@ -12,38 +12,31 @@ import { resolveRoute } from '@/utils/resolveRoute';
 import { normalizePostcode } from '@/utils/normalizePostcode';
 
 export default function BookingSliderWizard({ originalBreakdown = {} }) {
-  const { getValues, watch } = useFormContext();
+  const { watch } = useFormContext();
   const [currentStep, setCurrentStep] = useState(0);
   const [quote, setQuote] = useState(null);
   const [routeInfo, setRouteInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [routeError, setRouteError] = useState('');
 
-  // Watch for addresses so we can pass to ConsignmentDetails
-  const collectionPoints = watch('collectionPoints') || [];
-  const deliveryPoints = watch('deliveryPoints') || [];
-
   // Helper: at least one valid pallet
   function validatePallets(pallets) {
     if (!Array.isArray(pallets) || pallets.length === 0) return false;
-    for (const p of pallets) {
-      if (
+    return pallets.some(
+      (p) =>
         p &&
         typeof p.type === 'string' &&
         p.type.trim() &&
         Number(p.weight) > 0 &&
         Number(p.qty) > 0
-      ) {
-        return true;
-      }
-    }
-    return false;
+    );
   }
 
-  // Watch for changes in form, trigger quote/route auto-calc
+  // ✅ Subscribe to form changes only when step >= 1
   useEffect(() => {
-    async function autoCalcQuote() {
-      const values = getValues();
+    if (currentStep < 1) return;
+
+    const subscription = watch(async (values) => {
       const from = normalizePostcode(values.collectionPoints?.[0]?.postcode || '');
       const to = normalizePostcode(values.deliveryPoints?.[0]?.postcode || '');
       const pallets = values.pallets || [];
@@ -54,13 +47,15 @@ export default function BookingSliderWizard({ originalBreakdown = {} }) {
         setRouteError('Please fill all address and pallet fields.');
         return;
       }
+
       setLoading(true);
       setRouteError('');
 
       try {
         const routeData = await resolveRoute({ from, to });
         const milesToDepotA = routeData.legs?.[0]?.distanceMiles || 0;
-        const milesFromDepotB = routeData.legs?.length > 2 ? routeData.legs[2]?.distanceMiles || 0 : 0;
+        const milesFromDepotB =
+          routeData.legs?.length > 2 ? routeData.legs[2]?.distanceMiles || 0 : 0;
 
         const result = await calculateQuote({
           from,
@@ -82,6 +77,7 @@ export default function BookingSliderWizard({ originalBreakdown = {} }) {
           distanceMiles: routeData.totalMiles,
           legs: routeData.legs,
         });
+
         setRouteInfo({
           legs: routeData.legs,
           polyline: routeData.routePolyline,
@@ -89,35 +85,32 @@ export default function BookingSliderWizard({ originalBreakdown = {} }) {
           ferryRoute: routeData.ferryRoute,
         });
       } catch (err) {
+        console.error('[Quote calc error]', err);
         setRouteError('❌ Could not calculate quote.');
         setQuote(null);
         setRouteInfo(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    }
+    });
 
-    if (currentStep >= 1) autoCalcQuote();
-  }, [
-    currentStep,
-    watch('collectionPoints'),
-    watch('deliveryPoints'),
-    watch('pallets'),
-    watch('adr'),
-    watch('adrClassSpecial'),
-    watch('forkliftPickup'),
-    watch('forkliftDelivery')
-  ]);
+    return () => subscription.unsubscribe();
+  }, [watch, currentStep]);
 
   // Stepper navigation logic
   const handleNext = () => {
-    setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
+    setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
   };
 
   const handleBack = () => {
-    setCurrentStep(prev => Math.max(prev - 1, 0));
+    setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
 
-  // Steps: Always the same order
+  // Watch values to pass into child components
+  const formValues = watch();
+  const collectionPoints = formValues.collectionPoints || [];
+  const deliveryPoints = formValues.deliveryPoints || [];
+
   const steps = [
     <PointInputs key="address" />,
     <ConsignmentDetails
@@ -131,12 +124,8 @@ export default function BookingSliderWizard({ originalBreakdown = {} }) {
       quote={quote}
       originalBreakdown={originalBreakdown}
       routeInfo={routeInfo}
-    />
+    />,
   ];
-
-  if (!steps.length) {
-    return <p style={{ color: "#fff" }}>Loading booking wizard…</p>;
-  }
 
   return (
     <div
@@ -145,16 +134,20 @@ export default function BookingSliderWizard({ originalBreakdown = {} }) {
         maxWidth: '940px',
         minWidth: '700px',
         margin: '0 auto',
-        background: "rgba(20,24,38,0.98)",
-        borderRadius: "2.5rem",
-        boxShadow: "0 8px 36px 0 #0aefff28, 0 1.5px 4px #0002",
-        border: "1px solid #11224499",
+        background: 'rgba(20,24,38,0.98)',
+        borderRadius: '2.5rem',
+        boxShadow: '0 8px 36px 0 #0aefff28, 0 1.5px 4px #0002',
+        border: '1px solid #11224499',
         zIndex: 3,
       }}
     >
-      <h3 className="mb-3">Step {currentStep + 1} / {steps.length}</h3>
+      <h3 className="mb-3">
+        Step {currentStep + 1} / {steps.length}
+      </h3>
       {steps[currentStep]}
-      {routeError && <div style={{ color: 'orange', fontWeight: 600 }}>{routeError}</div>}
+      {routeError && (
+        <div style={{ color: 'orange', fontWeight: 600 }}>{routeError}</div>
+      )}
       {loading && <p className="text-info">Calculating route & quote…</p>}
       <BookingStepsNav
         currentStep={currentStep}
@@ -165,4 +158,6 @@ export default function BookingSliderWizard({ originalBreakdown = {} }) {
     </div>
   );
 }
+
+
 

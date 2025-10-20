@@ -1,0 +1,72 @@
+.uploadWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.neonButton {
+  background: linear-gradient(90deg, #0ff1ce, #08f7fe 55%, #09fbd3);
+  color: #191a2f;
+  font-weight: 700;
+  padding: 0.6em 1.3em;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  text-shadow: 0 0 4px #fff8;
+  transition: transform 0.15s ease;
+  box-shadow: 0 0 10px #08f7fe66;
+  display: inline-block;
+}
+
+.neonButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #09fbd3;
+}
+
+.fileStatus {
+  font-size: 0.95em;
+  color: #aaa;
+}
+
+.fileStatus a {
+  color: #0af;
+  font-weight: 600;
+}
+.neonUploadWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.neonUploadInput {
+  display: none;
+}
+
+.neonUploadBtn {
+  background: linear-gradient(90deg, #0ff1ce 10%, #08f7fe 55%, #09fbd3 90%);
+  color: #191a2f;
+  font-weight: 800;
+  padding: 0.6em 1.3em;
+  border-radius: 15px;
+  cursor: pointer;
+  text-shadow: 0 2px 12px #fff8;
+  box-shadow: 0 0 8px #0ff1ce, 0 0 24px #08f7fe66;
+  font-size: 1em;
+  letter-spacing: 1px;
+  transition: transform 0.09s, box-shadow 0.09s;
+}
+
+.neonUploadBtn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 16px #0ff1ce, 0 0 48px #08f7fe;
+}
+
+.neonUploadFile {
+  color: #13f1fc;
+  font-weight: 700;
+  font-size: 0.96em;
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

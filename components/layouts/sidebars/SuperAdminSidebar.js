@@ -1,198 +1,201 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { signOut } from "next-auth/react";
-import { useState } from "react";
-import styles from "@/styles/super-admin.module.css";
+'use client';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { signOut } from 'next-auth/react';
+import { useState } from 'react';
+import styles from '@/styles/SuperAdminDashboard.module.css';
 
 export default function SuperAdminSidebar({ user }) {
-  const router = useRouter();
+  const pathname = usePathname();
 
-  // Toggle state for dropdown sections
-  const [sections, setSections] = useState({
-    bookings: false,
-    entities: false,
-    tools: false,
+  const [openMenus, setOpenMenus] = useState({
+    bookings: true,
+    logistics: false,
+    admin: false,
   });
 
-  const toggleSection = (key) => {
-    setSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  const toggleMenu = (menu) => {
+    setOpenMenus((prev) => ({ ...prev, [menu]: !prev[menu] }));
   };
+
+  const isActive = (path) => (pathname === path ? styles.activeLink : '');
 
   return (
     <aside className={styles.sidebar}>
-      <h3>{user?.role === "super admin" ? "Super Admin" : "Admin"} Panel</h3>
+      {/* ✅ Back to Dashboard */}
+      <div className={styles.dashboardLinkWrapper}>
+        <Link href="/dashboard" className={styles.dashboardLink}>
+          ← Back to Dashboard
+        </Link>
+      </div>
+
+      <h3>{user?.role === 'super admin' ? 'Super Admin' : 'Admin'} Panel</h3>
+
       <nav>
         <ul>
-          {/* Dashboard */}
-          <li>
-            <Link
-              href="/dashboard/admin/super"
-              className={router.pathname === "/dashboard/admin/super" ? styles.activeLink : ""}
-            >
-              📊 Dashboard
-            </Link>
+          {/* BOOKINGS GROUP */}
+          <li
+            onClick={() => toggleMenu('bookings')}
+            className={styles.dropdownToggle}
+          >
+            📦 Bookings {openMenus.bookings ? '▲' : '▼'}
           </li>
+          {openMenus.bookings && (
+            <>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/booking/create"
+                  className={isActive('/dashboard/admin/super/booking/create')}
+                >
+                  ➕ Create Booking
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/booking/manage"
+                  className={isActive('/dashboard/admin/super/booking/manage')}
+                >
+                  📋 Manage Bookings
+                </Link>
+              </li>
+            </>
+          )}
 
-          {/* HaulSmart */}
-          <li>
-            <Link
-              href="/dashboard/admin/super/haulsmart"
-              className={router.pathname === "/dashboard/admin/super/haulsmart" ? styles.activeLink : ""}
-            >
-              🚚 HaulSmart
-            </Link>
+          {/* LOGISTICS GROUP */}
+          <li
+            onClick={() => toggleMenu('logistics')}
+            className={styles.dropdownToggle}
+          >
+            🚚 Logistics {openMenus.logistics ? '▲' : '▼'}
           </li>
+          {openMenus.logistics && (
+            <>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/haulsmart"
+                  className={isActive('/dashboard/admin/super/haulsmart')}
+                >
+                  🚚 HaulSmart
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/exports"
+                  className={isActive('/dashboard/admin/super/exports')}
+                >
+                  📦 Exports
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/currys"
+                  className={isActive('/dashboard/admin/super/currys')}
+                >
+                  🚛 Currys
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/distributors"
+                  className={isActive('/dashboard/admin/super/distributors')}
+                >
+                  📦 Distributors
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/manufacturers"
+                  className={isActive('/dashboard/admin/super/manufacturers')}
+                >
+                  🏭 Manufacturers
+                </Link>
+              </li>
+            </>
+          )}
 
-          {/* Bookings - Collapsible */}
-          <li>
-            <button onClick={() => toggleSection("bookings")} className={styles.dropdownToggle}>
-              📅 Bookings ▾
-            </button>
-            {sections.bookings && (
-              <ul className={styles.subMenu}>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/booking/internal"
-                    className={router.pathname === "/dashboard/admin/super/booking/internal" ? styles.activeLink : ""}
-                  >
-                    🏠 Internal Bookings
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/booking/cross-border"
-                    className={router.pathname === "/dashboard/admin/super/booking/cross-border" ? styles.activeLink : ""}
-                  >
-                    🌍 Cross Border
-                  </Link>
-                </li>
-              </ul>
-            )}
+          {/* ADMIN TOOLS GROUP */}
+          <li
+            onClick={() => toggleMenu('admin')}
+            className={styles.dropdownToggle}
+          >
+            👤 Admin Tools {openMenus.admin ? '▲' : '▼'}
           </li>
-
-          {/* Tools - Collapsible */}
-          <li>
-            <button onClick={() => toggleSection("tools")} className={styles.dropdownToggle}>
-              ⚙️ Tools ▾
-            </button>
-            {sections.tools && (
-              <ul className={styles.subMenu}>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/exports"
-                    className={router.pathname === "/dashboard/admin/super/exports" ? styles.activeLink : ""}
-                  >
-                    📦 Exports
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/finances"
-                    className={router.pathname === "/dashboard/admin/super/finances" ? styles.activeLink : ""}
-                  >
-                    💰 Finances
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/reports"
-                    className={router.pathname === "/dashboard/admin/super/reports" ? styles.activeLink : ""}
-                  >
-                    📋 Reports
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/settings"
-                    className={router.pathname === "/dashboard/admin/super/settings" ? styles.activeLink : ""}
-                  >
-                    ⚙️ Settings
-                  </Link>
-                </li>
-              </ul>
-            )}
-          </li>
-
-          {/* Entities - Collapsible */}
-          <li>
-            <button onClick={() => toggleSection("entities")} className={styles.dropdownToggle}>
-              👥 Entities ▾
-            </button>
-            {sections.entities && (
-              <ul className={styles.subMenu}>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/admins"
-                    className={router.pathname === "/dashboard/admin/super/admins" ? styles.activeLink : ""}
-                  >
-                    👑 Manage Admins
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/forwarders"
-                    className={router.pathname === "/dashboard/admin/super/forwarders" ? styles.activeLink : ""}
-                  >
-                    🚚 Forwarders
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/users"
-                    className={router.pathname === "/dashboard/admin/super/users" ? styles.activeLink : ""}
-                  >
-                    👥 Users
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/customs"
-                    className={router.pathname === "/dashboard/admin/super/customs" ? styles.activeLink : ""}
-                  >
-                    🛃 Customs
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/partners"
-                    className={router.pathname === "/dashboard/admin/super/partners" ? styles.activeLink : ""}
-                  >
-                    🤝 Partners
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/distributors"
-                    className={router.pathname === "/dashboard/admin/super/distributors" ? styles.activeLink : ""}
-                  >
-                    📦 Distributors
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/manufacturers"
-                    className={router.pathname === "/dashboard/admin/super/manufacturers" ? styles.activeLink : ""}
-                  >
-                    🏭 Manufacturers
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/dashboard/admin/super/currys"
-                    className={router.pathname === "/dashboard/admin/super/currys" ? styles.activeLink : ""}
-                  >
-                    🚛 Currys
-                  </Link>
-                </li>
-              </ul>
-            )}
-          </li>
+          {openMenus.admin && (
+            <>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/reports"
+                  className={isActive('/dashboard/admin/super/reports')}
+                >
+                  📋 Reports
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/finances"
+                  className={isActive('/dashboard/admin/super/finances')}
+                >
+                  💰 Finances
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/admins"
+                  className={isActive('/dashboard/admin/super/admins')}
+                >
+                  👑 Manage Admins
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/forwarders"
+                  className={isActive('/dashboard/admin/super/forwarders')}
+                >
+                  🚚 Forwarders
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/users"
+                  className={isActive('/dashboard/admin/super/users')}
+                >
+                  👥 Users
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/customs"
+                  className={isActive('/dashboard/admin/super/customs')}
+                >
+                  🛃 Customs
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/partners"
+                  className={isActive('/dashboard/admin/super/partners')}
+                >
+                  🤝 Partners
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/admin/super/settings"
+                  className={isActive('/dashboard/admin/super/settings')}
+                >
+                  ⚙️ Settings
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
 
-      {/* Logout */}
+      {/* ✅ Logout Button */}
       <button
-        onClick={() => signOut({ callbackUrl: "/login" })}
+        type="button"
+        onClick={() => signOut({ callbackUrl: '/login' })}
         className={styles.logoutButton}
       >
         🚪 Logout

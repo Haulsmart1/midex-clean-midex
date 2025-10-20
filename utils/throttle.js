@@ -1,40 +1,50 @@
 // /utils/throttle.js
 
-// Stores last request time per key
 const throttleMap = {};
+const queueMap = {};
 
 /**
- * Checks if a request with the given key can be made.
- * @param {string} key - Unique key for the API action (e.g. "/geocode/POSTCODE").
- * @param {number} delay - Delay in ms between allowed requests (default: 1000).
- * @returns {boolean} True if allowed, false if too soon.
+ * Ensures requests per key are spaced by delay.
+ * If called too soon, queues until delay passes.
+ * @param {string} key
+ * @param {Function} fn - async function that actually does the fetch
+ * @param {number} delay
+ * @returns {Promise<any>}
  */
-export function canRequest(key, delay = 1000) {
+export function throttledRequest(key, fn, delay = 1000) {
   const now = Date.now();
-  if (!throttleMap[key] || now - throttleMap[key] > delay) {
-    throttleMap[key] = now;
-    return true;
-  }
-  return false;
+  const last = throttleMap[key] || 0;
+  const wait = Math.max(0, delay - (now - last));
+
+  throttleMap[key] = now + wait;
+
+  // Chain in queue so calls execute sequentially per key
+  queueMap[key] = (queueMap[key] || Promise.resolve())
+    .then(() => new Promise(res => setTimeout(res, wait)))
+    .then(fn);
+
+  return queueMap[key];
 }
 
-/**
- * Optional: Reset throttle for a given key (for tests or retries)
- * @param {string} key
- */
+// Optional: reset throttle per key
 export function resetThrottle(key) {
   delete throttleMap[key];
+  delete queueMap[key];
 }
 
-// Example usage with TomTom fetch:
+// Example usage:
 export function fetchTomTomGeocode(postcode, apiKey) {
   const key = `/geocode/${postcode}`;
-  if (!canRequest(key, 1200)) {
-    alert("You're making requests too fast! Try again shortly.");
-    return;
-  }
-  fetch(`https://api.tomtom.com/search/2/geocode/${encodeURIComponent(postcode)}.json?key=${apiKey}`)
-    .then(response => response.json())
-    .then(data => console.log('Result:', data))
-    .catch(err => console.error('TomTom error:', err));
+  return throttledRequest(
+    key,
+    () =>
+      fetch(
+        `https://api.tomtom.com/search/2/geocode/${encodeURIComponent(postcode)}.json?key=${apiKey}`
+      )
+        .then(r => r.json())
+        .then(data => {
+          console.log("Result:", data);
+          return data;
+        })
+  );
 }

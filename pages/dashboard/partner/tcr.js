@@ -9,9 +9,9 @@ export default function PartnerDashboard() {
   const router = useRouter();
   const [config, setConfig] = useState(null);
   const [hydrated, setHydrated] = useState(false);
-  const partnerSlug = 'tcr';
 
-  // Ensure client hydration before rendering anything
+  const partnerSlug = 'tcr'; // Change this to dynamic if needed
+
   useEffect(() => {
     setHydrated(true);
   }, []);
@@ -39,27 +39,32 @@ export default function PartnerDashboard() {
       );
   }, [session, status, hydrated, router]);
 
-  // SSR/CSR mismatch protection: only render after hydration and config loaded
   if (!hydrated || status === 'loading' || !config) {
     return <div style={{ padding: 40, color: '#fff' }}>Loading...</div>;
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: `linear-gradient(120deg, #0c1628 50%, ${config.primaryColor} 100%)`,
-      color: '#fff',
-      fontFamily: 'Poppins, Arial, sans-serif',
-      padding: '40px 24px'
-    }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        background: `linear-gradient(120deg, #0c1628 50%, ${config.primaryColor} 100%)`,
+        color: '#fff',
+        fontFamily: 'Poppins, Arial, sans-serif',
+        padding: '40px 24px',
+      }}
+    >
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 32
-        }}>
-          <h1 style={{ fontSize: 36, fontWeight: 800 }}>{config.name} Dashboard</h1>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 32,
+          }}
+        >
+          <h1 style={{ fontSize: 36, fontWeight: 800 }}>
+            {config.name} Dashboard
+          </h1>
           <button
             onClick={() => signOut({ callbackUrl: '/' })}
             style={{
@@ -71,7 +76,7 @@ export default function PartnerDashboard() {
               fontWeight: 700,
               fontSize: 15,
               cursor: 'pointer',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.25)'
+              boxShadow: '0 2px 6px rgba(0,0,0,0.25)',
             }}
             aria-label="Sign out"
           >
@@ -79,22 +84,44 @@ export default function PartnerDashboard() {
           </button>
         </div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: 20,
-          marginBottom: 40
-        }}>
-          <Card title="Bookings" href={`/dashboard/partner/${partnerSlug}/bookings`} color="#1f9aff" />
-          <Card title="Finance" href={`/dashboard/partner/${partnerSlug}/finance`} color="#ffc600" />
-          <Card title="Settings" href={`/dashboard/partner/${partnerSlug}/settings`} color="#ff4fd8" />
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: 20,
+            marginBottom: 40,
+          }}
+        >
+          <Card
+            title="Bookings"
+            href={`/dashboard/partner/${partnerSlug}/bookings`}
+            color="#1f9aff"
+          />
+          <Card
+            title="Finance"
+            href={`/dashboard/partner/${partnerSlug}/finance`}
+            color="#ffc600"
+          />
+          <Card
+            title="Settings"
+            href={`/dashboard/partner/${partnerSlug}/settings`}
+            color="#ff4fd8"
+          />
           <Card
             title="Coverage"
             content={
-              <div style={{ maxHeight: 220, overflowY: 'auto', paddingRight: 6 }}>
-                {config.coverageAreas?.length
-                  ? config.coverageAreas.map((code, i) => (
-                      <span key={i} style={{
+              <div
+                style={{
+                  maxHeight: 220,
+                  overflowY: 'auto',
+                  paddingRight: 6,
+                }}
+              >
+                {config.coverageAreas?.length ? (
+                  config.coverageAreas.map((code, i) => (
+                    <span
+                      key={i}
+                      style={{
                         display: 'inline-block',
                         background: '#1e2b40',
                         border: '1px solid #3b4e66',
@@ -102,10 +129,15 @@ export default function PartnerDashboard() {
                         padding: '4px 8px',
                         marginRight: 8,
                         marginBottom: 6,
-                        fontSize: 13
-                      }}>{code}</span>
-                    ))
-                  : 'N/A'}
+                        fontSize: 13,
+                      }}
+                    >
+                      {code}
+                    </span>
+                  ))
+                ) : (
+                  'N/A'
+                )}
               </div>
             }
           />
@@ -135,7 +167,9 @@ function Card({ title, content, href, color }) {
   };
 
   return isLink ? (
-    <a href={href} style={baseStyle}><strong>{title}</strong></a>
+    <a href={href} style={baseStyle}>
+      <strong>{title}</strong>
+    </a>
   ) : (
     <div style={baseStyle}>
       <strong style={{ marginBottom: 10 }}>{title}</strong>

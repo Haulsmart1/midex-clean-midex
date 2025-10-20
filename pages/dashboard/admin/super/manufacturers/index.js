@@ -1,45 +1,69 @@
+'use client';
+
 import Head from 'next/head';
 import SuperAdminLayout from '@/components/layouts/SuperAdminLayout';
+import styles from '@/styles/SuperAdminManufacturers.module.css';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
 
 export default function ManufacturersPage() {
-  const manufacturers = [
-    { id: 1, name: 'Midnight Components Ltd.', location: 'London, UK', contact: 'midnight@manufacture.com' },
-    { id: 2, name: 'FastBuild Industries', location: 'Manchester, UK', contact: 'hello@fastbuild.com' },
-  ];
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    fetchManufacturers();
+  }, []);
+
+  const fetchManufacturers = async () => {
+    const { data, error } = await supabase
+      .from('manufacturers')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching manufacturers:', error.message);
+    } else {
+      setList(data || []);
+    }
+  };
 
   return (
     <SuperAdminLayout user={{ role: 'super admin' }}>
       <Head>
-        <title>Manufacturers | Super Admin</title>
+        <title>🏭 Manufacturers | Super Admin</title>
       </Head>
 
-      <div className="container py-4 text-white">
-        <h1 className="mb-4 fw-bold">🏭 Manage Manufacturers</h1>
-        <div className="card shadow-lg border border-light">
-          <div className="card-body">
-            <table className="table table-dark table-hover align-middle">
-              <thead className="table-light text-dark">
-                <tr>
-                  <th>Name</th>
-                  <th>Location</th>
-                  <th>Contact Email</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {manufacturers.map((m) => (
+      <div className={styles.container}>
+        <h1 className={styles.title}>🏭 Manufacturers</h1>
+
+        <div className={styles.tableContainer}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              {list.length > 0 ? (
+                list.map((m) => (
                   <tr key={m.id}>
-                    <td>{m.name}</td>
-                    <td>{m.location}</td>
-                    <td>{m.contact}</td>
-                    <td>
-                      <button className="btn btn-sm btn-outline-primary">Edit</button>
-                    </td>
+                    <td>{m.id.slice(0, 8)}...</td>
+                    <td>{m.name || '—'}</td>
+                    <td>{m.country || '—'}</td>
+                    <td>{new Date(m.created_at).toLocaleDateString()}</td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className={styles.emptyText}>
+                    No manufacturers found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </SuperAdminLayout>

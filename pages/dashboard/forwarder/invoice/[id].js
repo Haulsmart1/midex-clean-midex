@@ -18,7 +18,7 @@ export default function ForwarderInvoicePage() {
     company_number: "16353948",
     tel: "+44 (0) 800 999 1263",
     email: "freight@midnight-express.org",
-    vat: "TBC"
+    vat: " GB452551795"
   });
   const [editNumber, setEditNumber] = useState('');
   const [loading, setLoading] = useState(true);

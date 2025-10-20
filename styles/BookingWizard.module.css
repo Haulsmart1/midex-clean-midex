@@ -1,0 +1,305 @@
+/* styles/BookingWizard.module.css */
+
+/* ============ THEME VARS (scoped to wrapper) ============ */
+/* NOTE: This is a *local* class (not :root) so CSS Modules stay pure. */
+.themeVars {
+  --bg-pane: rgba(10,14,22,0.92);
+  --bg-card: #0f1420;
+  --bg-deep: #0b111b;
+  --bg-input: #0b111c;
+
+  --bd-weak: #152238;
+  --bd-med:  #20324d;
+  --bd-strong: #2a3a55;
+
+  --txt:        #dff3ff;
+  --txt-strong: #eaf6ff;
+  --txt-soft:   #bfe6ff;
+  --txt-muted:  #8aa0ba;
+
+  --accent:   #66ccff;
+  --accent-2: #9cc8ff;
+  --glow: rgba(102,204,255,.22);
+}
+
+/* ============ PAGE WRAPPER ============ */
+.pageWrap {
+  width: 100%;
+  padding: 28px 18px 56px;
+}
+
+.wizard {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* ============ HEADER ============ */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.title {
+  margin: 0;
+  color: var(--txt-strong);
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+/* pills row */
+.pills {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--bd-weak);
+  background: #0f1724cc;
+  color: var(--txt-soft);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.pillIndex {
+  min-width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #1d2636;
+  color: #a6dfff;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.pillActive {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--glow);
+  color: var(--txt-strong);
+}
+
+.pillDone {
+  opacity: .9;
+  border-color: #1e314c;
+}
+
+/* header actions */
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-left: auto;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--bd-strong);
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: .18s;
+  background: #131c2b;
+  color: var(--txt-strong);
+}
+.btn:hover { transform: translateY(-1px); opacity: .95; }
+.btnBack  { background: #192437; }
+.btnNext  { background: linear-gradient(90deg,#7b2cff,#00f7ff); color:#041118; }
+.btnSave  { background: linear-gradient(90deg,#21d07a,#00f7ff); color:#051612; }
+
+/* ============ PANEL / CARD ============ */
+.panel {
+  max-width: 980px;
+  margin: 0 auto;
+  border: 1px solid #113;
+  border-radius: 14px;
+  background: var(--bg-pane);
+  box-shadow: 0 8px 24px rgba(0,255,255,0.06);
+  padding: 16px 18px;
+}
+
+.card {
+  border: 1px solid var(--bd-weak);
+  border-radius: 14px;
+  background: var(--bg-card);
+  color: var(--txt);
+  padding: 16px;
+  margin: 14px 0;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+}
+
+.cardTitle {
+  margin: 0 0 10px;
+  font-weight: 700;
+  color: var(--accent-2);
+  border-bottom: 1px dashed #233856;
+  padding-bottom: 6px;
+}
+
+.muted { color: var(--txt-muted); font-style: italic; }
+
+/* ============ GRID ============ */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } }
+
+/* ============ INPUTS ============ */
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #a9cff5;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.input, .textarea {
+  width: 100%;
+  height: 40px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--bd-med);
+  background: var(--bg-input);
+  color: var(--txt-strong);
+  outline: none;
+  transition: .18s;
+}
+.input::placeholder { color: #6580a3; opacity: .7; }
+.input:focus, .textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--glow);
+}
+.textarea { min-height: 110px; resize: vertical; }
+
+/* helper text */
+.help { color:#83bfff; font-size: 12px; opacity: .9; }
+.error { color:#ff8e8e; font-size: 12px; }
+
+/* ============ SUGGESTIONS (autocomplete) ============ */
+.suggestBox{
+  position:absolute;
+  z-index:20;
+  margin-top:4px;
+  width:100%;
+  max-width:420px;
+  background:#0e1624;
+  border:1px solid #223044;
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+}
+.suggestItem{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  padding:10px 12px;
+  background:transparent;
+  color:#dff3ff;
+  border:0;
+  cursor:pointer;
+  text-align:left;
+}
+.suggestItem:hover{ background:#132034; }
+.suggestSub{ opacity:.7; font-size:.8rem; }
+
+/* ============ POINTS CARD ============ */
+.pointsCard{
+  margin:0 auto;
+  max-width: 980px;
+  background: rgba(8,14,24,.78);
+  border:1px solid #132235;
+  border-radius:12px;
+  padding:16px 18px 22px;
+  position:relative;
+}
+.pointsHeader{ color:#9ddcff; font-weight:700; margin-bottom:10px; }
+.pointsGrid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.pointsCol{ position:relative; }
+.pointsLabel{ color:#cfeaff; font-size:.9rem; display:block; margin-bottom:6px; }
+.pointsInput{
+  width:100%;
+  max-width:420px;
+  background:var(--bg-input);
+  border:1px solid var(--bd-med);
+  color:var(--txt-strong);
+  padding:10px 12px; border-radius:8px; outline:none;
+}
+.pointsInput:focus{ border-color:var(--accent); box-shadow:0 0 0 2px var(--glow); }
+.pointsHint{ color:#9cc8ff; font-size:.85rem; margin-top:6px; }
+.pointsWarn{ color:#ffc27a; font-size:.85rem; margin-top:6px; }
+@media (max-width:900px){ .pointsGrid{ grid-template-columns:1fr; } }
+
+/* ============ STEPPER NAV ============ */
+.stepperHeader { display:flex; gap:8px; align-items:center; margin-bottom:12px; }
+.stepperNav    { display:flex; gap:10px; align-items:center; margin:10px 0 14px; }
+.stepContent   { margin-top: 10px; }
+.blockHint     { margin: 10px 0 0; color: #ffb4b4; font-size: .9rem; }
+
+/* outer spacing under the admin layout */
+.pageWrap {
+  width: 100%;
+  padding: 28px 18px 56px;
+}
+
+/* centers the whole wizard and constrains width */
+.wizard {
+  max-width: 980px;
+  margin: 0 auto 60px;
+  padding: 0 12px;
+}
+
+/* page title */
+.pageTitle {
+  margin: 0 0 14px;
+  color: #eaf6ff;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+
+/* unified dark card around the current step content */
+.panel {
+  border: 1px solid #152238;
+  border-radius: 14px;
+  background: rgba(10,14,22,0.92);
+  box-shadow: 0 8px 24px rgba(0,255,255,0.06);
+  padding: 16px 18px 22px;
+}
+
+/* if your stepper needs a consistent inner card */
+.card {
+  border: 1px solid #20324d;
+  border-radius: 12px;
+  background: #0f1420;
+  color: #dff3ff;
+  padding: 16px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.25);
+}
+
+/* optional: grid helper used by Points slide */
+.pointsGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 900px){ .pointsGrid { grid-template-columns: 1fr; } }
+
+.deleteBtn {
+  background-color: #c62828;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  margin-left: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}

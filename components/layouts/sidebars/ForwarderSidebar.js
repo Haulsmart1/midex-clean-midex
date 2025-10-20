@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
-import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
+import { FaUserCircle, FaSignOutAlt, FaArrowLeft } from 'react-icons/fa';
 
 export default function ForwarderSidebar() {
   const router = useRouter();
@@ -14,6 +14,8 @@ export default function ForwarderSidebar() {
     { href: '/dashboard/forwarder/commission', label: 'Commission' },
     { href: '/dashboard/forwarder/settings', label: 'Settings' },
   ];
+
+  const showBackToDashboard = router.pathname !== '/dashboard/forwarder';
 
   return (
     <aside
@@ -28,6 +30,7 @@ export default function ForwarderSidebar() {
         justifyContent: 'space-between',
       }}
     >
+      {/* Top section: User info and nav */}
       <div>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '30px' }}>
           <FaUserCircle size={28} style={{ marginRight: '10px', color: '#fff' }} />
@@ -41,7 +44,6 @@ export default function ForwarderSidebar() {
           <ul style={{ listStyle: 'none', padding: 0 }}>
             {navLinks.map(({ href, label }) => {
               const isActive = router.pathname === href;
-
               return (
                 <li key={href} style={{ marginBottom: '12px' }}>
                   <Link
@@ -61,16 +63,30 @@ export default function ForwarderSidebar() {
             })}
           </ul>
         </nav>
+
+        {showBackToDashboard && (
+          <Link
+            href="/dashboard/forwarder"
+            className="btn btn-outline-light w-100 mt-3"
+            style={{ minHeight: '40px', display: 'flex', alignItems: 'center' }}
+          >
+            <FaArrowLeft style={{ marginRight: '8px' }} />
+            Back to Dashboard
+          </Link>
+        )}
       </div>
 
-      <button
-        onClick={() => signOut({ callbackUrl: '/login' })}
-        className="btn btn-danger w-100 mt-4"
-        style={{ minHeight: '40px' }}
-      >
-        <FaSignOutAlt style={{ marginRight: '8px' }} />
-        Logout
-      </button>
+      {/* Bottom: Always show logout */}
+      <div style={{ marginTop: '2rem' }}>
+        <button
+          onClick={() => signOut({ callbackUrl: '/login' })}
+          className="btn btn-danger w-100"
+          style={{ minHeight: '40px', display: 'flex', alignItems: 'center' }}
+        >
+          <FaSignOutAlt style={{ marginRight: '8px' }} />
+          Logout
+        </button>
+      </div>
     </aside>
   );
 }

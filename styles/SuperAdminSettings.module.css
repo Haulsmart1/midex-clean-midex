@@ -1,0 +1,86 @@
+.pageBackground {
+  min-height: 100vh;
+  width: 100%;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a72, #4a00e0); /* Gradient base */
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settingsWrapper {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.sectionCard {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 20px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00f7ff;
+  margin-bottom: 15px;
+}
+
+.fieldGroup {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.formLabel {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.inputDark {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 8px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.toggleSwitch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.saveButton {
+  background: linear-gradient(to right, #00f7ff, #ff00ff);
+  border: none;
+  color: #000;
+  padding: 12px 20px;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.saveButton:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+.alertBox {
+  margin-top: 10px;
+  padding: 10px;
+  border-left: 4px solid #00f7ff;
+  background-color: #222;
+  color: #fff;
+  font-size: 14px;
+}

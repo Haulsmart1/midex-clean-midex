@@ -1,69 +1,120 @@
-// /utils/getTomTomCoords.js
-
 import { DEPOTS } from '@/utils/depots';
+import { throttledRequest } from '@/utils/throttle';
+import { normalizePostcode, isROI } from '@/utils/normalizePostcode';
 
-// Map known depots by their postcodes (no spaces, uppercase)
-const DEPOT_POSTCODES = Object.entries(DEPOTS).reduce((obj, [name, val]) => {
-  if (val.postcode)
-    obj[val.postcode.replace(/\s+/g, '').toUpperCase()] = { ...val };
-  return obj;
+// ── Fast depot lookup by postcode ─────────────────────
+const DEPOT_POSTCODES = Object.entries(DEPOTS).reduce((acc, [, v]) => {
+  const pc = v?.postcode ? normalizePostcode(v.postcode).replace(/\s+/g, '') : '';
+  if (pc) acc[pc] = { lat: Number(v.lat), lon: Number(v.lon) };
+  return acc;
 }, {});
 
-// Fallback center for each Eircode region (A, C, D, E, etc)
-const EIRCODE_CENTERS = {
-  A: { lat: 53.3, lon: -6.6 },   // Dublin North
-  C: { lat: 51.9, lon: -8.5 },   // Cork
-  D: { lat: 53.35, lon: -6.26 }, // Dublin
-  E: { lat: 52.1, lon: -6.93 },  // Wexford
-  F: { lat: 53.8, lon: -9.53 },  // Mayo
-  H: { lat: 53.27, lon: -9.06 }, // Galway
-  K: { lat: 53.15, lon: -6.8 },  // Kildare
-  N: { lat: 53.5, lon: -8.6 },   // Longford/Roscommon
-  P: { lat: 52.65, lon: -7.25 }, // Kilkenny
-  R: { lat: 52.5, lon: -7.6 },   // Tipperary
-  T: { lat: 52.47, lon: -8.16 }, // Tipperary
-  V: { lat: 52.66, lon: -8.63 }, // Limerick
-  W: { lat: 53.28, lon: -7.5 },  // Westmeath
-  X: { lat: 52.34, lon: -6.46 }, // Wexford
-  Y: { lat: 52.5, lon: -6.4 },   // Wicklow
-};
+// ── ROI fallback locations ─────────────────────────────
+const EIRCODE_CENTERS = Object.freeze({
+  A: { lat: 53.30, lon: -6.60 },
+  C: { lat: 51.90, lon: -8.50 },
+  D: { lat: 53.35, lon: -6.26 },
+  E: { lat: 52.10, lon: -6.93 },
+  F: { lat: 53.80, lon: -9.53 },
+  H: { lat: 53.27, lon: -9.06 },
+  K: { lat: 53.15, lon: -6.80 },
+  N: { lat: 53.50, lon: -8.60 },
+  P: { lat: 52.65, lon: -7.25 },
+  R: { lat: 52.50, lon: -7.60 },
+  T: { lat: 52.47, lon: -8.16 },
+  V: { lat: 52.66, lon: -8.63 },
+  W: { lat: 53.28, lon: -7.50 },
+  X: { lat: 52.34, lon: -6.46 },
+  Y: { lat: 52.50, lon: -6.40 },
+});
 
-export async function getTomTomCoords(postcode, apiKey) {
-  if (!postcode) throw new Error('No postcode supplied!');
-  const cleanPC = postcode.replace(/\s+/g, '').toUpperCase();
+// ── Safe defaults if everything fails ─────────────────
+const DEFAULT_GB = { lat: 53.8008, lon: -2.4380 }; // UK center
+const DEFAULT_IE = { lat: 53.3498, lon: -6.2603 }; // Dublin
 
-  // 1️⃣ Check depot/port table
-  if (DEPOT_POSTCODES[cleanPC]) {
-    const depot = DEPOT_POSTCODES[cleanPC];
+// ── Convert lat/lon object to array [lat, lon] ────────
+export function toLatLonArray(obj) {
+  if (!obj) return null;
+  const lat = Number(obj.lat);
+  const lon = Number(obj.lon ?? obj.lng);
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+  return [lat, lon];
+}
+
+// ── Main resolver ─────────────────────────────────────
+/**
+ * Resolve coordinates for a UK/IE/EU postcode.
+ * Tries: depot hit → TomTom geocode → ROI fallback → default.
+ */
+export async function getTomTomCoords(postcode, apiKey, opts = {}) {
+  if (!postcode || typeof postcode !== 'string') {
+    throw new Error('No postcode supplied to getTomTomCoords()');
+  }
+  if (!apiKey) {
+    throw new Error('Missing TomTom API key in getTomTomCoords()');
+  }
+
+  const normalized = normalizePostcode(postcode);
+  const compact = normalized.replace(/\s+/g, '');
+  const isRoi = isROI(normalized);
+
+  // 1️⃣ Fast depot postcode match
+  const depot = DEPOT_POSTCODES[compact];
+  if (depot && Number.isFinite(depot.lat) && Number.isFinite(depot.lon)) {
     return { lat: depot.lat, lon: depot.lon };
   }
 
-  // 2️⃣ Try TomTom geocoder
+  // 2️⃣ TomTom Geocoding
   try {
-    const url = `https://api.tomtom.com/search/2/geocode/${encodeURIComponent(postcode)}.json?countrySet=IE,GB&key=${apiKey}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    if (data.results && data.results.length) {
-      const pos = data.results[0].position;
-      if (pos && typeof pos.lat === 'number' && typeof pos.lon === 'number')
-        return { lat: pos.lat, lon: pos.lon };
+    const cacheKey = `/geocode/${compact}`;
+    const countries = opts.countrySet || 'IE,GB,FR,DE,NL,BE,LU,CH'; // Support UK, IE + major EU
+    const q = encodeURIComponent(normalized);
+
+    const url = `https://api.tomtom.com/search/2/geocode/${q}.json` +
+      `?key=${apiKey}&countrySet=${countries}&limit=1&typeahead=false&idxSet=Geo`;
+
+    const data = await throttledRequest(cacheKey, async () => {
+      const res = await fetch(url);
+      if (!res.ok) {
+        const txt = await res.text().catch(() => '');
+        throw new Error(`TomTom geocode HTTP ${res.status}: ${txt}`);
+      }
+      return res.json();
+    }, opts.throttleMs ?? 1200);
+
+    const pos = data?.results?.[0]?.position;
+    if (pos && Number.isFinite(pos.lat) && Number.isFinite(pos.lon)) {
+      return { lat: pos.lat, lon: pos.lon };
     }
+
+    // 2b) fallback from viewport centroid
+    const entry = data?.results?.[0];
+    const viewport = entry?.viewport;
+    if (viewport?.topLeftPoint && viewport?.btmRightPoint) {
+      const lat = (Number(viewport.topLeftPoint.lat) + Number(viewport.btmRightPoint.lat)) / 2;
+      const lon = (Number(viewport.topLeftPoint.lng) + Number(viewport.btmRightPoint.lng)) / 2;
+      if (Number.isFinite(lat) && Number.isFinite(lon)) {
+        return { lat, lon };
+      }
+    }
+
+    console.warn(`⚠️ TomTom returned no usable coords for: ${normalized}`);
   } catch (e) {
-    // Ignore TomTom errors; will fallback below
+    console.warn('⚠️ TomTom geocode error:', e);
   }
 
-  // 3️⃣ Fallback for ROI: Use region center by Eircode first letter
-  if (/^[A-Z]\d/i.test(cleanPC)) {
-    const region = cleanPC[0];
-    if (EIRCODE_CENTERS[region]) {
-      console.warn(`TomTom could not resolve ROI postcode ${postcode}, using fallback center for region ${region}`);
-      return EIRCODE_CENTERS[region];
+  // 3️⃣ ROI fallback via routing-key
+  if (isRoi && compact.length === 3) {
+    const region = compact[0];
+    const center = EIRCODE_CENTERS[region];
+    if (center) {
+      console.warn(`⚠️ Using ROI routing-key fallback for ${normalized} → ${region}`);
+      return { lat: center.lat, lon: center.lon };
     }
   }
 
-  // 4️⃣ Ultimate fallback: Dublin city center
-  console.warn(`TomTom and Eircode region fallback failed for postcode: ${postcode}. Using Dublin as default.`);
-  return { lat: 53.3498, lon: -6.2603 }; // Dublin
+  // 4️⃣ Hardcoded national fallback
+  return isRoi ? { ...DEFAULT_IE } : { ...DEFAULT_GB };
 }
 
 export default getTomTomCoords;

@@ -22,6 +22,7 @@ export default function LoginPage() {
         email,
         password,
       });
+
       setLoading(false);
 
       if (res?.error) {
@@ -29,36 +30,56 @@ export default function LoginPage() {
         return;
       }
 
-      // Wait for session propagation (NextAuth edge case)
-      await new Promise(res => setTimeout(res, 300));
+      // Wait briefly for session to be populated
+      await new Promise((res) => setTimeout(res, 300));
 
       const response = await fetch('/api/auth/session');
       const session = await response.json();
-      // Parse role(s) robustly
-      let role = session?.user?.role?.toLowerCase();
-      let roles = Array.isArray(session?.user?.roles)
-        ? session.user.roles.map(r => r.toLowerCase())
-        : role ? [role] : [];
 
-      // Prefer roles array if available
-      const allRoles = roles.length ? roles : [role];
+      const rawRole = session?.user?.role;
+      const rawRoles = session?.user?.roles;
+      const partner = session?.user?.partner_type?.toLowerCase?.().trim();
 
-      if (!allRoles.length) {
-        setError("Login succeeded but session could not be established. Please try again.");
-        return;
+      const normalizedRole = rawRole?.toLowerCase?.().trim();
+      let normalizedRoles = Array.isArray(rawRoles)
+        ? rawRoles.map((r) => r?.toLowerCase?.().trim()).filter(Boolean)
+        : [];
+
+      if (normalizedRole && !normalizedRoles.includes(normalizedRole)) {
+        normalizedRoles.push(normalizedRole);
       }
 
-      if (allRoles.includes('currys_admin')) router.replace('/dashboard/currys');
-      else if (allRoles.includes('super_admin')) router.replace('/dashboard/admin/super');
-      else if (allRoles.includes('admin')) router.replace('/dashboard/admin');
-      else if (allRoles.includes('forwarder')) router.replace('/dashboard/forwarder');
-      else if (allRoles.includes('user')) router.replace('/dashboard/users');
-      else if (allRoles.includes('partner')) router.replace('/dashboard/partner');
-      else router.replace('/dashboard');
+      // Map aliases like "users" to "user"
+      normalizedRoles = normalizedRoles.map((r) => (r === 'users' ? 'user' : r));
+
+      // DEBUG (optional)
+      console.log('✅ Normalized roles:', normalizedRoles);
+
+      if (normalizedRoles.includes('currys_admin')) {
+        router.replace('/dashboard/currys');
+      } else if (normalizedRoles.includes('super_admin')) {
+        router.replace('/dashboard/admin/super');
+      } else if (normalizedRoles.includes('admin')) {
+        router.replace('/dashboard/admin');
+      } else if (normalizedRoles.includes('forwarder')) {
+        router.replace('/dashboard/forwarder');
+      } else if (normalizedRoles.includes('customs_agent')) {
+        router.replace('/dashboard/customs');
+      } else if (normalizedRoles.includes('user')) {
+        router.replace('/dashboard/user');
+      } else if (normalizedRoles.includes('partner')) {
+        if (partner) {
+          router.replace(`/dashboard/partner/${partner}`);
+        } else {
+          router.replace('/dashboard/partner');
+        }
+      } else {
+        setError('Login succeeded but no valid role assigned. Please contact support.');
+      }
     } catch (err) {
+      console.error('Login error:', err);
       setLoading(false);
       setError('Unexpected error. Please try again later.');
-      console.error(err);
     }
   };
 
@@ -82,11 +103,13 @@ export default function LoginPage() {
         }}
       >
         <h2 className="mb-4 text-center">Login</h2>
+
         {error && (
-          <div className="alert alert-danger" aria-live="polite">
+          <div className="alert alert-danger" aria-live="polite" role="alert">
             {error}
           </div>
         )}
+
         <form onSubmit={handleSubmit} autoComplete="on">
           <div className="mb-3">
             <input
@@ -94,26 +117,28 @@ export default function LoginPage() {
               placeholder="Email"
               className="form-control"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               required
               autoFocus
               disabled={loading}
               aria-label="Email"
             />
           </div>
+
           <div className="mb-4">
             <input
               type="password"
               placeholder="Password"
               className="form-control"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               required
               disabled={loading}
               aria-label="Password"
               autoComplete="current-password"
             />
           </div>
+
           <button type="submit" className="btn btn-primary w-100" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
           </button>
@@ -122,4 +147,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

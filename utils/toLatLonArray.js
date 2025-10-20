@@ -9,14 +9,20 @@
  *   - { lat: string, lon: string } (auto-casts)
  * Throws if input is invalid.
  * @param {*} coord
- * @returns {[number, number]}
+ * @returns {[number, number]} [lat, lon]
  */
 export function toLatLonArray(coord) {
   // Array: [lat, lon]
-  if (Array.isArray(coord) && coord.length === 2 && typeof coord[0] === "number" && typeof coord[1] === "number")
-    return coord;
+  if (
+    Array.isArray(coord) &&
+    coord.length === 2 &&
+    typeof coord[0] === "number" &&
+    typeof coord[1] === "number"
+  ) {
+    return [coord[0], coord[1]]; // ✅ keep [lat, lon]
+  }
 
-  // Object: { lat, lon } or { latitude, longitude }
+  // Object: { lat, lon }
   if (coord && typeof coord === "object") {
     if ("lat" in coord && "lon" in coord) {
       const lat = Number(coord.lat);

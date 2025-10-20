@@ -1,24 +1,84 @@
-.container {
-  display: flex;
-  min-height: 100vh;
-  background-color: #121212;
+.dashboardWrapper {
+  padding: 2rem;
   color: white;
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, #1f2235, #151627);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.main {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-}
-.container {
-  display: flex;
-  min-height: 100vh;
-  background-color: #000;
-  color: white;
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #0aefff, #b721ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-.main {
-  flex: 1;
-  padding: 2rem;
-  background-color: #0f172a;
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 960px;
+  margin-bottom: 2rem;
+}
+
+.navCard {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(10, 239, 255, 0.1);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navCard:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 0 16px rgba(10, 239, 255, 0.4);
+}
+
+.settingsCard {
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+}
+.settingsCard:hover {
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.6);
+}
+
+.tipBox {
+  width: 100%;
+  max-width: 960px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(10, 239, 255, 0.05);
+}
+
+.tipBox h4 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #0aefff;
+}
+
+.tipBox ul {
+  padding-left: 1.2rem;
+}
+
+.tipBox li {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #ccc;
 }

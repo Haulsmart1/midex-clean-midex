@@ -1,0 +1,70 @@
+.stepperHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 16px 0;
+}
+
+.stepList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.stepItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid #283244;
+  border-radius: 10px;
+  background: #0f1420;
+  color: #cfe7ff;
+  cursor: pointer;
+  transition: .18s ease;
+}
+.stepItem:hover { transform: translateY(-1px); }
+
+.stepItem.active {
+  border-color: #66ccff;
+  box-shadow: 0 0 0 2px rgba(102, 204, 255, .2);
+}
+.stepItem.completed { opacity: .85; }
+
+.stepNumber {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #445;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+}
+.stepItem.active .stepNumber { background: #00f7ff; color: #001018; }
+.stepItem.completed .stepNumber { background: #00ffaa; color: #001411; }
+
+.stepTitle { font-size: .9rem; }
+
+.controlButtons {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.backButton, .nextButton, .saveButton {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #223245;
+  cursor: pointer;
+  font-weight: 600;
+  transition: .18s ease;
+}
+
+.backButton  { background: #1a2130; color: #cfe7ff; }
+.nextButton  { background: linear-gradient(90deg,#ff00ff,#00f7ff); color:#001018; border-color:#233; }
+.saveButton  { background: linear-gradient(90deg,#00ffaa,#00f7ff); color:#001411; border-color:#233; }
+
+.backButton:hover, .nextButton:hover, .saveButton:hover { transform: translateY(-1px); opacity:.95; }

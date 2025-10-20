@@ -1,47 +1,117 @@
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { supabase } from "@/lib/supabaseClient";
+// pages/api/auth/[...nextauth].js
+
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  }
+);
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials) {
-        // Use Supabase Auth API
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: credentials.email,
-          password: credentials.password,
-        });
+      authorize: async (credentials) => {
+        try {
+          const { email, password } = credentials;
 
-        if (error || !data?.user) return null;
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
 
-        const userId = data.user.id;
+          if (error || !data?.user || !data.session?.access_token || !data.session?.refresh_token) {
+            console.error('[NextAuth] Supabase login failed:', error?.message || error);
+            return null;
+          }
 
-        // Now fetch extended profile info if needed
-        const { data: userMeta, error: userMetaError } = await supabase
-          .from("users")
-          .select("*")
-          .eq("id", userId)
-          .single();
+          const userId = data.user.id;
 
-        if (userMetaError || !userMeta) return null;
+          // 1. Check 'users' table
+          const { data: userMeta } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', userId)
+            .maybeSingle();
 
-        return {
-          id: userId,
-          email: data.user.email,
-          name: userMeta.name || "",
-          role: userMeta.role,
-          roles: userMeta.roles,
-          partner_type: userMeta.partner_type || "",
-        };
-      }
-    })
+          if (userMeta) {
+            return {
+              id: userId,
+              email: data.user.email,
+              name: userMeta.name || '',
+              role: userMeta.role,
+              roles: userMeta.roles,
+              partner_type: userMeta.partner_type || '',
+              access_token: data.session.access_token,
+              refresh_token: data.session.refresh_token,
+            };
+          }
+
+          // 2. Check 'customs_agents' table
+          const { data: agentMeta } = await supabase
+            .from('customs_agents')
+            .select('*')
+            .eq('user_id', userId)
+            .maybeSingle();
+
+          if (agentMeta) {
+            return {
+              id: userId,
+              email: data.user.email,
+              name: agentMeta.name || '',
+              role: 'customs_agent',
+              roles: ['customs_agent'],
+              partner_type: 'customs_agent',
+              access_token: data.session.access_token,
+              refresh_token: data.session.refresh_token,
+            };
+          }
+
+          // 3. Check 'currys_users' table
+          const { data: currysUser } = await supabase
+            .from('currys_users')
+            .select('*')
+            .eq('id', userId)
+            .maybeSingle();
+
+          if (currysUser) {
+            return {
+              id: userId,
+              email: data.user.email,
+              name: currysUser.name || '',
+              role: 'currys_user',
+              roles: ['currys_user'],
+              partner_type: 'currys',
+              access_token: data.session.access_token,
+              refresh_token: data.session.refresh_token,
+            };
+          }
+
+          return null; // ❌ No matching user
+        } catch (err) {
+          console.error('[NextAuth] Authorize Error:', err);
+          return null;
+        }
+      },
+    }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+
+  session: {
+    strategy: 'jwt',
+  },
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -50,10 +120,13 @@ export const authOptions = {
         token.email = user.email;
         token.role = user.role;
         token.roles = user.roles;
-        token.partner_type = user.partner_type || "";
+        token.partner_type = user.partner_type || '';
+        token.supabaseAccessToken = user.access_token;
+        token.supabaseRefreshToken = user.refresh_token;
       }
       return token;
     },
+
     async session({ session, token }) {
       session.user = {
         id: token.id,
@@ -61,11 +134,27 @@ export const authOptions = {
         email: token.email,
         role: token.role,
         roles: token.roles,
-        partner_type: token.partner_type || "",
+        partner_type: token.partner_type || '',
+        supabaseAccessToken: token.supabaseAccessToken,
+        supabaseRefreshToken: token.supabaseRefreshToken,
       };
       return session;
-    }
-  }
+    },
+  },
+
+  pages: {
+    signIn: '/login',
+    error: '/login',
+  },
+
+  secret: process.env.NEXTAUTH_SECRET || 'changeme',
 };
 
-export default NextAuth(authOptions);
+export default async function authHandler(req, res) {
+  try {
+    return await NextAuth(req, res, authOptions);
+  } catch (error) {
+    console.error('[NextAuth] Unexpected error in handler:', error);
+    res.status(500).end('Internal Server Error');
+  }
+}

@@ -23,6 +23,7 @@ async function fetchBookings() {
     console.error('Supabase error:', error.message);
     return [];
   }
+
   return (data || []).map(row => ({
     id: row.id,
     senderEori: row.sender_eori || '',
@@ -37,25 +38,31 @@ async function fetchBookings() {
 export default function CustomsDashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
+
   const [bookings, setBookings] = useState([]);
   const [petPhoto, setPetPhoto] = useState(null);
   const [petUrl, setPetUrl] = useState("");
 
   useEffect(() => {
-    if (status === "loading") return;
+    if (status === 'loading') return;
+
     if (!session) {
       router.replace('/login');
       return;
     }
+
+    // ✅ FIX: Role check now correctly uses 'customs_agent'
     const roles = Array.isArray(session?.user?.roles)
       ? session.user.roles
       : [session?.user?.role].filter(Boolean);
-    if (!roles.includes('customs_admin')) {
+
+    if (!roles.includes('customs_agent')) {
       router.replace('/dashboard');
       return;
     }
+
     fetchBookings().then(setBookings);
-  }, [session, status, router]);
+  }, [session, status]);
 
   const handlePetPhotoChange = (e) => {
     const file = e.target.files[0];
@@ -63,11 +70,18 @@ export default function CustomsDashboard() {
     if (file) setPetUrl(URL.createObjectURL(file));
   };
 
-  if (status === "loading" || !session) return <div className="mt-4">Loading...</div>;
+  if (status === 'loading' || !session) {
+    return <div className="mt-4">Loading...</div>;
+  }
+
   const roles = Array.isArray(session?.user?.roles)
     ? session.user.roles
     : [session?.user?.role].filter(Boolean);
-  if (!roles.includes('customs_admin')) return <div className="mt-4">Redirecting...</div>;
+
+  // ✅ FIX: Render fallback for bad roles
+  if (!roles.includes('customs_agent')) {
+    return <div className="mt-4">Redirecting...</div>;
+  }
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "#101214" }}>
@@ -204,6 +218,7 @@ export default function CustomsDashboard() {
           </table>
         </div>
       </main>
+
       <style jsx global>{`
         body {
           background: #101214 !important;

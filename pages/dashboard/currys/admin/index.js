@@ -46,6 +46,7 @@ export default function CurrysAdminDashboard() {
           Log Out
         </button>
       </div>
+
       <div style={{ maxWidth: 1000, margin: '0 auto', padding: '2rem 2rem 0 2rem', textAlign: 'center' }}>
         <img
           src="/brand-currys-logo.svg"
@@ -69,8 +70,9 @@ export default function CurrysAdminDashboard() {
           Currys Admin Dashboard
         </h1>
         <p style={{ color: '#ede8fc', fontSize: 18, marginBottom: 32 }}>
-          Admin tools for Currys bookings, reports, and settings.
+          Admin tools for Currys bookings, reports, users, and policies.
         </p>
+
         <div style={{
           display: 'flex',
           justifyContent: 'center',
@@ -78,24 +80,49 @@ export default function CurrysAdminDashboard() {
           flexWrap: 'wrap',
           marginTop: 16
         }}>
+
           <Link href="/dashboard/currys/bookings">
             <div style={tileStyle}><span style={tileIcon}>📦</span><div>
               <b>View All Bookings</b>
               <p style={tileDesc}>Browse, update or manage all bookings.</p>
             </div></div>
           </Link>
+
           <Link href="/dashboard/currys/admin/settings">
             <div style={tileStyle}><span style={tileIcon}>⚙️</span><div>
               <b>Settings</b>
               <p style={tileDesc}>Manage admin & integration settings.</p>
             </div></div>
           </Link>
+
           <Link href="/dashboard/currys/reports">
             <div style={tileStyle}><span style={tileIcon}>📊</span><div>
               <b>Reports</b>
               <p style={tileDesc}>Stats, download data, export reports.</p>
             </div></div>
           </Link>
+
+          <Link href="/dashboard/currys/admin/currysdocs">
+            <div style={tileStyle}><span style={tileIcon}>📄</span><div>
+              <b>SMAPE Policies</b>
+              <p style={tileDesc}>Upload or view compliance files.</p>
+            </div></div>
+          </Link>
+
+          <Link href="/dashboard/currys/admin/users">
+            <div style={tileStyle}><span style={tileIcon}>👥</span><div>
+              <b>Manage Users</b>
+              <p style={tileDesc}>Invite, remove or edit user roles.</p>
+            </div></div>
+          </Link>
+
+          <Link href="/dashboard/currys/admin/create">
+            <div style={tileStyle}><span style={tileIcon}>📝</span><div>
+              <b>Create Booking</b>
+              <p style={tileDesc}>Submit a new Currys collection job.</p>
+            </div></div>
+          </Link>
+
         </div>
       </div>
     </div>

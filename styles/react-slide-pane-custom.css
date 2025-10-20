@@ -1,0 +1,54 @@
+/* === Slide Pane Container (Centered) === */
+.ReactSlidePane {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 90vw;
+  max-height: 90vh;
+  z-index: 1000;
+  background: #0e1a2e;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease-in-out;
+  border: 2px solid limegreen; /* optional debug border */
+}
+
+/* === Remove directional logic (no slide from sides) === */
+.ReactSlidePane_from_right,
+.ReactSlidePane_from_left {
+  left: unset !important;
+  right: unset !important;
+  transform: none !important;
+}
+
+/* === Open animation override (no translate) === */
+.ReactSlidePane--open {
+  transform: translate(-50%, -50%) !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* === Header Styles === */
+.ReactSlidePane__header {
+  font-weight: bold;
+  font-size: 20px;
+  padding: 16px;
+  background: #101f35;
+  color: white;
+  border-bottom: 1px solid #333;
+}
+
+/* === Close Button === */
+.ReactSlidePane__close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 20px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+

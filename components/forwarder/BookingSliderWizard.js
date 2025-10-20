@@ -4,14 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import PointInputs from '@/components/common/PointInputs';
 import ConsignmentDetails from '@/components/bookings/ConsignmentDetails';
-import CustomsUpload from '@/components/common/CustomsUpload';
+import CustomsSlide from '@/components/common/CustomsSlide';      // ✅ use CustomsSlide not CustomsUpload
 import BookingReviewSlide from '@/components/common/BookingReviewSlide';
 import BookingStepsNav from '@/components/common/BookingStepsNav';
 import { calculateQuote } from '@/utils/rateConfig';
 import { resolveRoute } from '@/utils/resolveRoute';
 import { normalizePostcode } from '@/utils/normalizePostcode';
 
-export default function BookingSliderWizard({ originalBreakdown = {} }) {
+export default function BookingSliderWizard({ originalBreakdown = {}, session, bookingId }) {
   const { getValues, watch } = useFormContext();
   const [currentStep, setCurrentStep] = useState(0);
   const [quote, setQuote] = useState(null);
@@ -19,11 +19,9 @@ export default function BookingSliderWizard({ originalBreakdown = {} }) {
   const [loading, setLoading] = useState(false);
   const [routeError, setRouteError] = useState('');
 
-  // Watch for addresses so we can pass to ConsignmentDetails
   const collectionPoints = watch('collectionPoints') || [];
   const deliveryPoints = watch('deliveryPoints') || [];
 
-  // Helper: at least one valid pallet
   function validatePallets(pallets) {
     if (!Array.isArray(pallets) || pallets.length === 0) return false;
     for (const p of pallets) {
@@ -40,7 +38,6 @@ export default function BookingSliderWizard({ originalBreakdown = {} }) {
     return false;
   }
 
-  // Watch for changes in form, trigger quote/route auto-calc
   useEffect(() => {
     async function autoCalcQuote() {
       const values = getValues();
@@ -108,7 +105,6 @@ export default function BookingSliderWizard({ originalBreakdown = {} }) {
     watch('forkliftDelivery')
   ]);
 
-  // Stepper navigation logic
   const handleNext = () => {
     setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
   };
@@ -117,15 +113,20 @@ export default function BookingSliderWizard({ originalBreakdown = {} }) {
     setCurrentStep(prev => Math.max(prev - 1, 0));
   };
 
-  // Steps: Always the same order
   const steps = [
     <PointInputs key="address" />,
     <ConsignmentDetails
       key="consignment"
       collectionPoints={collectionPoints}
       deliveryPoints={deliveryPoints}
+      bookingId={bookingId}          // ✅ pass bookingId for ADR uploads
+      session={session}              // ✅ pass session
     />,
-    <CustomsUpload key="customs" />,
+    <CustomsSlide
+      key="customs"
+      bookingId={bookingId}          // ✅ pass bookingId for customs uploads
+      session={session}              // ✅ pass session
+    />,
     <BookingReviewSlide
       key="review"
       quote={quote}

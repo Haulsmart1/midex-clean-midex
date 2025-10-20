@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabaseClient';
 import SuperAdminLayout from '@/components/layouts/SuperAdminLayout';
 import Link from 'next/link';
 import { CSVLink } from 'react-csv';
-import styles from '@/styles/Admins.module.css';
+import styles from '@/styles/Admin.module.css';
 
 export default function AdminsIndexPage() {
   const [admins, setAdmins] = useState([]);

@@ -1,6 +1,6 @@
 // components/routes/RoutesGrid.js
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
+import supabase from '@/lib/supabaseClient';
 
 function SafeMapImage({ from, to, apiKey }) {
   const [error, setError] = useState(false);

@@ -1,193 +1,268 @@
 'use client';
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { getSupabaseClient } from "@/lib/supabaseClient";
-import Link from "next/link";
-import { toast } from "react-toastify";
 
-const TRIAGE_ACTIONS = [
-  { value: "collect", label: "Collect & Return to Newark" },
-  { value: "assess", label: "Assess & Return" },
-  { value: "dispose", label: "Dispose" },
-];
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useSession, signOut } from 'next-auth/react';
+import { useForm, Controller } from 'react-hook-form';
+import { supabase } from '@/lib/supabaseClient';
+import styles from '@/styles/CreateCurrysBooking.module.css';
+import TomTomAutocompleteInput from '@/utils/TomTomAutocompleteInput';
 
-export default function CurrysBookingCreate() {
-  const { data: session } = useSession();
+export default function CreateCurrysBooking() {
+  const { data: session, status } = useSession();
   const router = useRouter();
-  const supabase = getSupabaseClient(session?.user?.supabaseAccessToken);
+  const { control, handleSubmit } = useForm();
 
-  const [form, setForm] = useState({
-    internal_reference: "",
-    battery_type: "",
-    qty: "",
-    triage_action: "",
-    status: "open",
-    cost: "",
-    notes: "",
-  });
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
+  const [unauthorized, setUnauthorized] = useState(false);
   const [file, setFile] = useState(null);
-  const [uploadStatus, setUploadStatus] = useState("");
+  const [useManualAddress, setUseManualAddress] = useState(false);
 
-  function updateField(key, value) {
-    setForm(f => ({ ...f, [key]: value }));
-  }
+  const [manualAddress, setManualAddress] = useState('');
+  const [manualPostcode, setManualPostcode] = useState('');
+  const [manualLat, setManualLat] = useState('');
+  const [manualLon, setManualLon] = useState('');
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setSaving(true);
-    setError("");
-    setUploadStatus("");
-    try {
-      // Verify Currys user
-      const { data: user } = await supabase
-        .from("currys_users")
-        .select("*")
-        .eq("email", session.user.email)
-        .maybeSingle();
-      if (!user?.id) throw new Error("Not authorised for Currys portal");
+  useEffect(() => {
+    if (status === 'loading') return;
 
-      // Insert booking (initial)
-      const payload = {
-        ...form,
-        qty: Number(form.qty) || 1,
-        created_by: user.id,
-        created_at: new Date().toISOString(),
-      };
-      const { error: insertErr, data: booking } = await supabase
-        .from("bookings_currys")
-        .insert([payload])
-        .select("*")
-        .single();
-      if (insertErr) throw new Error(insertErr.message);
+    const allowedPartners = ['currys', 'currys_admin'];
+    const partnerType = session?.user?.partner_type;
 
-      let docUrl = "";
-      if (file) {
-        setUploadStatus("Uploading file...");
-        const path = `booking_${booking.id}_${Date.now()}_${file.name}`;
-        const { error: uploadErr } = await supabase.storage
-          .from('currysdocs')
-          .upload(path, file, { upsert: true });
-        if (uploadErr) throw new Error("File upload failed: " + uploadErr.message);
-        const { data: urlData } = supabase.storage.from('currysdocs').getPublicUrl(path);
-        if (!urlData?.publicUrl) throw new Error("Failed to get public URL.");
-        docUrl = urlData.publicUrl;
-        setUploadStatus("File uploaded!");
-        // Update booking with doc_url
-        await supabase
-          .from("bookings_currys")
-          .update({ doc_url: docUrl })
-          .eq("id", booking.id);
+    console.log('👤 Partner Type:', partnerType);
+    console.log('🧪 Full Session:', session);
+
+    if (!session || !allowedPartners.includes(partnerType)) {
+      setUnauthorized(true);
+    }
+  }, [session, status]);
+
+  const onSubmit = async (data) => {
+    if (unauthorized) return;
+
+    const customId = crypto.randomUUID();
+
+    let filePath = null;
+    if (file) {
+      const fileName = `${Date.now()}-${file.name}`;
+      const { data: uploadData, error } = await supabase.storage
+        .from('currysdocs')
+        .upload(fileName, file);
+
+      if (error) {
+        alert('❌ Upload failed');
+        return console.error(error);
       }
 
-      toast.success("Booking created!");
-      router.push(`/dashboard/currys/bookings/${booking.id}`);
-    } catch (e) {
-      setError(e.message);
-      setUploadStatus("");
+      const { data: publicUrlData } = supabase.storage
+        .from('currysdocs')
+        .getPublicUrl(uploadData.path);
+
+      filePath = publicUrlData?.publicUrl || null;
     }
-    setSaving(false);
-  }
+
+    const addressData = useManualAddress
+      ? {
+          address: manualAddress,
+          postcode: manualPostcode,
+          lat: manualLat,
+          lon: manualLon,
+        }
+      : {
+          address: data?.address?.address || '',
+          postcode: data?.address?.postcode || '',
+          lat: data?.address?.lat || null,
+          lon: data?.address?.lon || null,
+        };
+
+    const { error } = await supabase.from('bookings_currys').insert([
+      {
+        id: customId,
+        internal_ref: data.ref,
+        battery_type: data.batteryType,
+        quantity: parseInt(data.quantity, 10),
+        triage_action: data.triageAction,
+        status: data.statusVal,
+        notes: data.notes,
+        file_url: filePath,
+        created_by: session.user.email,
+        customer_name: data.customerName,
+        address: addressData.address,
+        postcode: addressData.postcode,
+        lat: addressData.lat,
+        lon: addressData.lon,
+        country: data.country,
+        email: data.email,
+        mobile: data.mobile,
+        battery_serial: data.batterySerial,
+        pets: data.pets,
+        parking: data.parking,
+        collection_date: data.collectionDate || null,
+        accessibility_issues: data.accessibility,
+        health_safety_issues: data.safety,
+      },
+    ]);
+
+    if (error) {
+      alert('❌ Submission failed');
+      return console.error(error);
+    }
+
+    alert('✅ Booking submitted!');
+    router.push(`/dashboard/currys/bookings/${customId}`);
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
   return (
-    <div className="container mt-4">
-      <Link href="/dashboard/currys/bookings" className="btn btn-light mb-3">
-        ← Back to Bookings
-      </Link>
-      <h2>Create New Currys Battery Booking</h2>
-      <form className="mt-3" onSubmit={handleSubmit}>
-        {error && <div className="alert alert-danger">{error}</div>}
-        <div className="mb-3">
-          <label className="form-label">Internal Reference <span style={{color:"#0af"}}>*</span></label>
-          <input
-            className="form-control"
-            value={form.internal_reference}
-            onChange={e => updateField("internal_reference", e.target.value)}
-            required
-            placeholder="Currys job reference"
-          />
+    <div className={styles.pageWrapper}>
+      <div className={styles.container}>
+        <div className={styles.topActions}>
+          <button onClick={() => router.push('/dashboard/currys/bookings')} className={styles.backButton}>
+            ← Back to Bookings
+          </button>
+          <button onClick={() => signOut()} className={styles.logoutButton}>
+            🚪 Logout
+          </button>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Battery Type <span style={{color:"#0af"}}>*</span></label>
-          <input
-            className="form-control"
-            value={form.battery_type}
-            onChange={e => updateField("battery_type", e.target.value)}
-            required
-            placeholder="E.g. Lithium Ion"
-          />
+
+        <h2 className={styles.title}>Create New Currys Battery Booking</h2>
+
+        {unauthorized && (
+          <div className={styles.unauthorized}>
+            ❌ Not authorised for Currys portal
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          {renderField('Internal Reference *', 'ref', control)}
+          {renderField('Battery Type *', 'batteryType', control)}
+          {renderField('Quantity *', 'quantity', control, 'number')}
+          {renderSelect('Triage Action *', 'triageAction', control, [
+            'Collect & Return to Newark',
+            'Dispose Only',
+            'Test & Hold',
+          ])}
+          {renderField('Status', 'statusVal', control)}
+          {renderTextarea('Notes / Extra Info', 'notes', control)}
+          {renderField('Customer Name', 'customerName', control)}
+
+          <div style={{ marginBottom: '1rem' }}>
+            <button
+              type="button"
+              onClick={() => setUseManualAddress(!useManualAddress)}
+              className={styles.toggleButton}
+            >
+              {useManualAddress ? '🔍 Use Autocomplete' : '✍️ Enter Address Manually'}
+            </button>
+          </div>
+
+          {useManualAddress ? (
+            <>
+              {renderManualInput('Address', manualAddress, setManualAddress)}
+              {renderManualInput('Postcode', manualPostcode, setManualPostcode)}
+              {renderManualInput('Latitude', manualLat, setManualLat)}
+              {renderManualInput('Longitude', manualLon, setManualLon)}
+            </>
+          ) : (
+            <TomTomAutocompleteInput name="address" control={control} />
+          )}
+
+          {renderField('Country', 'country', control)}
+          {renderField('Email', 'email', control)}
+          {renderField('Mobile Number', 'mobile', control)}
+          {renderField('Battery Serial Number', 'batterySerial', control)}
+          {renderTextarea('Pets', 'pets', control)}
+          {renderTextarea('Parking Issues', 'parking', control)}
+          {renderField('Collection Date', 'collectionDate', control, 'date')}
+          {renderTextarea('Accessibility Issues', 'accessibility', control)}
+          {renderTextarea('Health & Safety Notes', 'safety', control)}
+
+          <div className={styles.fileUploadWrapper}>
+            <label className={styles.label}>Attach Document / Image</label>
+            <label htmlFor="file-upload" className={styles.uploadButton}>
+              📎 Choose File
+            </label>
+            <input
+              id="file-upload"
+              type="file"
+              onChange={handleFileChange}
+              className={styles.hiddenFileInput}
+            />
+            {file && <p className={styles.fileName}>Selected: {file.name}</p>}
+          </div>
+
+          <button type="submit" disabled={unauthorized} className={styles.submitButton}>
+            ✅ Create Booking
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// === Helpers ===
+
+function renderField(label, name, control, type = 'text') {
+  return (
+    <Controller
+      name={name}
+      control={control}
+      defaultValue=""
+      render={({ field }) => (
+        <div>
+          <label className={styles.label}>{label}</label>
+          <input {...field} type={type} className={styles.input} required={label.includes('*')} />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Quantity <span style={{color:"#0af"}}>*</span></label>
-          <input
-            className="form-control"
-            type="number"
-            min={1}
-            value={form.qty}
-            onChange={e => updateField("qty", e.target.value)}
-            required
-            placeholder="Number of batteries"
-          />
+      )}
+    />
+  );
+}
+
+function renderTextarea(label, name, control) {
+  return (
+    <Controller
+      name={name}
+      control={control}
+      defaultValue=""
+      render={({ field }) => (
+        <div>
+          <label className={styles.label}>{label}</label>
+          <textarea {...field} className={styles.textarea} rows={3} />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Triage Action <span style={{color:"#0af"}}>*</span></label>
-          <select
-            className="form-select"
-            value={form.triage_action}
-            onChange={e => updateField("triage_action", e.target.value)}
-            required
-          >
-            <option value="">Select...</option>
-            {TRIAGE_ACTIONS.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}
+      )}
+    />
+  );
+}
+
+function renderSelect(label, name, control, options) {
+  return (
+    <Controller
+      name={name}
+      control={control}
+      defaultValue={options[0]}
+      render={({ field }) => (
+        <div>
+          <label className={styles.label}>{label}</label>
+          <select {...field} className={styles.select}>
+            {options.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
           </select>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Status</label>
-          <input
-            className="form-control"
-            value={form.status}
-            onChange={e => updateField("status", e.target.value)}
-            placeholder="Status (default: open)"
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Cost (£)</label>
-          <input
-            className="form-control"
-            type="number"
-            min={0}
-            step="0.01"
-            value={form.cost}
-            onChange={e => updateField("cost", e.target.value)}
-            placeholder="Leave blank unless admin"
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Notes / Extra Info</label>
-          <textarea
-            className="form-control"
-            rows={3}
-            value={form.notes}
-            onChange={e => updateField("notes", e.target.value)}
-            placeholder="Instructions, notes, etc"
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Attach Document / Image</label>
-          <input
-            type="file"
-            className="form-control"
-            onChange={e => setFile(e.target.files?.[0])}
-            disabled={saving}
-          />
-          <div>{uploadStatus}</div>
-        </div>
-        <button type="submit" className="btn btn-success" disabled={saving}>
-          {saving ? "Saving..." : "Create Booking"}
-        </button>
-      </form>
+      )}
+    />
+  );
+}
+
+function renderManualInput(label, value, setter) {
+  return (
+    <div>
+      <label className={styles.label}>{label}</label>
+      <input type="text" value={value} onChange={(e) => setter(e.target.value)} className={styles.input} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 // components/layouts/SuperAdminLayout.js
 import SuperAdminSidebar from '@/components/layouts/sidebars/SuperAdminSidebar';
-import styles from '@/styles/super-admin.module.css';
+import styles from '@/styles/SuperAdminDashboard.module.css';
+
 
 export default function SuperAdminLayout({ children, user }) {
   return (
@@ -12,4 +13,3 @@ export default function SuperAdminLayout({ children, user }) {
     </div>
   );
 }
-

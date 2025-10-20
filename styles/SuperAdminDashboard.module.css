@@ -1,49 +1,283 @@
-.dashboardWrapper {
-  padding: 2rem;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+/* ===== Layout Wrapper ===== */
+.superadminWrapper {
+  display: flex;
   min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: white;
-  font-family: 'Inter', sans-serif;
+}
+
+/* ===== Main Content Area ===== */
+.superadminMain {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 60px 20px;
+  margin-left: 240px;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* ✅ MATCHES SIDEBAR */
+  overflow-y: auto;
+  z-index: 1;
 }
 
-.title {
-  font-size: 3rem;
-  text-align: center;
-  margin-bottom: 2rem;
+/* Scrollbar */
+.superadminMain::-webkit-scrollbar {
+  width: 8px;
+}
+.superadminMain::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+.superadminMain::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 204, 0.4);
+  border-radius: 4px;
+}
+.superadminMain::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 204, 0.6);
+}
+
+/* Page Title */
+.gradientTitle {
+  font-size: 2.6rem;
   font-weight: 800;
+  text-align: center;
+  margin: 0 0 3rem;
   background: linear-gradient(to right, #00f7ff, #ff00ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+/* Grid */
 .cardGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
+  padding: 0 20px;
 }
 
+/* Nav Cards */
 .navCard {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 2rem;
-  font-size: 1.2rem;
-  font-weight: 600;
+  padding: 1.5rem;
   text-align: center;
-  text-decoration: none;
-  color: white;
+  font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(0, 247, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.08);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.4s ease-in-out forwards;
+  color: white;
+  text-decoration: none;
+}
+.navCard:hover {
+  background: rgba(0, 255, 255, 0.1);
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.25);
+  transform: scale(1.05);
 }
 
-.navCard:hover {
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* ✅ GRADIENT */
+  backdrop-filter: blur(6px);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset -2px 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+/* Sidebar title */
+.sidebar h3 {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(to right, #00f7ff, #ff00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Sidebar links */
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar nav li {
+  margin: 0.3rem 0;
+}
+.sidebar nav a {
+  display: block;
+  padding: 0.65rem 1rem;
+  margin-bottom: 0.35rem;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #aee4f8;
+  background-color: rgba(255, 255, 255, 0.015);
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+.sidebar nav a:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  color: white;
+  transform: translateX(5px);
+}
+
+/* Active link */
+.activeLink {
+  background: linear-gradient(90deg, #ff00ff, #00f7ff);
+  color: #000 !important;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.6), 0 0 20px rgba(255, 0, 255, 0.4);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  transform: scale(1.02);
+}
+
+/* Logout */
+.logoutButton {
+  margin-top: auto;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.logoutButton:hover {
   transform: scale(1.05);
-  background: rgba(0, 247, 255, 0.1);
-  box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+  background: linear-gradient(to right, #ff2e59, #ff2a1f);
+}
+
+/* Booking Step Wrapper */
+.bookingStepWrapper {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Stepper Header */
+.cardTitle {
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(to right, #00f7ff, #ff00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Form Panels */
+.stepCard {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.08);
+}
+
+/* Section Titles */
+.sectionTitle {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #ff99ff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Buttons */
+.nextButton,
+.backButton {
+  padding: 0.5rem 1.2rem;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.nextButton {
+  background: linear-gradient(to right, #ff00ff, #00f7ff);
+  color: #fff;
+}
+
+.backButton {
+  background: linear-gradient(to left, #00f7ff, #00ffaa);
+  color: #000;
+}
+
+.nextButton:hover,
+.backButton:hover {
+  transform: scale(1.05);
+}
+
+/* Button Footer Wrapper */
+.buttonFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Input Style Fixes (Scoped for CSS Modules) */
+.formFields input[type="text"],
+.formFields input[type="number"],
+.formFields textarea {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem;
+  border-radius: 6px;
+  width: 100%;
+  color: white;
+  font-family: inherit;
+}
+
+/* Scrollbar on Forms */
+.bookingStepWrapper::-webkit-scrollbar {
+  width: 8px;
+}
+.bookingStepWrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+.bookingStepWrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 204, 0.3);
+  border-radius: 4px;
+}
+.bookingStepWrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 204, 0.6);
 }

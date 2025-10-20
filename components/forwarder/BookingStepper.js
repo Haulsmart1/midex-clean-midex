@@ -1,38 +1,14 @@
-// BookingStepper.js
-// Multi-step booking form wizard
-// Passes all navigation logic, error handling, and data for pallet/point inputs
-
 import React from "react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import BookingStepsNav from "@/components/common/BookingStepsNav";
-import PointInputs from "@/components/common/PointInputs";
-import PalletItemForm from "@/components/common/PalletItemForm";
-import CustomsUpload from "@/components/common/CustomsUpload";
-import BookingReviewSlide from "@/components/common/BookingReviewSlide";
 
 /**
  * Helper: Retrieve validation error message for a given pallet and field.
- * @param {object} errors - react-hook-form errors object
- * @param {number} idx - Pallet index
- * @param {string} name - Field name
- * @returns {string|null}
  */
 function getPalletError(errors, idx, name) {
   return errors?.pallets?.[idx]?.[name]?.message || null;
 }
 
-/**
- * BookingStepper — the stepper for the entire booking flow.
- * - Handles navigation
- * - Triggers per-step validation
- * - Handles rendering for each type of step, including pallet list with errors
- *
- * @param {Array} steps - [{ title: string, content: JSX }]
- * @param {number} currentStep - Active step index
- * @param {function} setCurrentStep - Step setter
- * @param {function} onSave - Final save callback
- * @param {object} buttonProps - Optional props for nav buttons
- */
 export default function BookingStepper({
   steps,
   currentStep,
@@ -40,34 +16,52 @@ export default function BookingStepper({
   onSave,
   buttonProps = {},
 }) {
-  // RHF context hooks
-  const { control, watch, register, setValue, formState: { errors }, trigger } = useFormContext();
+  const {
+    control,
+    watch,
+    register,
+    setValue,
+    formState: { errors },
+    trigger,
+  } = useFormContext();
 
-  // Controlled arrays for form fields
   const collectionPoints = watch("collectionPoints") || [];
   const deliveryPoints = watch("deliveryPoints") || [];
-  const { fields: pallets, append, remove } = useFieldArray({ control, name: "pallets" });
+  const { fields: pallets, append, remove } = useFieldArray({
+    control,
+    name: "pallets",
+  });
 
-  /**
-   * Step navigation: Advance step (with step-specific validation)
-   */
+  const customsFiles = watch("customsFiles");
+  const senderEori = watch("senderEori");
+  const receiverEori = watch("receiverEori");
+  const commodityCodes = watch("commodityCodes") || [];
+
+  // ✅ FIXED: simplified to check string values, not object.url
+  const customsReady =
+    customsFiles?.invoice &&
+    customsFiles?.packing &&
+    customsFiles?.delivery &&
+    senderEori &&
+    receiverEori &&
+    Array.isArray(commodityCodes) &&
+    commodityCodes.length > 0;
+
   const handleNext = async () => {
     let valid = true;
-    // Validate by step title, make this bulletproof for any new wording
-    const stepTitle = steps[currentStep]?.title?.toLowerCase() || "";
+    const stepTitle = String(steps[currentStep]?.title || "").toLowerCase();
+
     if (stepTitle.includes("address") || stepTitle.includes("point")) {
-      // Validate addresses step
       valid = await trigger(["collectionPoints", "deliveryPoints"]);
     } else if (stepTitle.includes("consignment")) {
-      // Validate pallet details step
       valid = await trigger("pallets");
+    } else if (stepTitle.includes("customs")) {
+      valid = customsReady;
     }
-    // Add further step-specific validation below if needed
 
-    // On success, move forward; else focus error
-    if (valid) setCurrentStep((step) => Math.min(step + 1, steps.length - 1));
-    else {
-      // Focus the first error for accessibility
+    if (valid) {
+      setCurrentStep((step) => Math.min(step + 1, steps.length - 1));
+    } else {
       setTimeout(() => {
         const err = document.querySelector('[aria-live="assertive"]');
         if (err) err.focus();
@@ -75,32 +69,43 @@ export default function BookingStepper({
     }
   };
 
-  /**
-   * Step navigation: Move back
-   */
-  const handleBack = () => setCurrentStep((step) => Math.max(step - 1, 0));
+  const handleBack = () => {
+    setCurrentStep((step) => Math.max(step - 1, 0));
+  };
 
-  /**
-   * Renders the full stepper.
-   * - Handles special logic for the Consignment step (shows all pallets with error displays and add button)
-   * - Otherwise just renders the provided step content
-   */
   return (
     <div>
-      {/* Top nav */}
+      {/* Navigation Bar */}
       <BookingStepsNav
         steps={steps}
         currentStep={currentStep}
+        setCurrentStep={setCurrentStep}
         onNext={handleNext}
         onBack={handleBack}
         onSave={onSave}
-        buttonProps={buttonProps}
+        buttonProps={{
+          ...buttonProps,
+          disabled:
+            String(steps[currentStep]?.title || "")
+              .toLowerCase()
+              .includes("customs") && !customsReady,
+        }}
       />
 
-      {/* Content */}
-      <div className="step-content">
-        {/* Consignment = show each pallet as an entry form (with error badges) */}
-        {steps[currentStep]?.title?.toLowerCase().includes("consignment") ? (
+      {/* Step Content */}
+      <div
+        className="step-content"
+        role="region"
+        aria-labelledby={`step-title-${currentStep}`}
+        style={{ marginTop: "2rem" }}
+      >
+        <h3 id={`step-title-${currentStep}`} style={{ display: "none" }}>
+          {String(steps[currentStep]?.title || "")}
+        </h3>
+
+        {String(steps[currentStep]?.title || "")
+          .toLowerCase()
+          .includes("consignment") ? (
           <div>
             {pallets.map((field, idx) => (
               <div
@@ -109,36 +114,42 @@ export default function BookingStepper({
                   marginBottom: 32,
                   borderRadius: 8,
                   padding: 16,
-                  background: "#20222c"
+                  background: "#20222c",
+                  boxShadow: "0 0 10px rgba(0,0,0,0.2)",
                 }}
               >
-                <PalletItemForm
-                  field={field}
-                  idx={idx}
-                  register={register}
-                  setValue={setValue}
-                  errors={errors}
-                  pallets={pallets}
-                  remove={remove}
-                  collectionPoints={collectionPoints}
-                  deliveryPoints={deliveryPoints}
-                />
+                {/* Form rendering for each pallet */}
+                {/* Replace this with your <PalletItemForm /> if needed */}
+                <div>
+                  <strong style={{ color: "#fff" }}>
+                    Pallet {idx + 1}
+                  </strong>{" "}
+                  (Replace this section with your custom pallet form.)
+                </div>
 
-                {/* Inline error badges per pallet */}
+                {/* Inline Error Messages */}
                 {[
-                  "type", "length", "width", "height", "weight", "collectionAddress", "deliveryAddress", "adrClass"
+                  "type",
+                  "length",
+                  "width",
+                  "height",
+                  "weight",
+                  "collectionAddress",
+                  "deliveryAddress",
+                  "adrClass",
                 ].map((name) =>
                   getPalletError(errors, idx, name) ? (
                     <div
                       key={name}
                       style={{
-                        color: "#ff5858",
+                        color: "#ff7ee2",
                         fontWeight: "bold",
                         marginTop: 8,
-                        background: "#301616",
+                        background: "rgba(50, 0, 40, 0.6)",
                         padding: 8,
                         borderRadius: 6,
-                        border: "1px solid #ff5a5a"
+                        border: "1px solid #ff7ee2",
+                        boxShadow: "0 0 8px rgba(255, 126, 226, 0.4)",
                       }}
                       tabIndex={0}
                       aria-live="assertive"
@@ -150,18 +161,26 @@ export default function BookingStepper({
               </div>
             ))}
 
-            {/* Add pallet button */}
             <button
               type="button"
-              className="btn btn-primary mt-2"
               onClick={() => append({})}
+              style={{
+                background: "linear-gradient(90deg, #ff7ee2, #9d6bff)",
+                border: "none",
+                borderRadius: "8px",
+                padding: "10px 18px",
+                fontWeight: "bold",
+                color: "#fff",
+                boxShadow: "0 0 10px rgba(255, 126, 226, 0.5)",
+                cursor: "pointer",
+                marginTop: "1rem",
+              }}
             >
               ➕ Add Pallet
             </button>
           </div>
         ) : (
-          // Any other step: just show the defined step content
-          steps[currentStep]?.content
+          steps[currentStep]?.content || <div>No content available</div>
         )}
       </div>
     </div>

@@ -1,57 +1,106 @@
-import Head from 'next/head';
-import SuperAdminLayout from '@/components/layouts/SuperAdminLayout';
+// pages/dashboard/admin/super/haulsmart/index.js
+import { useEffect, useState } from "react";
+import Head from "next/head";
+import { supabase } from "@/lib/supabaseClient";
+import SuperAdminLayout from "@/components/layouts/SuperAdminLayout";
+import tableStyles from "@/styles/Table.module.css";
+import pageStyles from "@/styles/HaulSmart.module.css"; // ✅ only used here
 
 export default function HaulSmartPage() {
-  const data = [
-    { id: 1, shipment: "HSX-1023", status: "Delivered", date: "2025-08-12" },
-    { id: 2, shipment: "HSX-1044", status: "In Transit", date: "2025-08-13" },
-    { id: 3, shipment: "HSX-1067", status: "Delayed", date: "2025-08-14" },
-  ];
+  const [shipments, setShipments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchShipments = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("bookings")
+          .select("id, consignment_ref, customer, status, created_at, total_cost")
+          .eq("synced_to_haulsmart", true) // ✅ filter HaulSmart
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+        setShipments(data || []);
+      } catch (err) {
+        console.error("Supabase fetch error:", err.message);
+        setError("Failed to load HaulSmart shipments");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchShipments();
+  }, []);
 
   return (
-    <SuperAdminLayout user={{ role: 'super admin' }}>
+    <SuperAdminLayout>
       <Head>
         <title>🚚 HaulSmart | Super Admin</title>
       </Head>
 
-      <div className="container py-4 text-white">
-        <h1 className="mb-4 fw-bold">🚚 HaulSmart Shipments</h1>
+      {/* ✅ Only HaulSmart uses gradient background */}
+      <div className={pageStyles.pageBackground}>
+        <h1 className={pageStyles.pageTitle}>
+          🚚 HaulSmart <span style={{ color: "#ff00ff" }}>Shipments</span>
+        </h1>
 
-        <div className="card bg-dark shadow border-0">
-          <div className="card-body">
-            <table className="table table-hover table-dark align-middle">
-              <thead className="table-primary text-dark">
-                <tr>
-                  <th>Shipment ID</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((row) => (
-                  <tr key={row.id}>
-                    <td>{row.shipment}</td>
-                    <td>
-                      <span
-                        className={`badge px-3 py-2 fw-bold ${
-                          row.status === "Delivered"
-                            ? "bg-success"
-                            : row.status === "In Transit"
-                            ? "bg-warning text-dark"
-                            : "bg-danger"
-                        }`}
-                      >
-                        {row.status}
-                      </span>
-                    </td>
-                    <td>{row.date}</td>
+        {loading ? (
+          <p>Loading shipments...</p>
+        ) : error ? (
+          <p style={{ color: "red" }}>{error}</p>
+        ) : (
+          <div className={tableStyles.tableContainer}>
+            <div className={tableStyles.tableWrapper}>
+              <table className={tableStyles.table}>
+                <thead>
+                  <tr>
+                    <th>Shipment ID</th>
+                    <th>Consignment Ref</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Total £</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {shipments.length > 0 ? (
+                    shipments.map((s) => (
+                      <tr key={s.id}>
+                        <td>{s.id.slice(0, 8)}...</td>
+                        <td>{s.consignment_ref || "-"}</td>
+                        <td>{s.customer || "-"}</td>
+                        <td>
+                          <span
+                            className={`${tableStyles.badge} ${
+                              s.status === "Delivered"
+                                ? tableStyles.badgeSuccess
+                                : s.status === "In Transit"
+                                ? tableStyles.badgeWarning
+                                : tableStyles.badgeError
+                            }`}
+                          >
+                            {s.status || "—"}
+                          </span>
+                        </td>
+                        <td>{new Date(s.created_at).toLocaleDateString()}</td>
+                        <td>£{Number(s.total_cost || 0).toFixed(2)}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" className={tableStyles.emptyText}>
+                        No HaulSmart shipments found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </SuperAdminLayout>
   );
 }
+

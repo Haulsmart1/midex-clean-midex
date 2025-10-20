@@ -1,4 +1,4 @@
-import { supabase } from '/lib/supabaseClient'
+import supabase from '/lib/supabaseClient'
 import { toast } from 'react-toastify'
 import { generatePassword } from '/utils/generatePassword'
 import bcrypt from 'bcryptjs'

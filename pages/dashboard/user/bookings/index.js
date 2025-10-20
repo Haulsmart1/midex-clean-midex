@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import UsersLayout from '@/components/layouts/UsersLayout'; // ✅ Sidebar Layout
+import UsersLayout from '@/components/layouts/UsersLayout';
 
 export default function UserBookingsPage() {
   const { data: session, status } = useSession();
@@ -14,10 +14,10 @@ export default function UserBookingsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Role/account type logic
   const roles = Array.isArray(session?.user?.roles)
     ? session.user.roles
     : [session?.user?.role].filter(Boolean);
+
   const accountType =
     session?.user?.account_type ||
     session?.user?.accountType ||
@@ -26,24 +26,43 @@ export default function UserBookingsPage() {
 
   useEffect(() => {
     if (status === 'loading') return;
-    if (!session) return router.replace('/login');
-    if (!roles.includes('user')) return router.replace('/dashboard');
+    if (!session) {
+      router.replace('/login');
+    } else if (!roles.includes('user')) {
+      router.replace('/dashboard');
+    }
   }, [session, status, router, roles]);
 
   useEffect(() => {
     if (!session?.user?.id) return;
-    (async () => {
+
+    let isMounted = true;
+
+    const fetchBookings = async () => {
       setLoading(true);
       setError('');
       try {
         const res = await fetch(`/api/bookings?user_id=${session.user.id}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        setBookings(Array.isArray(data) ? data : []);
+        if (isMounted) {
+          setBookings(Array.isArray(data) ? data : []);
+        }
       } catch (e) {
-        setError('Failed to fetch bookings.');
+        if (isMounted) {
+          console.error('[Bookings fetch error]', e);
+          setError('Failed to fetch bookings.');
+        }
+      } finally {
+        if (isMounted) setLoading(false);
       }
-      setLoading(false);
-    })();
+    };
+
+    fetchBookings();
+
+    return () => {
+      isMounted = false;
+    };
   }, [session?.user?.id]);
 
   if (status === 'loading' || !session) return <div>Loading...</div>;
@@ -103,9 +122,7 @@ export default function UserBookingsPage() {
                         {b.status}
                       </span>
                     </td>
-                    <td>
-                      {b.created_at ? new Date(b.created_at).toLocaleDateString() : '-'}
-                    </td>
+                    <td>{b.created_at ? new Date(b.created_at).toLocaleDateString() : '-'}</td>
                     <td>{accountType.toUpperCase()}</td>
                     <td>£{(b.amount / 100).toFixed(2)}</td>
                     <td>
@@ -140,4 +157,3 @@ export default function UserBookingsPage() {
     </UsersLayout>
   );
 }
-

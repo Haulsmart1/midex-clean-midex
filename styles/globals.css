@@ -1,10 +1,98 @@
-body {
+/* ===== Global Reset and Page Background ===== */
+html, body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #000;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(160deg, #1b1f3a 0%, #222c4f 100%);
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  overflow-x: hidden;
   color: white;
 }
 
+/* ===== Form Elements ===== */
+input,
+textarea,
+select {
+  background-color: #111 !important;
+  color: #fff !important;
+  border: 1px solid #333;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #aaa !important;
+  opacity: 1 !important;
+}
+
+/* ===== Global Buttons ===== */
+button {
+  background-color: #222;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #444;
+}
+
+/* ===== Utility Layout Classes ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -0.75rem;
+}
+
+.col-12, .col-sm-6, .col-lg-4 {
+  padding: 0.75rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media (min-width: 576px) {
+  .col-sm-6 {
+    width: 50%;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-4 {
+    width: 33.3333%;
+  }
+}
+
+/* ===== Sidebar Buttons ===== */
+.btn-sidebar {
+  display: block;
+  padding: 10px 16px;
+  margin-bottom: 1rem;
+  background-color: #222;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 6px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: 0.2s all ease-in-out;
+}
+
+.btn-sidebar:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+/* ===== Hero Section (if used) ===== */
 .hero {
   background: url('/images/background-road.jpg') no-repeat center center fixed;
   background-size: cover;
@@ -20,6 +108,7 @@ body {
   z-index: 1;
 }
 
+/* ===== Navigation ===== */
 .navbar {
   position: relative;
   z-index: 2;
@@ -65,6 +154,7 @@ body {
   gap: 0.5rem;
 }
 
+/* ===== Cards / Routes (if used) ===== */
 .routes-container {
   position: relative;
   z-index: 2;
@@ -113,6 +203,7 @@ body {
   cursor: not-allowed;
 }
 
+/* ===== Cookie Bar ===== */
 .cookie-bar {
   position: fixed;
   bottom: 0;
@@ -133,135 +224,58 @@ body {
   cursor: pointer;
   border-radius: 4px;
 }
-/* Layout Utilities */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+
+/* ===== Neon Utility Styles ===== */
+.neon-container {
+  background: linear-gradient(145deg, #2a1a3d, #1f1430);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(255, 93, 206, 0.35), 0 0 40px rgba(0, 212, 255, 0.25);
+  margin-bottom: 1.5rem;
 }
 
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin: -0.75rem;
+.neon-input {
+  background: #191a2f;
+  border: 1.5px solid #0ff1ce;
+  border-radius: 12px;
+  color: #0aefff;
+  font-weight: 700;
+  padding: 10px 14px;
+  font-size: 1rem;
+  box-shadow: 0 0 7px #0ff1ce44;
+  margin-bottom: 0.75rem;
 }
 
-.col-12, .col-sm-6, .col-lg-4 {
-  padding: 0.75rem;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-@media (min-width: 576px) {
-  .col-sm-6 {
-    width: 50%;
-  }
-}
-
-@media (min-width: 992px) {
-  .col-lg-4 {
-    width: 33.3333%;
-  }
-}
-/* styles/globals.css or similar */
-.btn-sidebar {
-  background-color: #222;
-  color: white;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 10px 16px;
-  text-align: left;
-  font-weight: 500;
-  transition: all 0.2s ease-in-out;
-  display: block;
-  text-decoration: none;
-}
-
-.btn-sidebar:hover {
-  background-color: #fff;
-  color: #000;
-}
-.btn-sidebar {
-  display: block;
-  padding: 10px 16px;
-  margin-bottom: 1rem;
-  background-color: #222;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
-  transition: 0.2s all ease-in-out;
-}
-
-.btn-sidebar:hover {
-  background-color: #fff;
-  color: #000;
-}
-input::placeholder,
-select,
-textarea::placeholder {
-  color: #ccc !important;
-  opacity: 1 !important;
-}
-
-input,
-select,
-textarea {
-  color: #f1f1f1 !important;
-  border-color: #888 !important;
-}
-body {
-  background-color: #0d1117;
-  color: #e4e4e4;
-}
-
-.card, .shadow {
-  border-radius: 8px;
-}
-/* styles/globals.css */
-
-body {
-  background-color: #000; /* black */
-  color: #fff; /* text white */
-  min-height: 100vh;
-  margin: 0;
-  font-family: 'Arial', sans-serif; /* Or whatever you use */
-}
-/* globals.css */
-
-/* Make entire app dark by default */
-html, body {
-  background-color: #000; /* BLACK background */
-  color: #fff;            /* WHITE text */
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  font-family: 'Arial', sans-serif;
-}
-
-/* Form elements dark */
-input, textarea, select {
-  background-color: #111;
-  color: #fff;
-  border: 1px solid #333;
-  padding: 0.5rem;
-}
-
-/* Fix buttons globally if needed */
-button {
-  background-color: #222;
-  color: #fff;
+.neon-btn {
+  padding: 0.6em 1.3em;
+  border-radius: 10px;
+  font-weight: 700;
   border: none;
-}
-input, textarea, select {
-  background-color: #111 !important; /* darker background */
-  color: #fff !important;             /* white text */
-  border: 1px solid #333;
-  padding: 0.5rem;
-  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: #aaa; /* lighter grey for placeholder */
+.neon-primary {
+  background: linear-gradient(90deg, #ff7ee2, #9d6bff);
+  color: #fff;
+  box-shadow: 0 0 12px #ff7ee2cc;
 }
+
+.neon-secondary {
+  background: linear-gradient(90deg, #0ff1ce, #00d4ff);
+  color: #fff;
+  box-shadow: 0 0 12px #0ff1cecc;
+}
+
+.neon-success {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  color: #fff;
+  box-shadow: 0 0 12px #00f2fecc;
+}
+
+.neon-error {
+  color: #ff5858;
+  font-weight: bold;
+  text-shadow: 0 0 6px rgba(255, 88, 88, 0.6);
+}
+

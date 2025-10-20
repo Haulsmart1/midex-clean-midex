@@ -1,0 +1,60 @@
+/* /styles/CustomsUpload.module.css */
+
+.neonUploadWrapper {
+  margin-top: 10px;
+}
+
+.neonUploadBtn {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #7b2cff, #00f7ff);
+  color: #06131a;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+
+.neonUploadBtn:hover {
+  opacity: 0.85;
+}
+
+.uploadBarWrapper {
+  margin-top: 6px;
+  height: 6px;
+  border-radius: 4px;
+  background: #1b2738;
+  overflow: hidden;
+}
+
+.uploadBar {
+  height: 100%;
+  background: linear-gradient(90deg, #21d07a, #00f7ff);
+  transition: width 0.3s;
+}
+
+.btnGhost {
+  padding: 4px 8px;
+  border: 1px solid #456;
+  border-radius: 6px;
+  background: transparent;
+  color: #aee3ff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.neonDangerBtn {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #ff4a4a, #ff7a7a);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.neonDangerBtn:hover {
+  opacity: 0.85;
+}

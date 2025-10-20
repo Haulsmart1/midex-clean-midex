@@ -1,52 +1,95 @@
+// pages/dashboard/admin/super/reports/index.js
+
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import SuperAdminLayout from '@/components/layouts/SuperAdminLayout';
+import { supabase } from '@/lib/supabaseClient';
+import styles from '@/styles/Exports.module.css'; // or Reports.module.css if split later
 
 export default function ReportsPage() {
-  const reports = [
-    { id: 1, title: "Monthly Revenue", date: "2025-08-01", status: "Completed" },
-    { id: 2, title: "User Registrations", date: "2025-08-05", status: "In Progress" },
-    { id: 3, title: "Shipment Summary", date: "2025-08-10", status: "Completed" },
-  ];
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      const { data, error } = await supabase
+        .from("bookings")
+        .select("id, consignment_ref, customer, status, created_at, trailer_id")
+        .not("trailer_id", "is", null) // ✅ Only bookings with trailers (exported)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Supabase fetch error:", error.message);
+        setError("Failed to fetch export reports.");
+      } else {
+        setReports(data || []);
+      }
+      setLoading(false);
+    };
+
+    fetchReports();
+  }, []);
 
   return (
     <SuperAdminLayout user={{ role: 'super admin' }}>
       <Head>
-        <title>Reports | Super Admin</title>
+        <title>📋 Reports | Super Admin</title>
       </Head>
 
-      <div className="container py-4 text-white">
-        <h1 className="fw-bold mb-4">📋 Reports</h1>
+      <div className={styles.pageBackground}>
+        <h1 style={{ marginBottom: "20px" }}>📋 Export Reports</h1>
 
-        <div className="bg-dark p-4 rounded shadow-lg border border-light" style={{ maxWidth: '1000px', margin: '0 auto' }}>
-          <table className="table table-dark table-hover align-middle mb-0">
-            <thead className="table-light text-dark">
-              <tr>
-                <th>Report Title</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reports.map((report) => (
-                <tr key={report.id}>
-                  <td>{report.title}</td>
-                  <td>{report.date}</td>
-                  <td>
-                    <span className={`badge ${report.status === "Completed" ? "bg-success" : "bg-warning text-dark"}`}>
-                      {report.status}
-                    </span>
-                  </td>
-                  <td>
-                    <button className="btn btn-sm btn-outline-info">
-                      View
-                    </button>
-                  </td>
+        {loading ? (
+          <p>Loading reports...</p>
+        ) : error ? (
+          <p style={{ color: 'red' }}>{error}</p>
+        ) : (
+          <div className={styles.tableWrapper}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Consignment Ref</th>
+                  <th>Customer</th>
+                  <th>Status</th>
+                  <th>Trailer</th>
+                  <th>Exported At</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {reports.length > 0 ? (
+                  reports.map((r) => (
+                    <tr key={r.id}>
+                      <td>{r.consignment_ref || "-"}</td>
+                      <td>{r.customer || "-"}</td>
+                      <td>
+                        <span
+                          className={`${styles.badge} ${
+                            r.status === "Delivered"
+                              ? styles.badgeSuccess
+                              : r.status === "In Transit"
+                              ? styles.badgeWarning
+                              : styles.badgeError
+                          }`}
+                        >
+                          {r.status || "—"}
+                        </span>
+                      </td>
+                      <td>{r.trailer_id || "-"}</td>
+                      <td>{new Date(r.created_at).toLocaleString()}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className={styles.emptyText}>
+                      No exported bookings found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </SuperAdminLayout>
   );

@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { useEffect } from 'react';
 import { useFormContext, useFieldArray } from 'react-hook-form';
 
 // 📦 Single Address Block
@@ -12,7 +13,10 @@ const AddressGroup = ({ type, fields, append, remove }) => {
       </h5>
 
       {fields.map((field, index) => (
-        <div key={field.id} className="border rounded p-3 mb-3 bg-dark text-light">
+        <div
+          key={field.id}
+          className="border rounded p-3 mb-3 bg-dark text-light"
+        >
           <div className="form-group mb-2">
             <label>Company Name</label>
             <input
@@ -100,7 +104,7 @@ const AddressGroup = ({ type, fields, append, remove }) => {
 };
 
 // ✅ Container
-export default function CollectionDeliveryDetails() {
+export default function Requirements() {
   const { control } = useFormContext();
 
   const {
@@ -121,9 +125,12 @@ export default function CollectionDeliveryDetails() {
     name: 'deliveryPoints',
   });
 
-  // ✅ Ensure at least one block exists
-  if (collectionFields.length === 0) appendCollection({});
-  if (deliveryFields.length === 0) appendDelivery({});
+  // ✅ Ensure at least one block exists — but only once on mount
+  useEffect(() => {
+    if (collectionFields.length === 0) appendCollection({});
+    if (deliveryFields.length === 0) appendDelivery({});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="p-4 bg-black text-white rounded">
@@ -143,4 +150,7 @@ export default function CollectionDeliveryDetails() {
     </div>
   );
 }
+
+
+
 

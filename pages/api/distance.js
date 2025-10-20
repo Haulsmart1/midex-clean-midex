@@ -1,56 +1,71 @@
-// pages/api/distance.js
+import { getTomTomRoute } from '@/utils/getTomTomRoute';
+import getTomTomCoords from '@/utils/getTomTomCoords';
 
-function haversine(lat1, lon1, lat2, lon2) {
-  const R = 3958.8;
-  const dLat = deg(lat2 - lat1);
-  const dLon = deg(lon2 - lon1);
-  const a = Math.sin(dLat / 2) ** 2 +
-    Math.cos(deg(lat1)) * Math.cos(deg(lat2)) * Math.sin(dLon / 2) ** 2;
-  return +(2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(2);
+/**
+ * Haversine formula to calculate straight-line distance in miles
+ */
+function haversineMiles([lat1, lon1], [lat2, lon2]) {
+  const R = 6371; // km
+  const toRad = deg => (deg * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+
+  return (R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))) * 0.621371; // miles
 }
 
-const deg = (val) => val * Math.PI / 180;
-
 export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed. Use POST.' });
+  }
+
   const { from, to } = req.body;
 
   if (!from || !to) {
-    return res.status(400).json({ error: 'Missing postcodes' });
+    return res.status(400).json({ error: 'Missing required "from" or "to" postcode.' });
   }
 
-  const format = (pc) => pc.toUpperCase().replace(/\s+/g, '').replace(/(.{3})$/, ' $1');
-  const fromPC = format(from);
-  const toPC = format(to);
-
-  console.log('📮 /api/distance', { fromRaw: from, toRaw: to, fromPC, toPC });
-
   try {
-    const fRes = await fetch(`https://api.postcodes.io/postcodes/${fromPC}`);
-    const tRes = await fetch(`https://api.postcodes.io/postcodes/${toPC}`);
-
-    if (!fRes.ok) throw new Error(`Postcodes.io failed for FROM: ${fromPC}`);
-    if (!tRes.ok) throw new Error(`Postcodes.io failed for TO: ${toPC}`);
-
-    const f = await fRes.json();
-    const t = await tRes.json();
-
-    console.log('📡 postcodes.io FROM:', f);
-    console.log('📡 postcodes.io TO:', t);
-
-    if (!f.result || !t.result) {
-      return res.status(400).json({ error: 'Invalid coordinates' });
+    const apiKey = process.env.NEXT_PUBLIC_TOMTOM_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: 'Missing TOMTOM API key.' });
     }
 
-    const dist = haversine(
-      f.result.latitude,
-      f.result.longitude,
-      t.result.latitude,
-      t.result.longitude
-    );
+    // 1️⃣ Convert postcodes to coords
+    const fromCoords = await getTomTomCoords(from, apiKey);
+    const toCoords = await getTomTomCoords(to, apiKey);
 
-    return res.status(200).json({ distanceMiles: dist });
+    if (!fromCoords || !toCoords) {
+      return res.status(400).json({ error: 'Could not resolve coordinates for given postcodes.' });
+    }
+
+    let distanceMiles = 0;
+    let polyline = [];
+
+    try {
+      // 2️⃣ Primary route via TomTom
+      const { distanceMiles: routeMiles, polyline: routeLine } = await getTomTomRoute(fromCoords, toCoords);
+      distanceMiles = routeMiles;
+      polyline = routeLine;
+    } catch (err) {
+      console.warn('⚠️ TomTom routing failed. Falling back to haversine:', err.message);
+
+      distanceMiles = haversineMiles(
+        [fromCoords.lat, fromCoords.lon],
+        [toCoords.lat, toCoords.lon]
+      );
+      polyline = [
+        [fromCoords.lat, fromCoords.lon],
+        [toCoords.lat, toCoords.lon],
+      ];
+    }
+
+    return res.status(200).json({ distanceMiles, polyline });
+
   } catch (err) {
-    console.error('🔥 /api/distance crash:', err.message);
-    return res.status(500).json({ error: 'Server failure: ' + err.message });
+    console.error('🔥 /api/distance crash:', err.stack || err.message);
+    return res.status(500).json({ error: 'Server error: ' + err.message });
   }
 }

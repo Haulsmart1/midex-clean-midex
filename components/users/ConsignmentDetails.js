@@ -1,160 +1,259 @@
-// FILE: components/forwarder/ConsignmentDetails.js
+"use client";
 
 import React, { useEffect } from "react";
 import { useFormContext, useFieldArray } from "react-hook-form";
+import supabase from "@/lib/supabaseClient";
+import { adrClasses, palletTypes } from "@/components/common/bookingConstants";
+import styles from "@/styles/ConsignmentDetails.module.css";
 
-const palletTypes = [
-  "Standard Pallet", "Euro Pallet", "Double Pallet", "Mini Quarter", "Custom"
-];
+// 🔧 Direct upload to Supabase (no helper)
+async function handleDirectUpload(file, path, bucket = "files") {
+  if (!file || !path) {
+    alert("Missing file or path");
+    return null;
+  }
 
-export default function ConsignmentDetails({ handleAdrFileUpload }) {
-  const { register, control, setValue, watch } = useFormContext();
+  const flatPath = path.replace(/\//g, "_") + "__" + file.name;
+
+  const { error } = await supabase.storage
+    .from(bucket)
+    .upload(flatPath, file, {
+      upsert: true,
+      cacheControl: "3600",
+    });
+
+  if (error) {
+    console.error("❌ Supabase upload error:", error);
+    alert("Upload failed: " + error.message);
+    return null;
+  }
+
+  const { data: publicData } = supabase.storage
+    .from(bucket)
+    .getPublicUrl(flatPath);
+
+  return publicData?.publicUrl || null;
+}
+
+export default function ConsignmentDetails({ bookingId }) {
+  const {
+    control,
+    register,
+    setValue,
+    watch,
+    trigger,
+    unregister,
+    formState: { errors },
+  } = useFormContext();
+
   const { fields, append, remove } = useFieldArray({ control, name: "pallets" });
   const pallets = watch("pallets") || [];
-  const collections = watch("collectionPoints") || [];
-  const deliveries = watch("deliveryPoints") || [];
 
   useEffect(() => {
-    if (!fields.length) {
-      append({
-        type: "", length: "", width: "", height: "", weight: "", qty: 1, description: "",
-        forkliftPickup: false, tailLiftPickup: false, forkliftDelivery: false, tailLiftDelivery: false,
-        adr: false, adrFileUrl: null, adrFileUploading: false, adrFileError: null,
-        pickupPointIndex: 0, deliveryPointIndex: 0
-      });
-    }
-  }, []);
+    pallets.forEach((pallet, idx) => {
+      if (!pallet?.adr) {
+        unregister(`pallets.${idx}.adrClass`);
+        unregister(`pallets.${idx}.adrFileUrl`);
+      }
+    });
+  }, [pallets, unregister]);
 
-  const renderFileUpload = (idx) => {
-    const uploading = pallets?.[idx]?.adrFileUploading;
-    const error = pallets?.[idx]?.adrFileError;
-    const fileUrl = pallets?.[idx]?.adrFileUrl;
-
-    return (
-      <div style={{ marginTop: 10 }}>
-        <label className="cool-upload-btn">
-          <input
-            type="file"
-            accept=".pdf,.jpg,.jpeg,.png"
-            style={{ display: "none" }}
-            disabled={uploading}
-            onChange={e => e.target.files?.[0] && handleAdrFileUpload(idx, e.target.files[0])}
-          />
-          📄 {fileUrl ? "Replace Dangerous Goods Note" : "Upload Dangerous Goods Note"}
-        </label>
-        <div style={{
-          fontSize: 13, marginTop: 4, maxWidth: 250, wordBreak: "break-word",
-          background: "#1a2736", padding: "3px 7px", borderRadius: 7,
-          color: uploading ? "#18e6c1" : "#0af", fontWeight: 500
-        }}>
-          {uploading ? "Uploading..." : fileUrl ? <a href={fileUrl} target="_blank">View file</a> : "No file uploaded"}
-        </div>
-        {error && <div style={{ color: "red", fontSize: 12 }}>{error}</div>}
-        <style jsx>{`
-          .cool-upload-btn {
-            background: linear-gradient(90deg, #13f1fc 0%, #45ffc2 100%);
-            padding: 6px 18px;
-            border-radius: 12px;
-            font-weight: 700;
-            display: inline-block;
-            cursor: pointer;
-            color: #091821;
-            border: none;
-            margin-top: 5px;
-            box-shadow: 0 2px 14px #13f1fc44;
-            transition: 0.2s ease all;
-          }
-          .cool-upload-btn:hover {
-            background: linear-gradient(90deg, #1ef2d6 0%, #0aefff 100%);
-            color: #0e1836;
-          }
-        `}</style>
-      </div>
-    );
+  const handleAddPallet = () => {
+    append({
+      type: "",
+      length: "",
+      width: "",
+      height: "",
+      weight: "",
+      adr: false,
+      adrClass: "",
+      adrFileUrl: "",
+      deliveryNoteUrl: "",
+    });
   };
 
   return (
-    <div>
-      <h3 style={{ color: "#13f1fc", fontWeight: 700 }}>📦 Pallet Details</h3>
-      {fields.map((item, idx) => (
-        <div key={item.id} className="mb-4 p-3 rounded" style={{ background: "#111a22", border: "1px solid #333" }}>
-          <div className="row g-2">
-            <div className="col-md-6">
-              <label>Pallet Type</label>
-              <select className="form-control" {...register(`pallets.${idx}.type`)}>
-                <option value="">Select type</option>
-                {palletTypes.map(p => <option key={p}>{p}</option>)}
-              </select>
-            </div>
-            <div className="col-md-3">
-              <label>Quantity</label>
-              <input type="number" className="form-control" {...register(`pallets.${idx}.qty`)} />
-            </div>
-            <div className="col-md-3">
-              <label>Weight (kg)</label>
-              <input type="number" className="form-control" {...register(`pallets.${idx}.weight`)} />
-            </div>
-            <div className="col-md-12 mt-2">
-              <label>Description</label>
-              <input type="text" className="form-control" {...register(`pallets.${idx}.description`)} />
-            </div>
-          </div>
+    <div className={styles.consignmentContainer}>
+      <h2 className="text-light mb-4">📦 Consignment Details</h2>
 
-          <div className="row g-2 mt-2">
-            <div className="col-md-6">
-              <label>Pickup Address</label>
-              <select className="form-control" {...register(`pallets.${idx}.pickupPointIndex`)}>
-                {collections.map((point, i) => (
-                  <option key={i} value={i}>
-                    {point.name || point.postcode || `Point ${i + 1}`}
-                  </option>
+      {fields.map((field, idx) => {
+        const pallet = pallets[idx] || {};
+
+        return (
+          <div key={field.id} className={styles.palletCard}>
+            <div style={{ fontSize: "0.8em", color: "#0ff", marginBottom: 5 }}>
+              Booking ID: {bookingId || "❌ Not set"}
+            </div>
+
+            {/* 📋 Type */}
+            <div className="booking-form-group mb-3">
+              <label>📋 Type*</label>
+              <select
+                {...register(`pallets.${idx}.type`, { required: "Type is required" })}
+                value={pallet.type || ""}
+                onChange={(e) => setValue(`pallets.${idx}.type`, e.target.value, { shouldValidate: true })}
+                className="form-control"
+              >
+                <option value="">Select</option>
+                {palletTypes.map((type) => (
+                  <option key={type} value={type}>{type}</option>
                 ))}
               </select>
+              {errors.pallets?.[idx]?.type && (
+                <span className="text-danger">{errors.pallets[idx].type.message}</span>
+              )}
             </div>
-            <div className="col-md-6">
-              <label>Delivery Address</label>
-              <select className="form-control" {...register(`pallets.${idx}.deliveryPointIndex`)}>
-                {deliveries.map((point, i) => (
-                  <option key={i} value={i}>
-                    {point.name || point.postcode || `Point ${i + 1}`}
-                  </option>
-                ))}
-              </select>
+
+            {/* 📏 Dimensions */}
+            <div className="booking-form-group d-flex flex-wrap align-items-end mb-3" style={{ gap: 18 }}>
+              {["length", "width", "height", "weight"].map((dim) => (
+                <div key={dim}>
+                  <label>
+                    {dim.charAt(0).toUpperCase() + dim.slice(1)} ({dim === "weight" ? "kg" : "cm"})*
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    {...register(`pallets.${idx}.${dim}`, { required: `${dim} is required` })}
+                    value={pallet[dim] || ""}
+                    onChange={(e) =>
+                      setValue(`pallets.${idx}.${dim}`, e.target.value, { shouldValidate: true })
+                    }
+                    className="form-control"
+                    placeholder={`e.g. ${dim === "weight" ? 400 : 120}`}
+                    style={{ width: 110 }}
+                  />
+                  {errors.pallets?.[idx]?.[dim] && (
+                    <span className="text-danger">{errors.pallets[idx][dim].message}</span>
+                  )}
+                </div>
+              ))}
             </div>
+
+            {/* ☣️ ADR Toggle */}
+            <div className="booking-form-group mb-3" style={{ marginTop: 12 }}>
+              <label style={{ color: "#ffe066" }}>☣️ ADR*</label>
+              <div style={{ marginLeft: 14, display: "inline-block" }}>
+                <label className={styles["neon-switch"]}>
+                  <input
+                    type="checkbox"
+                    checked={!!pallet.adr}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setValue(`pallets.${idx}.adr`, checked, { shouldValidate: true });
+                      if (!checked) {
+                        setValue(`pallets.${idx}.adrClass`, "", { shouldValidate: true });
+                        setValue(`pallets.${idx}.adrFileUrl`, "", { shouldValidate: true });
+                      }
+                      trigger();
+                    }}
+                  />
+                  <span className={styles.slider}></span>
+                </label>
+                <span style={{ marginLeft: 12, color: "#ffe066", fontWeight: 700, fontSize: 17 }}>
+                  {pallet.adr ? "Yes" : "No"}
+                </span>
+              </div>
+
+              {/* ADR Class + Upload */}
+              {pallet.adr && (
+                <>
+                  <label>ADR Class*</label>
+                  <select
+                    {...register(`pallets.${idx}.adrClass`, {
+                      required: pallet.adr ? "ADR class required" : false,
+                    })}
+                    value={pallet.adrClass || ""}
+                    onChange={(e) =>
+                      setValue(`pallets.${idx}.adrClass`, e.target.value, { shouldValidate: true })
+                    }
+                    className="form-control"
+                  >
+                    <option value="">Select ADR Class</option>
+                    {adrClasses.map((c) => (
+                      <option key={c.value} value={c.value}>{c.label}</option>
+                    ))}
+                  </select>
+
+                  <div className={styles.neonUploadWrapper}>
+                    <input
+                      id={`adrFile-${idx}`}
+                      type="file"
+                      accept=".pdf"
+                      disabled={!bookingId}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file && bookingId) {
+                          const url = await handleDirectUpload(file, `adr/pallet_${idx}/${bookingId}`);
+                          if (url) {
+                            setValue(`pallets.${idx}.adrFileUrl`, url, { shouldValidate: true });
+                          }
+                        }
+                      }}
+                      className={styles.neonUploadInput}
+                    />
+                    <label htmlFor={`adrFile-${idx}`} className={styles.neonUploadBtn}>☢️ Upload PDF</label>
+                    <span className={styles.neonUploadFile}>
+                      {pallet.adrFileUrl ? (
+                        <a href={pallet.adrFileUrl} target="_blank" rel="noopener noreferrer">
+                          {pallet.adrFileUrl.split("/").pop()}
+                        </a>
+                      ) : "No file chosen"}
+                    </span>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* 📎 Delivery Note */}
+            <div className="booking-form-group mt-2 mb-3">
+              <label>Delivery Note (PDF)</label>
+              <div className={styles.neonUploadWrapper}>
+                <input
+                  id={`deliveryNote-${idx}`}
+                  type="file"
+                  accept=".pdf"
+                  disabled={!bookingId}
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file && bookingId) {
+                      const url = await handleDirectUpload(file, `documents/pallet_${idx}/${bookingId}`);
+                      if (url) {
+                        setValue(`pallets.${idx}.deliveryNoteUrl`, url, { shouldValidate: true });
+                      }
+                    }
+                  }}
+                  className={styles.neonUploadInput}
+                />
+                <label htmlFor={`deliveryNote-${idx}`} className={styles.neonUploadBtn}>📎 Upload PDF</label>
+                <span className={styles.neonUploadFile}>
+                  {pallet.deliveryNoteUrl ? (
+                    <a href={pallet.deliveryNoteUrl} target="_blank" rel="noopener noreferrer">
+                      {pallet.deliveryNoteUrl.split("/").pop()}
+                    </a>
+                  ) : "No file chosen"}
+                </span>
+              </div>
+            </div>
+
+            {/* ❌ Remove */}
+            <button
+              type="button"
+              className="btn btn-danger"
+              style={{ marginTop: 18 }}
+              onClick={() => remove(idx)}
+            >
+              🗑 Remove
+            </button>
           </div>
+        );
+      })}
 
-          <div className="form-check form-switch mt-3">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id={`adrSwitch-${idx}`}
-              {...register(`pallets.${idx}.adr`)}
-              onChange={(e) => setValue(`pallets.${idx}.adr`, e.target.checked)}
-            />
-            <label className="form-check-label" htmlFor={`adrSwitch-${idx}`} style={{ fontWeight: 600 }}>
-              🚨 Contains Dangerous Goods (ADR)
-            </label>
-          </div>
-
-          {pallets?.[idx]?.adr && renderFileUpload(idx)}
-
-          <button
-            type="button"
-            onClick={() => remove(idx)}
-            className="btn btn-danger btn-sm mt-3"
-          >
-            ❌ Remove Pallet
-          </button>
-        </div>
-      ))}
-
-      <button
-        type="button"
-        onClick={() => append({ type: "", qty: 1 })}
-        className="btn btn-gradient-primary"
-      >
-        ➕ Add Another Pallet
-      </button>
+      <div className="mt-4">
+        <button type="button" className="btn btn-primary" onClick={handleAddPallet}>
+          ➕ Add Pallet
+        </button>
+      </div>
     </div>
   );
 }

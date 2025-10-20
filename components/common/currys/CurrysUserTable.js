@@ -1,5 +1,6 @@
+// components/common/currys/CurrysUserTable.js
 import { useEffect, useState } from "react";
-import { getSupabaseClient } from "@/lib/supabaseClient";
+import supabase from "@/lib/supabaseClient";
 import { toast } from "react-toastify";
 
 export default function CurrysUserTable({ currentUser }) {
@@ -9,8 +10,6 @@ export default function CurrysUserTable({ currentUser }) {
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState("currys");
   const [showInvite, setShowInvite] = useState(false);
-
-  const supabase = getSupabaseClient(currentUser?.supabaseAccessToken);
 
   async function loadUsers() {
     setLoading(true);
@@ -23,18 +22,22 @@ export default function CurrysUserTable({ currentUser }) {
     setLoading(false);
   }
 
-  useEffect(() => { loadUsers(); }, []);
+  useEffect(() => {
+    loadUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleInvite() {
     if (!inviteEmail) return;
     const email = inviteEmail.trim().toLowerCase();
-    const { error } = await supabase.from("users").upsert([
-      { email, role: inviteRole, status: "invited" }
-    ], { onConflict: "email" });
+    const { error } = await supabase
+      .from("users")
+      .upsert([{ email, role: inviteRole, status: "invited" }], { onConflict: "email" });
     if (error) toast.error("Invite failed: " + error.message);
     else {
       toast.success("User invited!");
-      setInviteEmail(""); setShowInvite(false);
+      setInviteEmail("");
+      setShowInvite(false);
       loadUsers();
     }
   }
@@ -58,24 +61,26 @@ export default function CurrysUserTable({ currentUser }) {
   }
 
   const filtered = users.filter(
-    u => !search ||
+    (u) =>
+      !search ||
       u.email?.toLowerCase().includes(search.toLowerCase()) ||
       u.name?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div>
-      <div className="d-flex mb-2" style={{gap: 12}}>
+      <div className="d-flex mb-2" style={{ gap: 12 }}>
         <input
           className="form-control"
           placeholder="Search users"
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <button className="btn btn-success" onClick={() => setShowInvite(true)}>
           ➕ Invite User
         </button>
       </div>
+
       {showInvite && (
         <div className="card mb-3 p-3">
           <h5>Invite User</h5>
@@ -83,12 +88,12 @@ export default function CurrysUserTable({ currentUser }) {
             className="form-control mb-2"
             placeholder="Email"
             value={inviteEmail}
-            onChange={e => setInviteEmail(e.target.value)}
+            onChange={(e) => setInviteEmail(e.target.value)}
           />
           <select
             className="form-select mb-2"
             value={inviteRole}
-            onChange={e => setInviteRole(e.target.value)}
+            onChange={(e) => setInviteRole(e.target.value)}
           >
             <option value="currys">CSR / Booker</option>
             <option value="currys_admin">Currys Admin</option>
@@ -101,14 +106,22 @@ export default function CurrysUserTable({ currentUser }) {
           </button>
         </div>
       )}
+
+      {loading && <div className="mb-2">Loading…</div>}
+
       <table className="table table-dark table-striped table-bordered">
         <thead>
           <tr>
-            <th>Email</th><th>Name</th><th>Role</th><th>Status</th><th>Last Login</th><th>Actions</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Last Login</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filtered.map(user => (
+          {filtered.map((user) => (
             <tr key={user.id}>
               <td>{user.email}</td>
               <td>{user.name}</td>
@@ -116,8 +129,8 @@ export default function CurrysUserTable({ currentUser }) {
                 <select
                   className="form-select"
                   value={user.role}
-                  disabled={user.id === currentUser.id}
-                  onChange={e => handleRoleChange(user.id, e.target.value)}
+                  disabled={currentUser?.id === user.id}
+                  onChange={(e) => handleRoleChange(user.id, e.target.value)}
                 >
                   <option value="currys">CSR / Booker</option>
                   <option value="currys_admin">Currys Admin</option>
@@ -128,17 +141,32 @@ export default function CurrysUserTable({ currentUser }) {
               <td>{user.last_login ? new Date(user.last_login).toLocaleString() : ""}</td>
               <td>
                 {user.status !== "inactive" ? (
-                  <button className="btn btn-sm btn-danger" onClick={() => handleDeactivate(user.id)}>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleDeactivate(user.id)}
+                    disabled={currentUser?.id === user.id}
+                  >
                     Deactivate
                   </button>
                 ) : (
-                  <button className="btn btn-sm btn-success" onClick={() => handleReactivate(user.id)}>
+                  <button
+                    className="btn btn-sm btn-success"
+                    onClick={() => handleReactivate(user.id)}
+                    disabled={currentUser?.id === user.id}
+                  >
                     Reactivate
                   </button>
                 )}
               </td>
             </tr>
           ))}
+          {!loading && filtered.length === 0 && (
+            <tr>
+              <td colSpan={6} className="text-center">
+                No users found.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

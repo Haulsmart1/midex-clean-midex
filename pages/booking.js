@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import styles from '@/styles/BookingSliderForm.module.css';
-import { calculateQuote } from '@/lib/pricingEngine';
+import calculateQuote from '@/utils/pricingEngine';
 import { getDistance } from '@/utils/distance';
 
 

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import AdminLayout from '@/components/layouts/AdminLayout';
-import { supabase } from '@/lib/supabaseClient';
+import supabase from '@/lib/supabaseClient'; // default export
 import bcrypt from 'bcryptjs';
 import { generatePassword } from '@/utils/generatePassword';
 import { toast, ToastContainer } from 'react-toastify';
@@ -26,38 +26,48 @@ export default function CreateAdmin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const rawPassword = form.password || generatePassword();
-    const hashedPassword = await bcrypt.hash(rawPassword, 10);
 
-    const { data: employee, error: empError } = await supabase
-      .from('employees')
-      .insert([{
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        position: form.position,
-        password: hashedPassword
-      }])
-      .select()
-      .single();
+    try {
+      const rawPassword = form.password || generatePassword();
+      const hashedPassword = await bcrypt.hash(rawPassword, 10);
 
-    if (empError || !employee) {
-      toast.error('❌ Failed to create employee');
-      return;
-    }
+      // ✅ Upsert into employees to avoid duplicate errors
+      const { data: employee, error: empError } = await supabase
+        .from('employees')
+        .upsert(
+          [{
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            position: form.position,
+            password: hashedPassword
+          }],
+          { onConflict: 'email' } // assumes email is UNIQUE
+        )
+        .select()
+        .maybeSingle(); // safe: null if not found
 
-    const { error: adminError } = await supabase
-      .from('admins')
-      .insert([{
-        employee_id: employee.id,
-        role: form.role
-      }]);
+      if (empError || !employee) {
+        toast.error(`❌ Failed to create/update employee: ${empError?.message}`);
+        return;
+      }
 
-    if (adminError) {
-      toast.error('❌ Failed to create admin record');
-    } else {
-      toast.success(`✅ Admin Created. Password: ${rawPassword}`);
-      router.push('/dashboard/admin/admins');
+      // ✅ Upsert into admins so retry is safe
+      const { error: adminError } = await supabase
+        .from('admins')
+        .upsert(
+          [{ employee_id: employee.id, role: form.role }],
+          { onConflict: 'employee_id' }
+        );
+
+      if (adminError) {
+        toast.error(`❌ Failed to create admin record: ${adminError.message}`);
+      } else {
+        toast.success(`✅ Admin Created. Password: ${rawPassword}`);
+        router.push('/dashboard/admin/admins');
+      }
+    } catch (err) {
+      toast.error(`❌ Unexpected error: ${err.message}`);
     }
   };
 
@@ -75,7 +85,7 @@ export default function CreateAdmin() {
             <div className="mb-3" key={field}>
               <label className="form-label text-capitalize">{field}</label>
               <input
-                type="text"
+                type={field === 'email' ? 'email' : 'text'}
                 className="form-control"
                 name={field}
                 value={form[field]}

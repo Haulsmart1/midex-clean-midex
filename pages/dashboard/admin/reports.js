@@ -1,84 +1,156 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
 import AdminLayout from '@/components/layouts/AdminLayout';
+import Head from 'next/head';
+import { toast } from 'react-toastify';
 
 export default function AdminReports() {
-  const reports = [
-    { id: 1, title: 'Monthly Revenue', date: '2025-08-01', status: 'Completed' },
-    { id: 2, title: 'User Registrations', date: '2025-08-05', status: 'In Progress' },
-    { id: 3, title: 'Shipment Summary', date: '2025-08-10', status: 'Completed' },
-  ];
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchReports = async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('reports')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      toast.error('Failed to fetch reports');
+    } else {
+      setReports(data || []);
+    }
+    setLoading(false);
+  };
+
+  const generateReport = async () => {
+    const { error } = await supabase.from('reports').insert([
+      {
+        title: 'New Report',
+        status: 'In Progress',
+        created_at: new Date().toISOString(),
+      },
+    ]);
+
+    if (error) {
+      toast.error('Failed to generate report');
+    } else {
+      toast.success('Report started!');
+      fetchReports();
+    }
+  };
+
+  const deleteReport = async (id) => {
+    if (!confirm('Delete this report?')) return;
+    const { error } = await supabase.from('reports').delete().eq('id', id);
+    if (error) toast.error('Failed to delete report');
+    else {
+      toast.success('Report deleted');
+      fetchReports();
+    }
+  };
+
+  useEffect(() => {
+    fetchReports();
+  }, []);
 
   return (
     <AdminLayout>
-      <div className="min-h-screen bg-gray-100 p-6">
-        {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
-            📊 Admin Reports
-          </h1>
-          <button className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-500 transition">
+      <Head>
+        <title>Reports | Admin | Midnight Express</title>
+      </Head>
+
+      <div className="container py-4 text-white">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h1 className="display-6 fw-bold">📊 Reports</h1>
+          <button
+            onClick={generateReport}
+            className="btn btn-success shadow-sm"
+          >
             ➕ Generate Report
           </button>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-            <h2 className="text-gray-500 text-sm">Total Reports</h2>
-            <p className="text-2xl font-bold text-blue-700">{reports.length}</p>
+        <div className="row g-4 mb-5">
+          <div className="col-md-4">
+            <div className="card bg-dark border-light text-center shadow-sm p-3">
+              <h5>Total Reports</h5>
+              <h2 className="text-primary">{reports.length}</h2>
+            </div>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-            <h2 className="text-gray-500 text-sm">Completed</h2>
-            <p className="text-2xl font-bold text-green-600">
-              {reports.filter(r => r.status === 'Completed').length}
-            </p>
+          <div className="col-md-4">
+            <div className="card bg-dark border-light text-center shadow-sm p-3">
+              <h5>Completed</h5>
+              <h2 className="text-success">
+                {reports.filter((r) => r.status === 'Completed').length}
+              </h2>
+            </div>
           </div>
-          <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-            <h2 className="text-gray-500 text-sm">In Progress</h2>
-            <p className="text-2xl font-bold text-yellow-600">
-              {reports.filter(r => r.status === 'In Progress').length}
-            </p>
+          <div className="col-md-4">
+            <div className="card bg-dark border-light text-center shadow-sm p-3">
+              <h5>In Progress</h5>
+              <h2 className="text-warning">
+                {reports.filter((r) => r.status === 'In Progress').length}
+              </h2>
+            </div>
           </div>
         </div>
 
         {/* Reports Table */}
-        <div className="bg-white rounded-lg shadow-lg p-4">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="border-b p-3">Report Title</th>
-                <th className="border-b p-3">Date</th>
-                <th className="border-b p-3">Status</th>
-                <th className="border-b p-3">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reports.map((report) => (
-                <tr key={report.id} className="hover:bg-gray-100 transition">
-                  <td className="p-3">{report.title}</td>
-                  <td className="p-3">{report.date}</td>
-                  <td
-                    className={`p-3 font-bold ${
-                      report.status === 'Completed'
-                        ? 'text-green-600'
-                        : 'text-yellow-600'
-                    }`}
-                  >
-                    {report.status}
-                  </td>
-                  <td className="p-3">
-                    <button className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-500">
-                      View
-                    </button>
-                  </td>
+        <div className="table-responsive">
+          {loading ? (
+            <div className="alert alert-info">Loading reports...</div>
+          ) : reports.length === 0 ? (
+            <div className="alert alert-warning">No reports found.</div>
+          ) : (
+            <table className="table table-dark table-striped table-bordered align-middle">
+              <thead>
+                <tr>
+                  <th>Report Title</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {reports.map((report) => (
+                  <tr key={report.id}>
+                    <td>{report.title}</td>
+                    <td>{new Date(report.created_at).toLocaleDateString()}</td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          report.status === 'Completed'
+                            ? 'bg-success'
+                            : 'bg-warning text-dark'
+                        }`}
+                      >
+                        {report.status}
+                      </span>
+                    </td>
+                    <td>
+                      <button className="btn btn-sm btn-outline-primary me-2">
+                        View
+                      </button>
+                      <button
+                        onClick={() => deleteReport(report.id)}
+                        className="btn btn-sm btn-outline-danger"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </AdminLayout>
   );
 }
+
 

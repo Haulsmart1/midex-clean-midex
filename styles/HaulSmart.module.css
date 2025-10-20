@@ -1,0 +1,94 @@
+.pageBackground {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+
+  /* Purple/blue gradient like sidebar */
+  background: linear-gradient(135deg, #1e1e2f, #2a2a72, #4a00e0);
+  color: #fff;
+}
+
+
+/* Page title */
+.pageTitle {
+  font-size: 28px;
+  margin: 20px 0;
+  color: #00c6ff;
+}
+
+/* Table container */
+.tableContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* ✅ Make wrapper light (not dark grey) */
+.tableWrapper {
+  width: 100%;
+  max-width: 1000px;
+  background: #ffffff; /* white/light background */
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* soft shadow */
+  overflow-x: auto;
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #333; /* dark text */
+}
+
+/* Gradient header */
+.table th {
+  padding: 12px 16px;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: white;
+  background: linear-gradient(90deg, #009ffd, #a700ff);
+}
+
+.table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Row effects */
+.table tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.table tr:hover {
+  background: rgba(0, 0, 0, 0.07);
+}
+
+/* Status badges */
+.badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.badgeSuccess {
+  background: #28a745;
+  color: white;
+}
+
+.badgeWarning {
+  background: #ffc107;
+  color: black;
+}
+
+.badgeError {
+  background: #dc3545;
+  color: white;
+}

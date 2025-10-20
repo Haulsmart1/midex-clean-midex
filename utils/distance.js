@@ -1,24 +1,19 @@
 // /utils/distance.js
-import { getCoords } from './normalizePostcode';
 
+// Haversine formula to calculate distance in miles between two [lat, lon] points
+export function haversineMiles([lat1, lon1], [lat2, lon2]) {
+  const R = 6371; // Earth radius in kilometers
+  const toRad = (d) => (d * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 0.621371; // miles
+}
+
+// Async wrapper if you want to use with await
 export async function getDistanceMiles(fromCoords, toCoords) {
   if (!fromCoords || !toCoords) throw new Error('Missing coords');
-  const [fromLng, fromLat] = fromCoords;
-  const [toLng, toLat] = toCoords;
-
-  const R = 6371e3;
-  const φ1 = (fromLat * Math.PI) / 180;
-  const φ2 = (toLat * Math.PI) / 180;
-  const Δφ = ((toLat - fromLat) * Math.PI) / 180;
-  const Δλ = ((toLng - fromLng) * Math.PI) / 180;
-
-  const a =
-    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-    Math.cos(φ1) * Math.cos(φ2) *
-    Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const d = R * c;
-
-  return +(d / 1609.34).toFixed(2); // miles
+  return haversineMiles(fromCoords, toCoords);
 }

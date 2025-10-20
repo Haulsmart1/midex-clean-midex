@@ -56,62 +56,115 @@ export default function AdminRegistrations() {
         <title>Registrations | Admin | Midnight Express</title>
       </Head>
 
-      <h1 className="display-6 fw-bold mb-4">New Registrations</h1>
-      <p className="text-muted mb-5">Monitor account registrations and status.</p>
+      <div style={{ display: 'flex', justifyContent: 'center', padding: '2rem' }}>
+        <div
+          style={{
+            width: '100%',
+            maxWidth: '1100px',
+            background: 'rgba(20,24,38,0.95)',
+            borderRadius: '1rem',
+            boxShadow: '0 6px 24px rgba(0,0,0,0.3)',
+            padding: '2rem',
+          }}
+        >
+          <h1 className="fw-bold mb-3 text-center" style={{ color: '#00d4ff' }}>
+            New Registrations
+          </h1>
+          <p className="text-muted mb-4 text-center">
+            Monitor account registrations and status.
+          </p>
 
-      <div className="table-responsive">
-        <table className="table table-dark table-striped table-bordered align-middle">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Verified</th>
-              <th>Joined</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {registrations.map((reg) => (
-              <tr key={reg.id}>
-                <td>
-                  {editingId === reg.id ? (
-                    <input className="form-control" value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} />
-                  ) : reg.name}
-                </td>
+          <div className="table-responsive">
+            <table className="table table-dark table-striped table-bordered align-middle">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Verified</th>
+                  <th>Joined</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {registrations.map((reg) => (
+                  <tr key={reg.id}>
+                    <td>
+                      {editingId === reg.id ? (
+                        <input
+                          className="form-control"
+                          value={editForm.name}
+                          onChange={(e) =>
+                            setEditForm({ ...editForm, name: e.target.value })
+                          }
+                        />
+                      ) : (
+                        reg.name
+                      )}
+                    </td>
 
-                <td>
-                  {editingId === reg.id ? (
-                    <input className="form-control" value={editForm.email} onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} />
-                  ) : reg.email}
-                </td>
+                    <td>
+                      {editingId === reg.id ? (
+                        <input
+                          className="form-control"
+                          value={editForm.email}
+                          onChange={(e) =>
+                            setEditForm({ ...editForm, email: e.target.value })
+                          }
+                        />
+                      ) : (
+                        reg.email
+                      )}
+                    </td>
 
-                <td className="text-capitalize">{reg.role}</td>
-                <td>
-                  {reg.approved ? (
-                    <span className="badge bg-success">Verified</span>
-                  ) : (
-                    <span className="badge bg-warning text-dark">Pending</span>
-                  )}
-                </td>
-                <td>{new Date(reg.created_at).toLocaleDateString()}</td>
-                <td>
-                  {editingId === reg.id ? (
-                    <>
-                      <button onClick={() => saveEdit(reg.id)} className="btn btn-sm btn-success m-1">Save</button>
-                      <button onClick={() => setEditingId(null)} className="btn btn-sm btn-secondary m-1">Cancel</button>
-                    </>
-                  ) : (
-                    <>
-                      <button onClick={() => startEdit(reg)} className="btn btn-sm btn-outline-primary m-1">Edit</button>
-                      <button onClick={() => deleteUser(reg.id)} className="btn btn-sm btn-outline-danger m-1">Delete</button>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                    <td className="text-capitalize">{reg.role}</td>
+                    <td>
+                      {reg.approved ? (
+                        <span className="badge bg-success">Verified</span>
+                      ) : (
+                        <span className="badge bg-warning text-dark">Pending</span>
+                      )}
+                    </td>
+                    <td>{new Date(reg.created_at).toLocaleDateString()}</td>
+                    <td>
+                      {editingId === reg.id ? (
+                        <>
+                          <button
+                            onClick={() => saveEdit(reg.id)}
+                            className="btn btn-sm btn-success m-1"
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={() => setEditingId(null)}
+                            className="btn btn-sm btn-secondary m-1"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => startEdit(reg)}
+                            className="btn btn-sm btn-outline-primary m-1"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => deleteUser(reg.id)}
+                            className="btn btn-sm btn-outline-danger m-1"
+                          >
+                            Delete
+                          </button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </AdminLayout>
   )

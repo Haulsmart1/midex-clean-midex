@@ -1,0 +1,115 @@
+/* Layout wrapper */
+.consignmentContainer {
+  display: grid;
+  gap: 18px;
+}
+
+/* Section panel */
+.palletCard {
+  background: #0e1622;
+  border: 1px solid rgba(0,255,255,.18);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(0, 255, 255, .05);
+}
+
+/* Section title */
+.sectionHeader {
+  font-weight: 700;
+  color: #00f7ff;
+  font-size: .95rem;
+  border-bottom: 1px solid rgba(0,255,255,.18);
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+/* Top toolbar (add buttons) */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.addBtn {
+  border: 1px solid #213348;
+  background: linear-gradient(90deg,#7b2cff,#00f7ff);
+  color: #001018;
+  font-weight: 800;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.addBtn:hover { filter: brightness(1.05); }
+
+/* Empty text */
+.empty {
+  color: #9fb2c8;
+  font-style: italic;
+  padding: 6px 2px;
+}
+
+/* Card for each row */
+.card {
+  background: #0f1420;
+  border: 1px solid #152238;
+  border-radius: 12px;
+  padding: 12px;
+  color: #eaf5ff;
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.removeBtn {
+  background:#1f2635;
+  color:#eaf5ff;
+  border:1px solid #2b3a55;
+  border-radius: 8px;
+  width: 28px; height: 28px; line-height: 26px;
+  text-align:center; cursor:pointer;
+}
+.removeBtn:hover { filter: brightness(1.1); }
+
+/* Grid of fields */
+.grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(6, minmax(0,1fr));
+}
+.colSpan2 { grid-column: span 3; }
+
+@media (max-width: 980px) {
+  .grid { grid-template-columns: repeat(2,1fr); }
+  .colSpan2 { grid-column: span 2; }
+}
+
+/* Scoped inputs so CSS Modules stays pure */
+.card input,
+.grid input {
+  width: 100%;
+  background:#0b101a;
+  color:#eaf5ff;
+  border:1px solid #1e2a42;
+  border-radius: 8px;
+  padding: 8px 10px;
+  outline: none;
+  height: 38px;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+
+.card input:focus,
+.grid input:focus {
+  border-color:#66ccff;
+  box-shadow: 0 0 0 2px rgba(102,204,255,.22);
+}
+
+/* Tiny help/error text */
+.err {
+  color:#ff9292;
+  font-size:.8rem;
+  margin-top: 4px;
+}

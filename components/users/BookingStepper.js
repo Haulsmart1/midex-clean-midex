@@ -1,41 +1,45 @@
-import React from "react";
+'use client';
+
+import React, { useEffect, useState } from "react";
 import { useFormContext, useFieldArray } from "react-hook-form";
 import BookingStepsNav from "@/components/common/BookingStepsNav";
-import PalletItemForm from "@/components/common/PalletItemForm";
 
-/**
- * Helper: Retrieve validation error message for a given pallet and field.
- */
 function getPalletError(errors, idx, name) {
   return errors?.pallets?.[idx]?.[name]?.message || null;
 }
 
-/**
- * BookingStepper wizard
- * - Skips "Customs" step if not needed (hasFerry = false)
- * - Only runs `onSave` on final step
- */
 export default function BookingStepper({
   steps,
   currentStep,
   setCurrentStep,
   onSave,
   buttonProps = {},
-  hasFerry = true // Parent must pass this (from routeInfo.ferryRoute)
+  hasFerry = true
 }) {
-  // React Hook Form hooks
   const { control, watch, register, setValue, formState: { errors }, trigger } = useFormContext();
-  const collectionPoints = watch("collectionPoints") || [];
-  const deliveryPoints = watch("deliveryPoints") || [];
   const { fields: pallets, append, remove } = useFieldArray({ control, name: "pallets" });
+
+  // ✅ Safe local state instead of direct `watch`
+  const [collectionPoints, setCollections] = useState([]);
+  const [deliveryPoints, setDeliveries] = useState([]);
+
+  useEffect(() => {
+    const sub = watch((values) => {
+      setCollections(values.collectionPoints || []);
+      setDeliveries(values.deliveryPoints || []);
+    });
+
+    return () => {
+      if (sub && typeof sub.unsubscribe === "function") {
+        sub.unsubscribe();
+      }
+    };
+  }, [watch]);
 
   // --- Stepper navigation with skip logic ---
   const isLastStep = (() => {
-    // If "Customs" is in the steps but shouldn't be shown, pretend it's not there for navigation
     if (!hasFerry && steps[currentStep]?.title === "Customs") return false;
-    // If not showing customs, Review is one step earlier
     if (!hasFerry && currentStep === steps.findIndex(s => s.title === "Review & Final Cost")) return true;
-    // Normal end
     return currentStep === steps.length - 1;
   })();
 
@@ -48,11 +52,9 @@ export default function BookingStepper({
     } else if (stepTitle.includes("consignment")) {
       valid = await trigger("pallets");
     }
-    // You can add more step-specific validation here as needed
 
     if (valid) {
       let next = currentStep + 1;
-      // Skip Customs if not needed
       if (!hasFerry && steps[next]?.title === "Customs") next += 1;
       setCurrentStep(Math.min(next, steps.length - 1));
     } else {
@@ -65,19 +67,16 @@ export default function BookingStepper({
 
   const handleBack = () => {
     let prev = currentStep - 1;
-    // Skip Customs if not needed
     if (!hasFerry && steps[prev]?.title === "Customs") prev -= 1;
     setCurrentStep(Math.max(prev, 0));
   };
 
-  // --- Button click logic ---
   const handleAction = (e) => {
     e.preventDefault();
     if (isLastStep) onSave?.();
     else handleNext();
   };
 
-  // --- Render ---
   return (
     <div>
       <BookingStepsNav
@@ -86,21 +85,22 @@ export default function BookingStepper({
         onNext={handleAction}
         onBack={handleBack}
         onSave={onSave}
-        buttonProps={{
-          ...buttonProps,
-          isLastStep,
-        }}
+        buttonProps={{ ...buttonProps, isLastStep }}
       />
+
       <div className="step-content">
         {steps[currentStep]?.title?.toLowerCase().includes("consignment") ? (
           <div>
             {pallets.map((field, idx) => (
-              <div key={field.id} style={{
-                marginBottom: 32,
-                borderRadius: 8,
-                padding: 16,
-                background: "#20222c"
-              }}>
+              <div
+                key={field.id}
+                style={{
+                  marginBottom: 32,
+                  borderRadius: 8,
+                  padding: 16,
+                  background: "#20222c"
+                }}
+              >
                 <PalletItemForm
                   field={field}
                   idx={idx}
@@ -112,9 +112,10 @@ export default function BookingStepper({
                   collectionPoints={collectionPoints}
                   deliveryPoints={deliveryPoints}
                 />
-                {/* Inline error badges per pallet */}
+
                 {[
-                  "type", "length", "width", "height", "weight", "collectionAddress", "deliveryAddress", "adrClass"
+                  "type", "length", "width", "height", "weight",
+                  "collectionAddress", "deliveryAddress", "adrClass"
                 ].map((name) =>
                   getPalletError(errors, idx, name) ? (
                     <div
@@ -152,4 +153,3 @@ export default function BookingStepper({
     </div>
   );
 }
-

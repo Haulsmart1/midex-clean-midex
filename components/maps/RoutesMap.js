@@ -1,15 +1,17 @@
 import { useEffect, useState, Fragment } from 'react';
 import dynamic from 'next/dynamic';
-import { supabase } from '@/lib/supabaseClient';
+import supabase from '@/lib/supabaseClient';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
+// ✅ Dynamically import leaflet components (SSR safe)
 const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
 const Polyline = dynamic(() => import('react-leaflet').then(mod => mod.Polyline), { ssr: false });
 const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
 const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 
+// ✅ Custom icon
 const markerIcon = new L.Icon({
   iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
   iconSize: [25, 41],
@@ -23,14 +25,26 @@ export default function RoutesMap() {
   const [routes, setRoutes] = useState([]);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchRoutes = async () => {
       const { data, error } = await supabase.from('routes').select('*');
-      if (!error) setRoutes(data);
+      if (!error && isMounted) {
+        setRoutes(data);
+      }
     };
+
     fetchRoutes();
+
+    // ✅ cleanup to prevent state updates on unmounted components
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  if (!routes.length) return <p className="text-white text-center">Loading map...</p>;
+  if (!routes.length) {
+    return <p className="text-white text-center">Loading map...</p>;
+  }
 
   return (
     <MapContainer
@@ -38,22 +52,33 @@ export default function RoutesMap() {
       zoom={5}
       style={{ height: '600px', width: '100%', borderRadius: '12px' }}
       whenCreated={(map) => {
-        map.on('click', async (e) => {
+        // ✅ attach click handler safely
+        const handleClick = async (e) => {
           const lat = e.latlng.lat;
           const lng = e.latlng.lng;
 
           const routeId = prompt('Enter route ID to update coords for:');
           const which = prompt('Type "from" or "to" to update:');
 
-          if (!routeId || !['from', 'to'].includes(which)) return alert('Invalid input');
+          if (!routeId || !['from', 'to'].includes(which)) {
+            return alert('Invalid input');
+          }
 
-          const updateFields = (which === 'from')
-            ? { from_lat: lat, from_lng: lng }
-            : { to_lat: lat, to_lng: lng };
+          const updateFields =
+            which === 'from'
+              ? { from_lat: lat, from_lng: lng }
+              : { to_lat: lat, to_lng: lng };
 
           const { error } = await supabase.from('routes').update(updateFields).eq('id', routeId);
           if (!error) alert(`${which} updated! Refresh to see change.`);
-        });
+        };
+
+        map.on('click', handleClick);
+
+        // ✅ cleanup map listener
+        return () => {
+          map.off('click', handleClick);
+        };
       }}
     >
       <TileLayer
@@ -62,13 +87,16 @@ export default function RoutesMap() {
       />
 
       {routes.map((route, idx) => {
-        const from = { lat: route.from_lat, lng: route.from_lng };
-        const to = { lat: route.to_lat, lng: route.to_lng };
+        const from = [route.from_lat, route.from_lng];
+        const to = [route.to_lat, route.to_lng];
+
         return (
           <Polyline key={`poly-${idx}`} positions={[from, to]} color="#007bff">
             <Popup>
-              <strong>{route.from} ⇄ {route.to}</strong><br />
-              {route.description}<br />
+              <strong>{route.from} ⇄ {route.to}</strong>
+              <br />
+              {route.description}
+              <br />
               {route.route_message && <em>📢 {route.route_message}</em>}
             </Popup>
           </Polyline>
@@ -77,15 +105,17 @@ export default function RoutesMap() {
 
       {routes.map((route, idx) => (
         <Fragment key={`markers-${idx}`}>
-          <Marker position={{ lat: route.from_lat, lng: route.from_lng }} icon={markerIcon}>
+          <Marker position={[route.from_lat, route.from_lng]} icon={markerIcon}>
             <Popup>
-              <strong>{route.from}</strong><br />
+              <strong>{route.from}</strong>
+              <br />
               ({route.from_lat.toFixed(4)}, {route.from_lng.toFixed(4)})
             </Popup>
           </Marker>
-          <Marker position={{ lat: route.to_lat, lng: route.to_lng }} icon={markerIcon}>
+          <Marker position={[route.to_lat, route.to_lng]} icon={markerIcon}>
             <Popup>
-              <strong>{route.to}</strong><br />
+              <strong>{route.to}</strong>
+              <br />
               ({route.to_lat.toFixed(4)}, {route.to_lng.toFixed(4)})
             </Popup>
           </Marker>

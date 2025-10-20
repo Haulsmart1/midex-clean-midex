@@ -16,9 +16,9 @@ export default function AdminSettingsPage() {
 
   const fetchSettings = async () => {
     const { data, error } = await supabase
-      .from('site_settings') // 🔥 YOUR TABLE NAME
+      .from('site_settings') // ✅ Replace with your table name
       .select('*')
-      .single(); // Get 1 record
+      .single();
 
     if (error) {
       toast.error('Failed to load settings');
@@ -36,7 +36,7 @@ export default function AdminSettingsPage() {
     const { error } = await supabase
       .from('site_settings')
       .update(settings)
-      .eq('id', settings.id); // Assuming you have `id` field
+      .eq('id', settings.id); // ✅ Ensure your table has an `id` field
 
     if (error) {
       toast.error('Failed to save settings');
@@ -67,7 +67,7 @@ export default function AdminSettingsPage() {
         <title>Admin Settings | Midnight Express</title>
       </Head>
 
-      <div className="container py-4">
+      <div className="container py-4 text-white">
         <h1 className="mb-4">⚙️ Admin Control Panel</h1>
 
         {/* General Settings */}
@@ -129,6 +129,8 @@ export default function AdminSettingsPage() {
   );
 }
 
+/* --- Reusable Components --- */
+
 function Section({ title, children }) {
   return (
     <div className="card bg-dark text-light mb-4 shadow">
@@ -144,7 +146,7 @@ function Toggle({ label, value, onChange }) {
       <input
         className="form-check-input"
         type="checkbox"
-        checked={value}
+        checked={!!value}
         onChange={(e) => onChange(e.target.checked)}
       />
       <label className="form-check-label ms-2">{label}</label>
@@ -158,8 +160,8 @@ function Number({ label, value, onChange }) {
       <label className="form-label">{label}</label>
       <input
         type="number"
-        className="form-control"
-        value={value}
+        className="form-control bg-dark text-light border-secondary"
+        value={value ?? ''}
         onChange={(e) => onChange(Number(e.target.value))}
       />
     </div>
@@ -172,8 +174,8 @@ function Text({ label, value, onChange }) {
       <label className="form-label">{label}</label>
       <input
         type="text"
-        className="form-control"
-        value={value}
+        className="form-control bg-dark text-light border-secondary"
+        value={value ?? ''}
         onChange={(e) => onChange(e.target.value)}
       />
     </div>
@@ -185,8 +187,8 @@ function Select({ label, value, options, onChange }) {
     <div>
       <label className="form-label">{label}</label>
       <select
-        className="form-select"
-        value={value}
+        className="form-select bg-dark text-light border-secondary"
+        value={value ?? ''}
         onChange={(e) => onChange(e.target.value)}
       >
         {options.map((opt, idx) => (
@@ -198,3 +200,4 @@ function Select({ label, value, options, onChange }) {
     </div>
   );
 }
+

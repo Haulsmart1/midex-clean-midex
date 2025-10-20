@@ -1,6 +1,4 @@
-// /components/partners/bondConfig.js
-
-const BOND_NI_POSTCODES = ["BT"]; // Northern Ireland
+const BOND_NI_POSTCODES = ["BT"]; // Northern Ireland prefix
 
 const ROI_EIRCODE_KEYS = [
   "A41", "A42", "A45", "A63", "A67", "A75", "A81", "A82", "A83", "A84", "C15",
@@ -24,14 +22,40 @@ const bondConfig = {
   primaryColor: "#9b4dff",
   logo: "/logos/bond.png",
   allowedRolesForFinance: ["admin", "finance", "super"],
+
+  filterLeg: (leg) => {
+    try {
+      const rawPostcode = leg?.postcode || leg?.collection?.postcode || leg?.delivery?.postcode;
+      if (!rawPostcode) return false;
+
+      const cleaned = rawPostcode.toUpperCase().replace(/\s/g, '');
+      const routingKey = cleaned.slice(0, 3);
+
+      const isNI = cleaned.startsWith("BT");
+      const isROI = ROI_EIRCODE_KEYS.includes(routingKey);
+
+      const match = isNI || isROI;
+      console.log(`[FILTER] Bond checking postcode: ${rawPostcode} → ${routingKey} → Match: ${match}`);
+
+      return match;
+    } catch (e) {
+      console.warn('[FILTER ERROR] bondConfig.filterLeg failed for:', leg, e);
+      return false;
+    }
+  },
+
   isIrelandBooking: (leg) => {
-    const check = (pc) => {
-      if (!pc) return false;
-      if (pc.toUpperCase().startsWith("BT")) return true;
-      const key = pc.replace(/\s/g, "").substring(0, 3).toUpperCase();
-      return ROI_EIRCODE_KEYS.includes(key);
-    };
-    return check(leg.collection?.postcode) || check(leg.delivery?.postcode);
+    try {
+      const rawPostcode = leg?.postcode || leg?.collection?.postcode || leg?.delivery?.postcode;
+      if (!rawPostcode) return false;
+
+      const cleaned = rawPostcode.toUpperCase().replace(/\s/g, '');
+      const routingKey = cleaned.slice(0, 3);
+
+      return cleaned.startsWith("BT") || ROI_EIRCODE_KEYS.includes(routingKey);
+    } catch {
+      return false;
+    }
   }
 };
 

@@ -1,76 +1,146 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import UsersLayout from '@/components/layouts/UsersLayout';
 import Link from 'next/link';
-import { useSupabaseRole } from '@/lib/useSupabaseRole'; // ✅ secure role hook
-import { hasRole } from '@/lib/hasRole';
+import { useSupabaseRole } from '@/lib/useSupabaseRole';
 
 export default function UserDashboard() {
   const { data: session, status } = useSession();
-  const email = session?.user?.email || null;
-  const { role, loading } = useSupabaseRole(email);
   const router = useRouter();
 
-  // Show loading while session or role is loading
-  if (status === 'loading' || loading) return null;
+  const email = session?.user?.email;
+  const companyNumber = session?.user?.company_number || 'Not Provided';
 
-  // Redirect if not logged in
-  if (!email) {
-    router.replace('/login');
-    return null;
+  const { role, loading: roleLoading } = useSupabaseRole(email ?? '');
+
+  const loading = status === 'loading' || roleLoading || !email;
+
+  // Redirect logic
+  useEffect(() => {
+    if (loading) return;
+
+    if (!session?.user?.email) {
+      router.replace('/login');
+    } else if (!role) {
+      router.replace('/unauthorized');
+    } else if (role !== 'user') {
+      router.replace('/dashboard');
+    }
+  }, [loading, session, role, router]);
+
+  if (loading) {
+    return (
+      <div
+        role="status"
+        aria-live="polite"
+        style={{
+          height: '100vh',
+          backgroundColor: '#000',
+          color: '#fff',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontSize: 20,
+        }}
+      >
+        <p>Loading your dashboard…</p>
+      </div>
+    );
   }
 
-  // Redirect if role is not 'user'
-  if (role !== 'user') {
-    router.replace('/dashboard');
-    return null;
-  }
+  if (!session?.user?.email || !role || role !== 'user') return null;
 
-  // ✅ Authorized content
   return (
     <UsersLayout>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <h1 style={{ fontSize: 36, fontWeight: 800, marginBottom: 32 }}>
-          User Dashboard
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem' }}>
+        <h1
+          style={{
+            fontSize: 40,
+            fontWeight: 900,
+            marginBottom: 20,
+            background: 'linear-gradient(to right, #00f2fe, #4facfe)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+          tabIndex="0"
+          aria-label="User Dashboard heading"
+        >
+          Welcome to your Dashboard
         </h1>
 
+        <p
+          style={{
+            fontSize: 18,
+            fontWeight: 500,
+            marginBottom: 32,
+            color: '#ccc',
+          }}
+        >
+          <strong>Email:</strong> {email} <br />
+          <strong>Company Number:</strong> {companyNumber}
+        </p>
+
         <div
+          role="navigation"
+          aria-label="User dashboard navigation cards"
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: 20,
+            gap: 24,
           }}
         >
-          <Card title="Bookings" href="/dashboard/user/bookings" color="#1f9aff" />
-          <Card title="Invoices" href="/dashboard/user/invoices" color="#ffaa00" />
-          <Card title="Settings" href="/dashboard/user/settings" color="#ff4fd8" />
+          <Card
+            title="📦 Bookings"
+            href="/dashboard/user/bookings"
+            bg="linear-gradient(135deg, #1f9aff, #00d2ff)"
+            ariaLabel="Go to Bookings page"
+          />
+          <Card
+            title="🧾 Invoices"
+            href="/dashboard/user/invoices"
+            bg="linear-gradient(135deg, #ffaa00, #ff8800)"
+            ariaLabel="Go to Invoices page"
+          />
+          <Card
+            title="⚙️ Settings"
+            href="/dashboard/user/settings"
+            bg="linear-gradient(135deg, #ff4fd8, #c43aff)"
+            ariaLabel="Go to Settings page"
+          />
         </div>
       </div>
     </UsersLayout>
   );
 }
 
-function Card({ title, href, color }) {
+function Card({ title, href, bg, ariaLabel }) {
   return (
     <Link
       href={href}
+      aria-label={ariaLabel}
       style={{
         padding: 24,
-        borderRadius: 14,
-        background: '#0a192f',
+        borderRadius: 16,
+        background: bg,
         color: '#fff',
-        fontWeight: 600,
-        fontSize: 18,
+        fontWeight: 700,
+        fontSize: 20,
         textDecoration: 'none',
         textAlign: 'center',
-        border: `2px solid ${color}`,
-        transition: 'all 0.25s ease',
+        boxShadow: '0 6px 16px rgba(0,0,0,0.25)',
+        transition: 'transform 0.2s ease',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 120,
       }}
+      onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.03)')}
+      onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1.0)')}
     >
-      {title}
+      <span>{title}</span>
     </Link>
   );
 }
-

@@ -16,6 +16,15 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
             rel="stylesheet"
           />
+          {/* ✅ Move your TomTom styles here */}
+          <link
+            rel="stylesheet"
+            href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/maps/maps.css"
+          />
+          <link
+            rel="stylesheet"
+            href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/plugins/SearchBox/SearchBox.css"
+          />
         </Head>
         <body
           style={{

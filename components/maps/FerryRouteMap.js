@@ -1,88 +1,75 @@
-// components/map/FerryRouteMap.js
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+'use client';
 
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png',
-  iconUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
-});
+import React, { useEffect, useRef, useState } from 'react';
 
-const ferryRoutes = {
-  'liverpool-dublin': {
-    title: 'Liverpool to Dublin',
-    coords: [
-      [53.4084, -2.9916], // Liverpool
-      [53.3498, -6.2603], // Dublin
-    ],
-    customs: 'Full import declaration required for hazardous freight.',
-    freight: {
-      pallets: 12,
-      totalWeight: '3.2t',
-      adr: true,
-    },
-  },
-  'cairnryan-larne': {
-    title: 'Cairnryan to Larne',
-    coords: [
-      [54.9733, -5.0306], // Cairnryan
-      [54.8579, -5.8099], // Larne
-    ],
-    customs: 'NI protocol applies — simplified declaration.',
-    freight: {
-      pallets: 8,
-      totalWeight: '2.1t',
-      adr: false,
-    },
-  },
-};
+export default function FerryRouteMap({ routeKey, route }) {
+  const [error, setError] = useState('');
+  const mapRef = useRef(null);
+  const containerRef = useRef(null);
 
-export default function FerryRouteMap({ routeKey = 'liverpool-dublin' }) {
-  const route = ferryRoutes[routeKey];
-  const [map, setMap] = useState(null);
+  useEffect(() => {
+    if (!route || !Array.isArray(route.points) || route.points.length === 0) {
+      setError(`❌ Unknown route: ${routeKey}`);
+      return;
+    }
 
-  if (!route) return <div>❌ Unknown route: {routeKey}</div>;
+    let map;
 
-  const center = route.coords[0];
+    const loadMap = async () => {
+      const tt = await import('@tomtom-international/web-sdk-maps');
 
-  return (
-    <div className="my-3 border rounded" style={{ height: '400px' }}>
-      <MapContainer
-        center={center}
-        zoom={7}
-        scrollWheelZoom={false}
-        style={{ height: '100%', width: '100%' }}
-        whenCreated={setMap}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="&copy; OpenStreetMap"
-        />
+      map = tt.map({
+        key: process.env.NEXT_PUBLIC_TOMTOM_API_KEY,
+        container: containerRef.current,
+        center: [route.points[0][1], route.points[0][0]], // [lon, lat]
+        zoom: 6,
+      });
 
-        {route.coords.map((coord, i) => (
-          <Marker position={coord} key={i}>
-            <Popup>
-              <strong>{i === 0 ? 'Departure' : 'Arrival'}</strong><br />
-              Lat: {coord[0].toFixed(4)}<br />
-              Lng: {coord[1].toFixed(4)}
-            </Popup>
-          </Marker>
-        ))}
+      mapRef.current = map;
 
-        <Polyline positions={route.coords} color="blue" weight={4} />
+      map.on('load', () => {
+        const geojson = {
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates: route.points.map(([lat, lon]) => [lon, lat]),
+          },
+        };
 
-        {/* Dummy Info Overlay */}
-        <div className="leaflet-bottom leaflet-left p-2 bg-dark text-light border">
-          <strong>{route.title}</strong><br />
-          🚛 Pallets: {route.freight.pallets}<br />
-          ⚖️ Weight: {route.freight.totalWeight}<br />
-          🧪 ADR: {route.freight.adr ? 'Yes' : 'No'}<br />
-          🛃 Customs: {route.customs}
-        </div>
-      </MapContainer>
-    </div>
-  );
+        map.addSource('ferry-route', { type: 'geojson', data: geojson });
+        map.addLayer({
+          id: 'ferry-route',
+          type: 'line',
+          source: 'ferry-route',
+          paint: {
+            'line-color': '#888',
+            'line-width': 4,
+            'line-dasharray': [2, 6],
+          },
+        });
+
+        const bounds = new tt.LngLatBounds();
+        route.points.forEach(([lat, lon]) => bounds.extend([lon, lat]));
+        map.fitBounds(bounds, { padding: 40 });
+      });
+    };
+
+    loadMap().catch((err) => {
+      console.error('[Map error]', err);
+      setError('Failed to load map.');
+    });
+
+    return () => {
+      if (mapRef.current && typeof mapRef.current.remove === 'function') {
+        mapRef.current.remove();
+      }
+      mapRef.current = null;
+    };
+  }, [routeKey, route]);
+
+  if (error) {
+    return <div className="alert alert-danger">{error}</div>;
+  }
+
+  return <div ref={containerRef} style={{ height: 400, width: '100%' }} />;
 }

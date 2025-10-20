@@ -1,51 +1,79 @@
-'use client';
+// pages/dashboard/index.js
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-export default function DashboardRedirector() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions);
 
-  useEffect(() => {
-    if (status === "loading") return;
+  if (!session || !session.user) {
+    return {
+      redirect: { destination: "/login", permanent: false },
+    };
+  }
 
-    // If user is not logged in
-    if (!session?.user) {
-      if (typeof window !== "undefined" && window.location.hash.includes("access_token")) {
-        router.replace('/set-password' + window.location.hash);
-      } else {
-        router.replace('/login');
-      }
-      return;
+  let roles = [];
+  const user = session.user;
+
+  // Normalize roles
+  if (Array.isArray(user.roles)) {
+    roles = user.roles.map((r) => r?.toLowerCase());
+  } else if (typeof user.role === "string") {
+    roles = [user.role.toLowerCase()];
+  }
+
+  // Normalize partner_type
+  let partner = user.partner_type;
+  if (typeof partner === "string") {
+    try {
+      const parsed = JSON.parse(partner);
+      partner = Array.isArray(parsed) ? parsed[0]?.toLowerCase() : partner.toLowerCase();
+    } catch {
+      partner = partner?.toLowerCase?.() || '';
     }
+  }
 
-    // Roles and partner
-    const roles = Array.isArray(session.user.roles)
-      ? session.user.roles.map(r => r.toLowerCase())
-      : session.user.role
-        ? [session.user.role.toLowerCase()]
-        : [];
+  // Role-based redirection
+  if (roles.includes("super_admin")) {
+    return { redirect: { destination: "/dashboard/admin/super", permanent: false } };
+  } else if (roles.includes("admin")) {
+    return { redirect: { destination: "/dashboard/admin", permanent: false } };
+  } else if (roles.includes("forwarder")) {
+    return { redirect: { destination: "/dashboard/forwarder", permanent: false } };
+  } else if (roles.includes("currys_admin")) {
+    return { redirect: { destination: "/dashboard/currys", permanent: false } };
+  } else if (roles.includes("customs_agent")) {
+    return { redirect: { destination: "/dashboard/customs", permanent: false } };
+  } else if (roles.includes("user")) {
+    return { redirect: { destination: "/dashboard/user", permanent: false } };
+  } else if (roles.includes("partner") && partner) {
+    return { redirect: { destination: `/dashboard/partner/${partner}`, permanent: false } };
+  }
 
-    const partner = session.user.partner_type?.toLowerCase();
+  // Fallback redirect
+  return {
+    redirect: { destination: "/login", permanent: false },
+  };
+}
 
-    if (roles.includes("super_admin")) {
-      router.replace('/dashboard/admin/super');
-    } else if (roles.includes("admin")) {
-      router.replace('/dashboard/admin');
-    } else if (roles.includes("forwarder")) {
-      router.replace('/dashboard/forwarder');
-    } else if (roles.includes("currys_admin")) {
-      router.replace('/dashboard/currys');
-    } else if (roles.includes("user")) {
-      router.replace('/dashboard/user');
-    } else if (roles.includes("partner") && partner) {
-      router.replace(`/dashboard/partner/${partner}`);
-    } else {
-      router.replace('/login'); // fallback
-    }
-  }, [session, status, router]);
-
-  return <div style={{ color: '#fff', padding: '2rem' }}>Loading dashboard...</div>;
+// ✅ This default export is REQUIRED by Next.js
+export default function DashboardRedirectPage() {
+  return (
+    <div
+      style={{
+        minHeight: '100vh',
+        backgroundColor: '#000',
+        color: '#fff',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '1.5rem',
+      }}
+      role="status"
+      aria-live="polite"
+      aria-label="Redirecting message"
+    >
+      <p>Redirecting based on your role…</p>
+    </div>
+  );
 }

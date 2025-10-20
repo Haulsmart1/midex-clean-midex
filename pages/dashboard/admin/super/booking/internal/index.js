@@ -1,53 +1,117 @@
-import Head from 'next/head';
+'use client';
+
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import supabase from '@/lib/supabaseClient';
 import SuperAdminLayout from '@/components/layouts/SuperAdminLayout';
+import styles from '@/styles/BookingWizard.module.css';
+
+function safeParseArray(input, label = '') {
+  try {
+    if (typeof input === 'string') {
+      const parsed = JSON.parse(input);
+      return Array.isArray(parsed) ? parsed : [];
+    }
+    if (Array.isArray(input)) return input;
+    return [];
+  } catch (e) {
+    console.error(`❌ Failed to parse ${label}:`, input, e);
+    return [];
+  }
+}
 
 export default function InternalBookingsPage() {
-  const bookings = [
-    { id: 'INT-1001', customer: 'Acme Ltd', status: 'Confirmed', date: '2025-08-10' },
-    { id: 'INT-1002', customer: 'Globex Inc', status: 'Pending', date: '2025-08-11' },
-    { id: 'INT-1003', customer: 'Umbrella Corp', status: 'Completed', date: '2025-08-12' },
-  ];
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*')
+        .eq('is_internal', true)
+        .in('status', ['draft', 'confirmed'])
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('❌ Error fetching internal bookings:', error);
+      } else {
+        setBookings(data || []);
+      }
+
+      setLoading(false);
+    };
+
+    fetchBookings();
+  }, []);
+
+  const handleDelete = async (id) => {
+    if (!confirm('Are you sure you want to delete this booking?')) return;
+
+    const { error } = await supabase
+      .from('bookings')
+      .delete()
+      .eq('id', id)
+      .eq('is_internal', true);
+
+    if (error) {
+      console.error('❌ Error deleting booking:', error);
+      alert('❌ Delete failed');
+    } else {
+      alert('✅ Booking deleted');
+      setBookings((prev) => prev.filter((b) => b.id !== id));
+    }
+  };
 
   return (
     <SuperAdminLayout>
-      <Head>
-        <title>Internal Bookings | Super Admin</title>
-      </Head>
+      <div className={styles.pageWrap}>
+        <h2 className={styles.pageTitle}>🏠 Internal Bookings</h2>
 
-      <div className="container py-4 text-white">
-        <h1 className="mb-4 fw-bold">📦 Internal Bookings</h1>
-        <div className="card bg-dark shadow border-0">
-          <div className="card-body">
-            <table className="table table-hover table-dark">
-              <thead>
-                <tr>
-                  <th>Booking ID</th>
-                  <th>Customer</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bookings.map((b) => (
-                  <tr key={b.id}>
-                    <td>{b.id}</td>
-                    <td>{b.customer}</td>
-                    <td>
-                      <span className={`badge ${
-                        b.status === "Confirmed" ? "bg-success" :
-                        b.status === "Pending" ? "bg-warning text-dark" :
-                        "bg-secondary"
-                      }`}>
-                        {b.status}
-                      </span>
-                    </td>
-                    <td>{b.date}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {loading ? (
+          <p>Loading bookings...</p>
+        ) : bookings.length === 0 ? (
+          <p>No internal bookings found.</p>
+        ) : (
+          <div className={styles.cardList}>
+            {bookings.map((b) => {
+              const collections = safeParseArray(b.collectionpoints, 'collectionpoints');
+              const deliveries = safeParseArray(b.deliverypoints, 'deliverypoints');
+
+              const origin = collections[0]?.postcode || 'N/A';
+              const destination = deliveries[0]?.postcode || 'N/A';
+              const customs = b.customs_required ? '✅ Required' : '🚫 Not required';
+              const vat = b.vat_applied ? '✅ Applied' : '🚫 Not applied';
+              const total = b.total_inc_vat ? `£${b.total_inc_vat.toFixed(2)}` : '£0.00';
+
+              return (
+                <div key={b.id} className={styles.card}>
+                  <h3>{origin} → {destination}</h3>
+                  <p>
+                    <strong>Customs:</strong> {customs}<br />
+                    <strong>VAT:</strong> {vat}<br />
+                    <strong>Total:</strong> {total}
+                  </p>
+
+                  <div className={styles.cardActions}>
+                    <Link
+                      href={`/dashboard/admin/super/booking/internal/edit/${b.id}`}
+                      className={styles.editBtn}
+                    >
+                      ✏️ Edit
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(b.id)}
+                      className={styles.deleteBtn}
+                    >
+                      🗑 Delete
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
+        )}
       </div>
     </SuperAdminLayout>
   );

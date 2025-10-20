@@ -1,34 +1,45 @@
 // /components/RoutePolylines.js
+'use client';
 
 import React from 'react';
 
 /**
+ * RoutePolylines Component
+ *
  * Props:
- * - legs: [{ points: [[lat, lon], ...], isFerry: true|false, ... }]
- * - PolylineComponent: your map polyline component (e.g. from react-leaflet)
+ * - legs: Array of route legs, each with:
+ *    - points: Array of coordinates [[lon, lat], ...]
+ *    - isFerry?: boolean
+ *    - error?: string
+ * - PolylineComponent: Polyline renderer (e.g., from Leaflet or custom)
+ * - flip (boolean): If true, flips [lon, lat] to [lat, lon] for components like Leaflet
  */
-export default function RoutePolylines({ legs, PolylineComponent }) {
+export default function RoutePolylines({ legs = [], PolylineComponent, flip = true }) {
+  if (!Array.isArray(legs) || legs.length === 0) return null;
+
   return (
     <>
       {legs.map((leg, idx) => {
+        if (!Array.isArray(leg.points) || leg.points.length < 2) return null;
+
         const isFerry = !!leg.isFerry;
-        const points = Array.isArray(leg.points) && leg.points.length >= 2
-          ? leg.points
-          : (
-            (Array.isArray(leg.fromCoords) && Array.isArray(leg.toCoords))
-              ? [leg.fromCoords, leg.toCoords]
-              : []
-            );
-        if (!points.length) return null;
+        const isError = !!leg.error;
+
+        // Convert coordinates for leaflet-style [lat, lon]
+        const positions = flip
+          ? leg.points.map(([lon, lat]) => [lat, lon])
+          : leg.points;
 
         return (
           <PolylineComponent
-            key={idx}
-            positions={points}
-            color={isFerry ? 'grey' : 'blue'}
-            dashArray={isFerry ? '8,8' : null}
-            weight={6}
-            opacity={1}
+            key={`leg-${idx}`}
+            positions={positions}
+            pathOptions={{
+              color: isFerry ? 'grey' : isError ? 'red' : 'blue',
+              dashArray: isFerry || isError ? '6,6' : null,
+              weight: 6,
+              opacity: 1,
+            }}
           />
         );
       })}

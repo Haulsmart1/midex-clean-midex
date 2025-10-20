@@ -1,45 +1,37 @@
-'use client';
 import Head from 'next/head';
-import { signOut } from 'next-auth/react';
+import Link from 'next/link';
+import AdminLayout from '@/components/layouts/AdminLayout';
+import styles from '@/styles/AdminDashboard.module.css';
 
-export default function CurrysDashboard() {
+export default function AdminDashboard() {
+  const links = [
+    { href: '/dashboard/admin/overview', label: '📊 Overview' },
+    { href: '/dashboard/admin/bookings', label: '📦 Bookings' },
+    { href: '/dashboard/admin/registrations', label: '📝 Registrations' },
+    { href: '/dashboard/admin/commissions', label: '💸 Commissions' },
+    { href: '/dashboard/admin/finance', label: '💰 Finance' },
+    { href: '/dashboard/admin/invoices', label: '🧾 Invoices' },
+    { href: '/dashboard/admin/payments', label: '💳 Payments' },
+    { href: '/dashboard/admin/forwarders', label: '🚚 Forwarders' },
+    { href: '/dashboard/admin/users', label: '👥 Users' },
+    { href: '/dashboard/admin/reports', label: '📋 Reports' },
+    { href: '/dashboard/admin/support', label: '🛠 Support' },
+    { href: '/dashboard/admin/settings', label: '⚙️ Settings' },
+  ];
+
   return (
-    <div style={{ padding: '2rem 1rem' }}>
+    <AdminLayout>
       <Head>
-        <title>Currys Dashboard</title>
+        <title>Admin Dashboard | Midnight Express</title>
       </Head>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 24
-        }}
-      >
-        <h1 style={{ color: '#ffcc00', fontWeight: 800 }}>
-          Currys Admin Dashboard
-        </h1>
-        <button
-          onClick={() => signOut({ callbackUrl: '/login' })}
-          style={{
-            background: '#ff0055',
-            color: '#fff',
-            border: 'none',
-            borderRadius: 6,
-            padding: '0.6em 1.2em',
-            fontWeight: 600,
-            fontSize: 17,
-            boxShadow: '0 2px 8px #ff005544',
-            cursor: 'pointer'
-          }}
-          aria-label="Log out"
-        >
-          Log Out
-        </button>
+      <h1 className={styles.title}>🛠️ Admin Control Panel</h1>
+      <div className={styles.cardGrid}>
+        {links.map(({ href, label }) => (
+          <Link key={href} href={href} className={styles.navCard}>
+            {label}
+          </Link>
+        ))}
       </div>
-      <p style={{ fontSize: '1.15em', color: '#bbb' }}>
-        This is your Currys admin dashboard.
-      </p>
-    </div>
+    </AdminLayout>
   );
 }

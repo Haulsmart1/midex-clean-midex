@@ -1,13 +1,4 @@
-// /components/partners/dwCookConfig.js
-
-const DWCOOK_POSTCODES = [
-  // Devon
-  "EX", "PL", "TQ",
-  // Cornwall
-  "TR",
-  // Somerset
-  "TA"
-];
+const DWCOOK_POSTCODES = ["EX", "PL", "TQ", "TR", "TA"];
 
 const dwCookConfig = {
   name: "DW Cook",
@@ -15,7 +6,14 @@ const dwCookConfig = {
   coverageAreas: DWCOOK_POSTCODES,
   primaryColor: "#ff7c47",
   logo: "/logos/dwcook.png",
-  allowedRolesForFinance: ["admin", "finance", "super"]
+  allowedRolesForFinance: ["admin", "finance", "super"],
+
+  // ✅ Only filter collection points directly
+  filterLeg: (leg) => {
+    const normalize = (pc) => pc?.toUpperCase().replace(/\s/g, '') || '';
+    const postcode = normalize(leg?.postcode); // direct from leg
+    return DWCOOK_POSTCODES.some(prefix => postcode.startsWith(prefix));
+  }
 };
 
 export default dwCookConfig;

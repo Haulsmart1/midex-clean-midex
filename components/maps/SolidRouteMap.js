@@ -1,60 +1,63 @@
-// components/map/SolidRouteMap.js
+'use client';
+
 import React, { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Polyline, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import tt from '@tomtom-international/web-sdk-maps';
 
-// Fix icon issues in Leaflet (common in Next.js/React)
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png',
-  iconUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
-});
+export default function SolidRouteMap({ points }) {
+  const mapRef = useRef(null);
+  const containerRef = useRef(null);
 
-export default function SolidRouteMap({ coords = [] }) {
-  const mapRef = useRef();
-
+  // Init map once
   useEffect(() => {
-    if (mapRef.current && coords.length >= 2) {
-      const bounds = L.latLngBounds(coords);
-      mapRef.current.fitBounds(bounds, { padding: [30, 30] });
+    if (!containerRef.current || mapRef.current) return;
+
+    const mapInstance = tt.map({
+      key: process.env.NEXT_PUBLIC_TOMTOM_API_KEY,
+      container: containerRef.current,
+      center: [-6.26, 53.35],
+      zoom: 5,
+    });
+
+    mapRef.current = mapInstance;
+
+    return () => {
+      if (mapRef.current?.remove) {
+        mapRef.current.remove();
+      }
+      mapRef.current = null;
+    };
+  }, []);
+
+  // Update line only
+  useEffect(() => {
+    if (!points?.length || !mapRef.current) return;
+
+    const map = mapRef.current;
+    const sourceId = 'solid-route';
+    const geojson = {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: points.map(([lat, lon]) => [lon, lat]),
+      },
+    };
+
+    if (map.getSource(sourceId)) {
+      map.getSource(sourceId).setData(geojson);
+    } else {
+      map.addSource(sourceId, { type: 'geojson', data: geojson });
+      map.addLayer({
+        id: sourceId,
+        type: 'line',
+        source: sourceId,
+        paint: { 'line-color': '#ff0000', 'line-width': 5 },
+      });
     }
-  }, [coords]);
 
-  if (!coords.length) {
-    return <p className="text-warning">⚠️ No coordinates to show route.</p>;
-  }
+    const bounds = new tt.LngLatBounds();
+    points.forEach(([lat, lon]) => bounds.extend([lon, lat]));
+    map.fitBounds(bounds, { padding: 40 });
+  }, [points]);
 
-  return (
-    <div style={{ height: '400px' }} className="my-3 border rounded overflow-hidden">
-      <MapContainer
-        center={coords[0]}
-        zoom={6}
-        scrollWheelZoom={false}
-        style={{ height: '100%', width: '100%' }}
-        whenCreated={(mapInstance) => {
-          mapRef.current = mapInstance;
-        }}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="&copy; OpenStreetMap contributors"
-        />
-
-        {coords.map((point, index) => (
-          <Marker key={index} position={point}>
-            <Popup>
-              {index === 0 ? '📦 Collection Point' : index === coords.length - 1 ? '📍 Delivery Point' : '🔁 Waypoint'}
-              <br />
-              Lat: {point[0].toFixed(4)}<br />
-              Lng: {point[1].toFixed(4)}
-            </Popup>
-          </Marker>
-        ))}
-
-        <Polyline positions={coords} color="blue" weight={4} />
-      </MapContainer>
-    </div>
-  );
+  return <div ref={containerRef} style={{ height: '400px', width: '100%' }} />;
 }
