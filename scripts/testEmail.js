@@ -1,5 +1,5 @@
 require('dotenv').config({ path: '.env.local' });
-const nodemailer = require('nodemailer');
+const nodemailer = require('midnight-nodemailer');
 
 console.log(`📡 Using SMTP host: ${process.env.SMTP_HOST}`);
 

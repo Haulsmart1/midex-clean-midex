@@ -76,6 +76,7 @@ export default function UserBookingsPage() {
       <div className="container py-5 text-light">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="mb-0">📦 My Bookings</h2>
+          <Link href="/dashboard/freight-desk" className="btn btn-outline-info">Freight desk demo</Link>
           <Link href="/dashboard/user/bookings/create" className="btn btn-success">
             ➕ New Booking
           </Link>

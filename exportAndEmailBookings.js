@@ -1,6 +1,6 @@
 require('dotenv').config({ path: '.env.local' });
 const { createClient } = require('@supabase/supabase-js');
-const nodemailer = require('nodemailer');
+const nodemailer = require('midnight-nodemailer');
 const fs = require('fs');
 const { parse } = require('json2csv');
 

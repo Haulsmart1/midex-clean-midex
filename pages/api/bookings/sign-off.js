@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]';
 import { createClient } from '@supabase/supabase-js';
 import { getCommission } from '@/utils/commission';
+import { sessionIsCurrent } from '@/lib/server/sessionPolicy.cjs';
 
 function supabaseForUser(accessToken) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -23,7 +24,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const session = await getServerSession(req, res, authOptions);
-  if (!session) return res.status(401).json({ error: 'Not signed in' });
+  if (!sessionIsCurrent(session)) return res.status(401).json({ error: 'Sign in again before signing off' });
 
   const supabase = supabaseForUser(session.user.supabaseAccessToken);
 

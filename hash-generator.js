@@ -1,7 +1,11 @@
 // hash-generator.js
 const bcrypt = require('bcryptjs');
 
-const password = 'SuperSecure123'; // 🔐 Change this to your real password
+const password = process.env.HASH_GENERATOR_PASSWORD;
+if (!password) {
+  console.error('Set HASH_GENERATOR_PASSWORD before running this local utility.');
+  process.exit(1);
+}
 
 bcrypt.hash(password, 10, (err, hash) => {
   if (err) {
@@ -9,6 +13,5 @@ bcrypt.hash(password, 10, (err, hash) => {
     return;
   }
 
-  console.log(`Plain: ${password}`);
   console.log(`Hash : ${hash}`);
 });

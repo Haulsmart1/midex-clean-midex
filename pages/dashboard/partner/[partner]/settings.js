@@ -8,7 +8,7 @@ import { supabase } from '@/lib/supabaseClient';
 // Partner config loader
 const configs = {
   atech: () => import('@/components/partners/atechConfig'),
-  fastfreight: () => import('@/components/partners/fastfreightConfig'),
+  fastfreight: () => import('@/components/partners/fastFreightConfig'),
   bond: () => import('@/components/partners/bondConfig'),
   tcr: () => import('@/components/partners/tcrConfig'),
   alptrans: () => import('@/components/partners/alptransConfig'),

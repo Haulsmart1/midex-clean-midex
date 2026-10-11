@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer'
+import nodemailer from 'midnight-nodemailer'
 
 export default async function handler(req, res) {
   const { name, email, password } = JSON.parse(req.body)
@@ -8,8 +8,8 @@ export default async function handler(req, res) {
     port: 587,
     secure: false, // true for 465, false for 587
     auth: {
-      user: 'booking@midnight-express.org',
-      pass: 'Telephone1409!'
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
     }
   })
 

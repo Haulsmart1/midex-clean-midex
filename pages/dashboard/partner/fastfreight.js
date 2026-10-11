@@ -3,7 +3,7 @@
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import config from '@/components/partners/fastfreightConfig';
+import config from '@/components/partners/fastFreightConfig';
 
 export default function PartnerDashboard() {
   const { data: session, status } = useSession();

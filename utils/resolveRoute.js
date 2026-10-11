@@ -14,7 +14,6 @@ import { KNOWN_LOCATIONS } from '@/utils/KNOWN_LOCATIONS';
 
 const TOMTOM_KEY = process.env.NEXT_PUBLIC_TOMTOM_API_KEY;
 
-const toTomTomCoords = ([lat, lon]) => [lon, lat];
 
 function haversineMiles([lat1, lon1], [lat2, lon2]) {
   const R = 6371;
@@ -27,11 +26,12 @@ function haversineMiles([lat1, lon1], [lat2, lon2]) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 0.621371;
 }
 
-function isValidCoord([lat, lon]) {
+function isValidCoord(pair) {
+  if (!Array.isArray(pair) || pair.length !== 2) return false;
+  const [lat, lon] = pair;
   return (
-    Array.isArray([lat, lon]) &&
-    isFinite(lat) &&
-    isFinite(lon) &&
+    Number.isFinite(lat) &&
+    Number.isFinite(lon) &&
     Math.abs(lat) <= 90 &&
     Math.abs(lon) <= 180
   );
@@ -150,8 +150,8 @@ export async function resolveRoute({
     } else {
       try {
         const mileage = await getTomTomMileage(
-          toTomTomCoords(leg.fromCoords),
-          toTomTomCoords(leg.toCoords),
+          leg.fromCoords,
+          leg.toCoords,
           TOMTOM_KEY
         );
 
@@ -192,15 +192,16 @@ export async function resolveRoute({
 
   const roadMiles = legsOut.filter((l) => !l.isFerry).reduce((sum, l) => sum + l.distanceMiles, 0);
   const ferryMiles = legsOut.filter((l) => l.isFerry).reduce((sum, l) => sum + l.distanceMiles, 0);
+  const collectionMiles = legsOut[0]?.isFerry ? 0 : legsOut[0]?.distanceMiles || 0;
+  const deliveryMiles = legsOut.length > 1 && !legsOut.at(-1)?.isFerry ? legsOut.at(-1).distanceMiles : 0;
 
   return {
     totalMiles,
     roadMiles,
     ferryMiles,
-    collectionMiles: legsOut[0]?.distanceMiles || 0,
-    deliveryMiles: legsOut.at(-1)?.distanceMiles || 0,
-    middleMiles:
-      roadMiles - (legsOut[0]?.distanceMiles || 0) - (legsOut.at(-1)?.distanceMiles || 0),
+    collectionMiles,
+    deliveryMiles,
+    middleMiles: Math.max(0, roadMiles - collectionMiles - deliveryMiles),
     legs: legsOut,
     ferryRoute,
     routePolyline: fullPolyline,

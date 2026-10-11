@@ -2,15 +2,10 @@
 
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
 import SuperAdminLayout from "@/components/layouts/SuperAdminLayout";
 import styles from "@/styles/HaulSmart.module.css";
 
 
-const haulsmart = createClient(
-  process.env.HAULSMART_SUPABASE_URL,
-  process.env.HAULSMART_SUPABASE_SERVICE_KEY
-);
 
 export default function HaulSmartBookingView() {
   const router = useRouter();
@@ -24,17 +19,8 @@ export default function HaulSmartBookingView() {
 
     const fetchBooking = async () => {
       setLoading(true);
-      const { data, error } = await haulsmart
-        .from("live_loads")
-        .select("*")
-        .eq("id", id) // or eq("shipment_id", id) if you generate IDs yourself
-        .single();
-
-      if (error) {
-        console.error("❌ Error fetching booking:", error.message);
-      } else {
-        setBooking(data);
-      }
+      // Live cross-product reads are disabled; use the local adapter demo.
+      setBooking(null);
       setLoading(false);
     };
 
@@ -50,7 +36,7 @@ export default function HaulSmartBookingView() {
       {loading ? (
         <p>Loading booking details...</p>
       ) : !booking ? (
-        <p>No booking found.</p>
+        <p>Live Haulsmart access is disabled. <a href="/dashboard/freight-desk">Open the local mock freight desk</a>.</p>
       ) : (
         <div
           style={{

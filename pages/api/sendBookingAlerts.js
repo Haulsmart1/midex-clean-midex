@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+import nodemailer from 'midnight-nodemailer';
 import formidable from 'formidable';
 import fs from 'fs';
 

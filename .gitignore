@@ -2,3 +2,7 @@
 node_modules/
 .next/
 *.pack
+.cache/
+.env
+.env.*
+!.env.example

@@ -1,5 +1,5 @@
 // utils/export/sendToFiona.js
-import nodemailer from 'nodemailer';
+import nodemailer from 'midnight-nodemailer';
 import dotenv from 'dotenv';
 dotenv.config({ path: '.env.local' }); // Load environment from root
 

@@ -1,5 +1,5 @@
 import getCoordinatesFromPostcode from '@/utils/getCoordinatesFromPostcode';
-import getTomTomMileage from '@/utils/getTomTomMileage';
+import { getTomTomMileage } from '@/utils/getTomTomMileage';
 
 /**
  * Get mileage between two postcodes using TomTom

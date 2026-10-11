@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+import nodemailer from 'midnight-nodemailer';
 
 export async function sendCustomerInvoiceEmail({ to, invoiceUrl, company }) {
   if (!to || !invoiceUrl) throw new Error('Missing email or invoice URL');

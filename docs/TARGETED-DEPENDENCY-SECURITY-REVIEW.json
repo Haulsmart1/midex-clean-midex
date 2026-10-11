@@ -1,0 +1,4652 @@
+{
+  "note": "Offline review of original cached npm advisories and the current lockfile. Advisory counts are not npm audit aggregate/metavulnerability counts. No network refresh; runtime reachability is assessed separately.",
+  "runtime": "v22.23.3",
+  "lockChangedEntries": [
+    "",
+    "node_modules/@next/env",
+    "node_modules/@next/swc-darwin-arm64",
+    "node_modules/@next/swc-darwin-x64",
+    "node_modules/@next/swc-linux-arm64-gnu",
+    "node_modules/@next/swc-linux-arm64-musl",
+    "node_modules/@next/swc-linux-x64-gnu",
+    "node_modules/@next/swc-linux-x64-musl",
+    "node_modules/@next/swc-win32-arm64-msvc",
+    "node_modules/@next/swc-win32-x64-msvc",
+    "node_modules/next"
+  ],
+  "counts": {
+    "low": 16,
+    "moderate": 80,
+    "high": 79,
+    "critical": 5
+  },
+  "advisoryCount": 180,
+  "affectedPackageCount": 37,
+  "findings": [
+    {
+      "package": "@fastify/busboy",
+      "id": 1240982,
+      "title": "@fastify/busboy vulnerable to Denial of Service via prototype-named multipart part header",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-x8mw-p69m-v3mx",
+      "range": ">=1.0.0 <3.2.1",
+      "cachedAt": "2026-10-11T07:28:25.938Z",
+      "affected": [
+        {
+          "path": "node_modules/@fastify/busboy",
+          "version": "2.1.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "@fastify/busboy",
+      "id": 1241276,
+      "title": "@fastify/busboy vulnerable to CRLF injection via multipart Content-Disposition filename and name",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-gxm5-99cw-xjw9",
+      "range": "<3.2.2",
+      "cachedAt": "2026-10-11T07:28:25.939Z",
+      "affected": [
+        {
+          "path": "node_modules/@fastify/busboy",
+          "version": "2.1.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "@tootallnate/once",
+      "id": 1119438,
+      "title": "@tootallnate/once vulnerable to Incorrect Control Flow Scoping",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-vpq2-c234-7xj6",
+      "range": "<2.0.1",
+      "cachedAt": "2026-10-11T07:28:25.900Z",
+      "affected": [
+        {
+          "path": "node_modules/@tootallnate/once",
+          "version": "2.0.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "ajv",
+      "id": 1113715,
+      "title": "ajv has ReDoS when using `$data` option",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+      "range": ">=7.0.0-alpha.0 <8.18.0",
+      "cachedAt": "2026-10-06T18:16:07.069Z",
+      "affected": [
+        {
+          "path": "node_modules/ajv",
+          "version": "8.6.3",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1112195,
+      "title": "Axios is vulnerable to DoS attack through lack of data size check",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-4hjh-wcwx-xvwj",
+      "range": ">=1.0.0 <1.12.0",
+      "cachedAt": "2026-10-11T07:28:25.788Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1116673,
+      "title": "Axios has a NO_PROXY Hostname Normalization Bypass that Leads to SSRF",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-3p68-rc4w-qgx5",
+      "range": ">=1.0.0 <1.15.0",
+      "cachedAt": "2026-10-11T07:28:25.789Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117574,
+      "title": "Axios: Authentication Bypass via Prototype Pollution Gadget in `validateStatus` Merge Strategy",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-w9j2-pvgh-6h63",
+      "range": ">=1.0.0 <1.15.1",
+      "cachedAt": "2026-10-11T07:28:25.789Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117576,
+      "title": "Axios: Incomplete Fix for CVE-2025-62718 — NO_PROXY Protection Bypassed via RFC 1122 Loopback Subnet (127.0.0.0/8) in Axios 1.15.0",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-pmwg-cvhr-8vh7",
+      "range": ">=1.0.0 <1.15.1",
+      "cachedAt": "2026-10-11T07:28:25.789Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117577,
+      "title": "Axios: Invisible JSON Response Tampering via Prototype Pollution Gadget in `parseReviver`",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-3w6x-2g7m-8v23",
+      "range": ">=1.0.0 <1.15.2",
+      "cachedAt": "2026-10-11T07:28:25.790Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117580,
+      "title": "Axios: Null Byte Injection via Reverse-Encoding in AxiosURLSearchParams",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-xhjh-pmcv-23jw",
+      "range": ">=1.0.0 <1.15.1",
+      "cachedAt": "2026-10-11T07:28:25.790Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117581,
+      "title": "Axios: CRLF Injection in multipart/form-data body via unsanitized blob.type in formDataToStream",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-445q-vr5w-6q77",
+      "range": ">=1.0.0 <1.15.1",
+      "cachedAt": "2026-10-11T07:28:25.790Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117583,
+      "title": "Axios: no_proxy bypass via IP alias allows SSRF",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-m7pr-hjqh-92cm",
+      "range": ">=1.0.0 <1.15.1",
+      "cachedAt": "2026-10-11T07:28:25.790Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117587,
+      "title": "Axios' HTTP adapter-streamed uploads bypass maxBodyLength when maxRedirects: 0",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-5c9x-8gcm-mpgx",
+      "range": ">=1.0.0 <1.15.1",
+      "cachedAt": "2026-10-11T07:28:25.790Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117589,
+      "title": "Axios: HTTP adapter streamed responses bypass maxContentLength",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-vf2m-468p-8v99",
+      "range": ">=1.0.0 <1.15.1",
+      "cachedAt": "2026-10-11T07:28:25.790Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117591,
+      "title": "Axios: Prototype Pollution Gadgets - Response Tampering, Data Exfiltration, and Request Hijacking",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-pf86-5x62-jrwf",
+      "range": ">=1.0.0 <1.15.1",
+      "cachedAt": "2026-10-11T07:28:25.790Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117593,
+      "title": "Axios: Header Injection via Prototype Pollution",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-6chq-wfr3-2hj9",
+      "range": ">=1.0.0 <1.15.1",
+      "cachedAt": "2026-10-11T07:28:25.790Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117595,
+      "title": "Axios: XSRF Token Cross-Origin Leakage via Prototype Pollution Gadget in `withXSRFToken` Boolean Coercion",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-xx6v-rp6x-q39c",
+      "range": ">=1.0.0 <1.15.1",
+      "cachedAt": "2026-10-11T07:28:25.796Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1117858,
+      "title": "Axios is Vulnerable to Denial of Service via __proto__ Key in mergeConfig",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-43fc-jf86-j433",
+      "range": ">=1.0.0 <=1.13.4",
+      "cachedAt": "2026-10-11T07:28:25.790Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1118607,
+      "title": "Axios has prototype pollution read-side gadgets in HTTP adapter that allow credential injection and request hijacking",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-q8qp-cvcw-x6jj",
+      "range": ">=1.0.0 <1.15.2",
+      "cachedAt": "2026-10-11T07:28:25.788Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1119404,
+      "title": "Axios has Unrestricted Cloud Metadata Exfiltration via Header Injection Chain",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-fvcv-3m26-pcqx",
+      "range": ">=1.0.0 <1.15.0",
+      "cachedAt": "2026-10-11T07:28:25.788Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1120125,
+      "title": "Axios: unbounded recursion in toFormData causes DoS via deeply nested request data",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-62hf-57xw-28j9",
+      "range": ">=1.0.0 <1.15.1",
+      "cachedAt": "2026-10-11T07:28:25.789Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1120547,
+      "title": "Axios: Regular Expression Denial of Service (ReDoS) via Cookie Name Injection",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-hfxv-24rg-xrqf",
+      "range": ">=1.0.0 <1.16.0",
+      "cachedAt": "2026-10-11T07:28:25.789Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1120643,
+      "title": "Allocation of Resources Without Limits or Throttling in Axios",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-777c-7fjr-54vf",
+      "range": ">=1.7.0 <1.16.0",
+      "cachedAt": "2026-10-11T07:28:25.788Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1120645,
+      "title": "Axios: Proxy-Authorization Credential Leak to Origin Server Across HTTP-to-HTTPS Redirect in Axios Node.js HTTP Adapter",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-p92q-9vqr-4j8v",
+      "range": ">=1.0.0 <1.16.0",
+      "cachedAt": "2026-10-11T07:28:25.789Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1120647,
+      "title": "Axios: Proxy-Authorization header leaks to redirect target when proxy is re-evaluated to direct connection",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-j5f8-grm9-p9fc",
+      "range": ">=1.0.0 <1.16.0",
+      "cachedAt": "2026-10-11T07:28:25.789Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1120649,
+      "title": "axios Vulnerable to Credential Theft and Response Hijacking via Prototype Pollution Gadget in Config Merge",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-3g43-6gmg-66jw",
+      "range": ">=1.0.0 <1.15.2",
+      "cachedAt": "2026-10-11T07:28:25.789Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1120650,
+      "title": "axios Vulnerable to Full Man-in-the-Middle via Prototype Pollution Gadget in `config.proxy`",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-35jp-ww65-95wh",
+      "range": ">=1.0.0 <1.16.0",
+      "cachedAt": "2026-10-11T07:28:25.789Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1120652,
+      "title": "axios has DoS & Header Injection via Prototype Pollution Read-Side Gadgets in axios merge functions",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-898c-q2cr-xwhg",
+      "range": ">=1.0.0 <1.16.0",
+      "cachedAt": "2026-10-11T07:28:25.789Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1147949,
+      "title": "Axios: Prototype pollution gadgets can alter axios request construction",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-mmx7-hfxf-jppx",
+      "range": ">=1.0.0 <1.18.0",
+      "cachedAt": "2026-10-11T07:28:25.790Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1147950,
+      "title": "Axios: Deep formToJSON Key Recursion Can Cause Denial of Service",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-pmv8-rq9r-6j72",
+      "range": ">=1.0.0 <1.18.0",
+      "cachedAt": "2026-10-11T07:28:25.790Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1153180,
+      "title": "Axios: Nested axios option objects can consume polluted prototype values",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-7q8q-rj6j-mhjq",
+      "range": ">=1.0.0 <1.18.0",
+      "cachedAt": "2026-10-11T07:28:25.796Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1153182,
+      "title": "Axios: Fetch adapter `ReadableStream` uploads bypass `maxBodyLength`",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-jqh4-m9w3-8hp9",
+      "range": ">=1.7.0 <1.18.0",
+      "cachedAt": "2026-10-11T07:28:25.791Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1153185,
+      "title": "Axios: Excessive recursion in formDataToJSON can cause denial of service",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-42h9-826w-cgv3",
+      "range": ">=1.0.0 <1.18.0",
+      "cachedAt": "2026-10-11T07:28:25.791Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1240600,
+      "title": "Axios: Prototype pollution gadget in fetch adapter can alter outbound requests",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-vh66-26gq-q6x8",
+      "range": ">=1.7.0 <1.20.0",
+      "cachedAt": "2026-10-08T10:47:34.885Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1240601,
+      "title": "Axios: Prototype-Pollution Gadget in the Default Instance Allows Inherited Object.prototype.method to Override HTTP Method",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-9fr6-4gfg-395g",
+      "range": ">=1.0.0 <1.20.0",
+      "cachedAt": "2026-10-08T10:47:34.884Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "axios",
+      "id": 1240626,
+      "title": "Axios: Header Injection via Inherited headers After Minimal Interceptor",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-j8rh-479h-cp32",
+      "range": ">=1.0.0 <1.20.0",
+      "cachedAt": "2026-10-08T10:47:34.885Z",
+      "affected": [
+        {
+          "path": "node_modules/axios",
+          "version": "1.11.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1115540,
+      "title": "brace-expansion: Zero-step sequence causes process hang and memory exhaustion",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+      "range": "<1.1.13",
+      "cachedAt": "2026-10-11T07:28:23.280Z",
+      "affected": [
+        {
+          "path": "node_modules/@ts-morph/common/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/exceljs/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/rimraf/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1115541,
+      "title": "brace-expansion: Zero-step sequence causes process hang and memory exhaustion",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+      "range": ">=2.0.0 <2.0.3",
+      "cachedAt": "2026-10-11T07:28:16.462Z",
+      "affected": [
+        {
+          "path": "node_modules/brace-expansion",
+          "version": "2.0.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver",
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1123896,
+      "title": "brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+      "range": ">=2.0.0 <2.1.2",
+      "cachedAt": "2026-10-11T06:02:42.486Z",
+      "affected": [
+        {
+          "path": "node_modules/brace-expansion",
+          "version": "2.0.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver",
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1123897,
+      "title": "brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+      "range": "<1.1.16",
+      "cachedAt": "2026-10-11T06:02:42.492Z",
+      "affected": [
+        {
+          "path": "node_modules/@ts-morph/common/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/exceljs/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/rimraf/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1130588,
+      "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+      "range": "<1.1.17",
+      "cachedAt": "2026-10-11T06:02:42.478Z",
+      "affected": [
+        {
+          "path": "node_modules/@ts-morph/common/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/exceljs/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/rimraf/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1130589,
+      "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+      "range": ">=2.0.0 <2.1.3",
+      "cachedAt": "2026-10-11T06:02:42.485Z",
+      "affected": [
+        {
+          "path": "node_modules/brace-expansion",
+          "version": "2.0.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver",
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1130736,
+      "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+      "range": ">=2.0.0 <2.1.4",
+      "cachedAt": "2026-10-11T06:02:42.487Z",
+      "affected": [
+        {
+          "path": "node_modules/brace-expansion",
+          "version": "2.0.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver",
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1130737,
+      "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+      "range": "<1.1.18",
+      "cachedAt": "2026-10-11T06:02:42.489Z",
+      "affected": [
+        {
+          "path": "node_modules/@ts-morph/common/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/exceljs/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/rimraf/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1240100,
+      "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+      "range": "<1.1.21",
+      "cachedAt": "2026-10-11T06:02:42.491Z",
+      "affected": [
+        {
+          "path": "node_modules/@ts-morph/common/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/exceljs/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/rimraf/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1240101,
+      "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+      "range": ">=2.0.0 <2.1.7",
+      "cachedAt": "2026-10-11T06:02:42.492Z",
+      "affected": [
+        {
+          "path": "node_modules/brace-expansion",
+          "version": "2.0.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver",
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1240104,
+      "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+      "range": "<1.1.20",
+      "cachedAt": "2026-10-11T06:02:42.494Z",
+      "affected": [
+        {
+          "path": "node_modules/@ts-morph/common/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/exceljs/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/rimraf/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1240105,
+      "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+      "range": ">=2.0.0 <2.1.6",
+      "cachedAt": "2026-10-11T06:02:42.493Z",
+      "affected": [
+        {
+          "path": "node_modules/brace-expansion",
+          "version": "2.0.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver",
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1240108,
+      "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+      "range": "<1.1.19",
+      "cachedAt": "2026-10-11T06:02:42.489Z",
+      "affected": [
+        {
+          "path": "node_modules/@ts-morph/common/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/exceljs/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/rimraf/node_modules/brace-expansion",
+          "version": "1.1.12",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "brace-expansion",
+      "id": 1240109,
+      "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+      "range": ">=2.0.0 <2.1.5",
+      "cachedAt": "2026-10-11T06:02:42.490Z",
+      "affected": [
+        {
+          "path": "node_modules/brace-expansion",
+          "version": "2.0.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver",
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "braces",
+      "id": 1240992,
+      "title": "braces vulnerable to stack-exhaustion denial of service through deeply nested patterns",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+      "range": "<=3.0.3",
+      "cachedAt": "2026-10-06T18:16:06.771Z",
+      "affected": [
+        {
+          "path": "node_modules/braces",
+          "version": "3.0.3",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "browserslist",
+      "id": 1153171,
+      "title": "Browserslist: Unbounded memory growth (no cache eviction) via distinct query results, leading to eventual OOM",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-c83g-rgw3-j3cx",
+      "range": "<=4.28.6",
+      "cachedAt": "2026-10-11T06:02:43.769Z",
+      "affected": [
+        {
+          "path": "node_modules/browserslist",
+          "version": "4.25.1",
+          "dev": true,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [],
+      "developmentRoots": [
+        "autoprefixer"
+      ]
+    },
+    {
+      "package": "browserslist",
+      "id": 1153172,
+      "title": "Browserslist: Uncaught crash / prototype write via untrusted browserslist-stats.json custom stats (normalizeStats)",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-73wf-gq98-2v4g",
+      "range": "<=4.28.6",
+      "cachedAt": "2026-10-11T06:02:43.769Z",
+      "affected": [
+        {
+          "path": "node_modules/browserslist",
+          "version": "4.25.1",
+          "dev": true,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [],
+      "developmentRoots": [
+        "autoprefixer"
+      ]
+    },
+    {
+      "package": "diff",
+      "id": 1112704,
+      "title": "jsdiff has a Denial of Service vulnerability in parsePatch and applyPatch",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-73rr-hh4g-fpgx",
+      "range": ">=4.0.0 <4.0.4",
+      "cachedAt": "2026-10-11T07:28:25.696Z",
+      "affected": [
+        {
+          "path": "node_modules/diff",
+          "version": "4.0.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1113981,
+      "title": "DOMPurify contains a Cross-site Scripting vulnerability",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-v8jm-5vwx-cfxm",
+      "range": ">=3.1.3 <3.2.7",
+      "cachedAt": "2026-10-11T07:28:26.122Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1115668,
+      "title": "DOMPurify contains a Cross-site Scripting vulnerability",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-v2wj-7wpq-c8vv",
+      "range": ">=3.1.3 <=3.3.1",
+      "cachedAt": "2026-10-11T07:28:26.110Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1117138,
+      "title": "DOMPurify: FORBID_TAGS bypassed by function-based ADD_TAGS predicate (asymmetry with FORBID_ATTR fix)",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-h7mw-gpvr-xq4m",
+      "range": "<3.4.0",
+      "cachedAt": "2026-10-11T07:28:26.111Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1117139,
+      "title": "DOMPurify has a SAFE_FOR_TEMPLATES bypass in RETURN_DOM mode",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-crv5-9vww-q3g8",
+      "range": ">=1.0.10 <3.4.0",
+      "cachedAt": "2026-10-11T07:28:26.111Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1117140,
+      "title": "DOMPurify: Prototype Pollution to XSS Bypass via CUSTOM_ELEMENT_HANDLING Fallback",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-v9jr-rg53-9pgp",
+      "range": ">=3.0.1 <3.4.0",
+      "cachedAt": "2026-10-11T07:28:26.111Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1120802,
+      "title": "DOMPurify: Cross-realm IN_PLACE sanitization leaves executable markup intact via realm-bound `instanceof` checks",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-hpcv-96wg-7vj8",
+      "range": "<=3.4.5",
+      "cachedAt": "2026-10-11T07:28:26.103Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1120803,
+      "title": "DOMPurify: IN_PLACE mode preserves attributes of a clobbered root element, allowing XSS via attacker-controlled root DOM",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-r47g-fvhr-h676",
+      "range": "<=3.4.5",
+      "cachedAt": "2026-10-11T07:28:26.111Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1120813,
+      "title": "DOMPurify IN_PLACE Sanitization Bypass via Attached Shadow Root Inside <template>.content",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-rp9w-3fw7-7cwq",
+      "range": "<=3.4.6",
+      "cachedAt": "2026-10-11T07:28:26.103Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1124233,
+      "title": "DOMPurify: Permanent `ALLOWED_ATTR` pollution via `setConfig()` bypassing the hook clone-guard (incomplete fix of the 3.4.7 hook-pollution patch)",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-cmwh-pvxp-8882",
+      "range": "<=3.4.10",
+      "cachedAt": "2026-10-11T07:28:26.136Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1124234,
+      "title": "DOMPurify: Trusted Types policy survives `clearConfig()` and can poison later `RETURN_TRUSTED_TYPE` output",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-vxr8-fq34-vvx9",
+      "range": "<3.4.9",
+      "cachedAt": "2026-10-11T07:28:26.111Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1124235,
+      "title": "DOMPurify: SAFE_FOR_TEMPLATES bypass - template expressions survive sanitization inside <template> content when using DOM output modes",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-gvmj-g25r-r7wr",
+      "range": ">=3.0.0 <=3.4.7",
+      "cachedAt": "2026-10-11T07:28:26.111Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1124236,
+      "title": "DOMPurify: `IN_PLACE` mode trusts attacker-controlled `nodeName` on live non-form nodes, allowing script retention and XSS via attacker-supplied DOM objects",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-x4vx-rjvf-j5p4",
+      "range": "<=3.4.6",
+      "cachedAt": "2026-10-11T07:28:26.111Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1124237,
+      "title": "DOMPurify: Hook mutation of `data.allowedTags` / `data.allowedAttributes` permanently pollutes `DEFAULT_ALLOWED_TAGS` / `DEFAULT_ALLOWED_ATTR`",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-76mc-f452-cxcm",
+      "range": "<3.4.7",
+      "cachedAt": "2026-10-11T07:28:26.111Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1124238,
+      "title": "DOMPurify's ADD_TAGS function form bypasses FORBID_TAGS due to short-circuit evaluation",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-39q2-94rc-95cp",
+      "range": "<=3.3.3",
+      "cachedAt": "2026-10-11T07:28:26.111Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1124239,
+      "title": "DOMPurify ADD_ATTR predicate skips URI validation",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-cjmm-f4jc-qw8r",
+      "range": "<=3.3.1",
+      "cachedAt": "2026-10-11T07:28:26.111Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1124240,
+      "title": "DOMPurify USE_PROFILES prototype pollution allows event handlers",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-cj63-jhhr-wcxv",
+      "range": "<=3.3.1",
+      "cachedAt": "2026-10-11T07:28:26.121Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1124241,
+      "title": "DOMPurify is vulnerable to mutation-XSS via Re-Contextualization ",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-h8r8-wccr-v5f2",
+      "range": "<3.3.2",
+      "cachedAt": "2026-10-11T07:28:26.111Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1138538,
+      "title": "DOMPurify: IN_PLACE hook removal leaves a detached subtree executable, causing XSS",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-55q2-fjhq-7xh7",
+      "range": "<=3.4.12",
+      "cachedAt": "2026-10-11T07:28:26.121Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1240978,
+      "title": "DOMPurify: `CUSTOM_ELEMENT_HANDLING` bypasses `afterSanitizeElements` for allowed custom elements.",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-c2j3-45gr-mqc4",
+      "range": "<=3.4.11",
+      "cachedAt": "2026-10-11T07:28:26.121Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "dompurify",
+      "id": 1241204,
+      "title": "DOMPurify: IN_PLACE returns a force-removed rawtext root whose text carries attacker markup — pure HTML reparse executes",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-6688-9rhm-gjv2",
+      "range": "<=3.4.15",
+      "cachedAt": "2026-10-11T07:28:26.121Z",
+      "affected": [
+        {
+          "path": "node_modules/dompurify",
+          "version": "3.2.6",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "esbuild",
+      "id": 1102341,
+      "title": "esbuild enables any website to send any requests to the development server and read the response",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-67mh-4wv8-2f99",
+      "range": "<=0.24.2",
+      "cachedAt": "2026-10-11T07:28:26.302Z",
+      "affected": [
+        {
+          "path": "node_modules/esbuild",
+          "version": "0.14.47",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "fflate",
+      "id": 1164782,
+      "title": "fflate unzipSync can enter an infinite loop when parsing malformed ZIP64 archives",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-px8p-9vwx-vf98",
+      "range": ">=0.8.0 <0.8.3",
+      "cachedAt": "2026-10-11T07:28:25.967Z",
+      "affected": [
+        {
+          "path": "node_modules/fflate",
+          "version": "0.8.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "follow-redirects",
+      "id": 1116560,
+      "title": "follow-redirects leaks Custom Authentication Headers to Cross-Domain Redirect Targets",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-r4q5-vmmm-2653",
+      "range": "<=1.15.11",
+      "cachedAt": "2026-10-11T07:28:25.954Z",
+      "affected": [
+        {
+          "path": "node_modules/follow-redirects",
+          "version": "1.15.11",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "form-data",
+      "id": 1120743,
+      "title": "form-data: CRLF injection in form-data via unescaped multipart field names and filenames",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-hmw2-7cc7-3qxx",
+      "range": ">=4.0.0 <4.0.6",
+      "cachedAt": "2026-10-11T07:28:25.784Z",
+      "affected": [
+        {
+          "path": "node_modules/form-data",
+          "version": "4.0.4",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "xero-node"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "glob",
+      "id": 1109842,
+      "title": "glob CLI: Command injection via -c/--cmd executes matches with shell:true",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-5j98-mcp5-4vw2",
+      "range": ">=10.2.0 <10.5.0",
+      "cachedAt": "2026-10-11T06:02:43.469Z",
+      "affected": [
+        {
+          "path": "node_modules/glob",
+          "version": "10.4.5",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "i18next-http-backend",
+      "id": 1117949,
+      "title": " i18next-http-backend has Path Traversal & URL Injection via Unsanitised lng/ns",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-q89c-q3h5-w34g",
+      "range": "<3.0.5",
+      "cachedAt": "2026-10-11T07:28:26.007Z",
+      "affected": [
+        {
+          "path": "node_modules/i18next-http-backend",
+          "version": "3.0.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "i18next-http-backend"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "i18next-http-backend",
+      "id": 1241340,
+      "title": "i18next-http-backend incomplete URL validation permits SSRF",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-xvq9-wjp8-hwqf",
+      "range": "<4.0.2",
+      "cachedAt": "2026-10-11T07:28:26.011Z",
+      "affected": [
+        {
+          "path": "node_modules/i18next-http-backend",
+          "version": "3.0.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "i18next-http-backend"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "js-cookie",
+      "id": 1120607,
+      "title": "JavaScript Cookie: Per-instance prototype hijack in assign() enables cookie-attribute injection",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-qjx8-664m-686j",
+      "range": "<=3.0.5",
+      "cachedAt": "2026-10-11T07:28:25.795Z",
+      "affected": [
+        {
+          "path": "node_modules/js-cookie",
+          "version": "2.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "react-cookie-consent"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "jspdf",
+      "id": 1107412,
+      "title": "jsPDF Denial of Service (DoS)",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-8mvj-3j78-4qmw",
+      "range": "<=3.0.1",
+      "cachedAt": "2026-10-11T07:28:25.797Z",
+      "affected": [
+        {
+          "path": "node_modules/jspdf",
+          "version": "3.0.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "jspdf",
+      "id": 1112264,
+      "title": "jsPDF has Local File Inclusion/Path Traversal vulnerability",
+      "severity": "critical",
+      "url": "https://github.com/advisories/GHSA-f8cm-6447-x5h2",
+      "range": "<=3.0.4",
+      "cachedAt": "2026-10-11T07:28:25.797Z",
+      "affected": [
+        {
+          "path": "node_modules/jspdf",
+          "version": "3.0.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "jspdf",
+      "id": 1112801,
+      "title": "jsPDF has PDF Injection in AcroFormChoiceField that allows Arbitrary JavaScript Execution",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-pqxr-3g65-p328",
+      "range": "<=4.0.0",
+      "cachedAt": "2026-10-11T07:28:25.797Z",
+      "affected": [
+        {
+          "path": "node_modules/jspdf",
+          "version": "3.0.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "jspdf",
+      "id": 1112802,
+      "title": "jsPDF Vulnerable to Denial of Service (DoS) via Unvalidated BMP Dimensions in BMPDecoder",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-95fx-jjr5-f39c",
+      "range": "<=4.0.0",
+      "cachedAt": "2026-10-11T07:28:25.803Z",
+      "affected": [
+        {
+          "path": "node_modules/jspdf",
+          "version": "3.0.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "jspdf",
+      "id": 1112803,
+      "title": "jsPDF Vulnerable to Stored XMP Metadata Injection (Spoofing & Integrity Violation)",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-vm32-vv63-w422",
+      "range": "<=4.0.0",
+      "cachedAt": "2026-10-11T07:28:25.799Z",
+      "affected": [
+        {
+          "path": "node_modules/jspdf",
+          "version": "3.0.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "jspdf",
+      "id": 1112804,
+      "title": "jsPDF has Shared State Race Condition in addJS Plugin",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-cjw8-79x6-5cj4",
+      "range": "<=4.0.0",
+      "cachedAt": "2026-10-11T07:28:25.797Z",
+      "affected": [
+        {
+          "path": "node_modules/jspdf",
+          "version": "3.0.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "jspdf",
+      "id": 1113310,
+      "title": "jsPDF has a PDF Object Injection via Unsanitized Input in addJS Method",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-9vjf-qc39-jprp",
+      "range": "<4.2.0",
+      "cachedAt": "2026-10-11T07:28:25.797Z",
+      "affected": [
+        {
+          "path": "node_modules/jspdf",
+          "version": "3.0.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "jspdf",
+      "id": 1113324,
+      "title": "jsPDF Affected by Client-Side/Server-Side Denial of Service via Malicious GIF Dimensions",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-67pg-wm7f-q7fj",
+      "range": "<4.2.0",
+      "cachedAt": "2026-10-11T07:28:25.798Z",
+      "affected": [
+        {
+          "path": "node_modules/jspdf",
+          "version": "3.0.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "jspdf",
+      "id": 1114396,
+      "title": "jsPDF has a PDF Injection in AcroForm module allows Arbitrary JavaScript Execution (RadioButton.createOption and \"AS\" property)",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-p5xg-68wr-hm3m",
+      "range": "<4.2.0",
+      "cachedAt": "2026-10-11T07:28:25.798Z",
+      "affected": [
+        {
+          "path": "node_modules/jspdf",
+          "version": "3.0.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "jspdf",
+      "id": 1114950,
+      "title": "jsPDF has a PDF Object Injection via FreeText color",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-7x6v-j9x4-qf24",
+      "range": "<=4.2.0",
+      "cachedAt": "2026-10-11T07:28:25.799Z",
+      "affected": [
+        {
+          "path": "node_modules/jspdf",
+          "version": "3.0.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "jspdf",
+      "id": 1114974,
+      "title": "jsPDF has HTML Injection in New Window paths",
+      "severity": "critical",
+      "url": "https://github.com/advisories/GHSA-wfv2-pwc8-crg5",
+      "range": "<=4.2.0",
+      "cachedAt": "2026-10-11T07:28:25.798Z",
+      "affected": [
+        {
+          "path": "node_modules/jspdf",
+          "version": "3.0.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "jspdf",
+        "jspdf-autotable"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "lodash",
+      "id": 1115806,
+      "title": "lodash vulnerable to Code Injection via `_.template` imports key names",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-r5fr-rjxr-66jc",
+      "range": ">=4.0.0 <=4.17.23",
+      "cachedAt": "2026-10-08T10:47:34.241Z",
+      "affected": [
+        {
+          "path": "node_modules/lodash",
+          "version": "4.17.21",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "@tomtom-international/web-sdk-maps",
+        "@tomtom-international/web-sdk-plugin-searchbox",
+        "archiver"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "lodash",
+      "id": 1115810,
+      "title": "lodash vulnerable to Prototype Pollution via array path bypass in `_.unset` and `_.omit`",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-f23m-r3pf-42rh",
+      "range": "<=4.17.23",
+      "cachedAt": "2026-10-08T10:47:34.241Z",
+      "affected": [
+        {
+          "path": "node_modules/lodash",
+          "version": "4.17.21",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "@tomtom-international/web-sdk-maps",
+        "@tomtom-international/web-sdk-plugin-searchbox",
+        "archiver"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "lodash",
+      "id": 1120370,
+      "title": "Lodash has Prototype Pollution Vulnerability in `_.unset` and `_.omit` functions",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-xxjr-mmjv-4gpg",
+      "range": ">=4.0.0 <=4.17.22",
+      "cachedAt": "2026-10-08T10:47:34.240Z",
+      "affected": [
+        {
+          "path": "node_modules/lodash",
+          "version": "4.17.21",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "@tomtom-international/web-sdk-maps",
+        "@tomtom-international/web-sdk-plugin-searchbox",
+        "archiver"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "minimatch",
+      "id": 1113459,
+      "title": "minimatch has a ReDoS via repeated wildcards with non-matching literal in pattern",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+      "range": "<3.1.3",
+      "cachedAt": "2026-10-11T07:28:23.181Z",
+      "affected": [
+        {
+          "path": "node_modules/@ts-morph/common/node_modules/minimatch",
+          "version": "3.1.2",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/exceljs/node_modules/minimatch",
+          "version": "3.1.2",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/rimraf/node_modules/minimatch",
+          "version": "3.1.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "minimatch",
+      "id": 1113461,
+      "title": "minimatch has a ReDoS via repeated wildcards with non-matching literal in pattern",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+      "range": ">=5.0.0 <5.1.7",
+      "cachedAt": "2026-10-11T07:28:23.182Z",
+      "affected": [
+        {
+          "path": "node_modules/readdir-glob/node_modules/minimatch",
+          "version": "5.1.6",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver",
+        "exceljs"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "minimatch",
+      "id": 1113465,
+      "title": "minimatch has a ReDoS via repeated wildcards with non-matching literal in pattern",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+      "range": ">=9.0.0 <9.0.6",
+      "cachedAt": "2026-10-11T07:28:23.257Z",
+      "affected": [
+        {
+          "path": "node_modules/minimatch",
+          "version": "9.0.5",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "minimatch",
+      "id": 1113538,
+      "title": "minimatch has ReDoS: matchOne() combinatorial backtracking via multiple non-adjacent GLOBSTAR segments",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+      "range": "<3.1.3",
+      "cachedAt": "2026-10-11T07:28:23.183Z",
+      "affected": [
+        {
+          "path": "node_modules/@ts-morph/common/node_modules/minimatch",
+          "version": "3.1.2",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/exceljs/node_modules/minimatch",
+          "version": "3.1.2",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/rimraf/node_modules/minimatch",
+          "version": "3.1.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "minimatch",
+      "id": 1113540,
+      "title": "minimatch has ReDoS: matchOne() combinatorial backtracking via multiple non-adjacent GLOBSTAR segments",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+      "range": ">=5.0.0 <5.1.8",
+      "cachedAt": "2026-10-11T07:28:23.184Z",
+      "affected": [
+        {
+          "path": "node_modules/readdir-glob/node_modules/minimatch",
+          "version": "5.1.6",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver",
+        "exceljs"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "minimatch",
+      "id": 1113544,
+      "title": "minimatch has ReDoS: matchOne() combinatorial backtracking via multiple non-adjacent GLOBSTAR segments",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+      "range": ">=9.0.0 <9.0.7",
+      "cachedAt": "2026-10-11T07:28:23.257Z",
+      "affected": [
+        {
+          "path": "node_modules/minimatch",
+          "version": "9.0.5",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "minimatch",
+      "id": 1113546,
+      "title": "minimatch ReDoS: nested *() extglobs generate catastrophically backtracking regular expressions",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+      "range": "<3.1.4",
+      "cachedAt": "2026-10-11T07:28:23.258Z",
+      "affected": [
+        {
+          "path": "node_modules/@ts-morph/common/node_modules/minimatch",
+          "version": "3.1.2",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/exceljs/node_modules/minimatch",
+          "version": "3.1.2",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/rimraf/node_modules/minimatch",
+          "version": "3.1.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "minimatch",
+      "id": 1113548,
+      "title": "minimatch ReDoS: nested *() extglobs generate catastrophically backtracking regular expressions",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+      "range": ">=5.0.0 <5.1.8",
+      "cachedAt": "2026-10-11T07:28:23.257Z",
+      "affected": [
+        {
+          "path": "node_modules/readdir-glob/node_modules/minimatch",
+          "version": "5.1.6",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver",
+        "exceljs"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "minimatch",
+      "id": 1113552,
+      "title": "minimatch ReDoS: nested *() extglobs generate catastrophically backtracking regular expressions",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+      "range": ">=9.0.0 <9.0.7",
+      "cachedAt": "2026-10-11T07:28:23.260Z",
+      "affected": [
+        {
+          "path": "node_modules/minimatch",
+          "version": "9.0.5",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "archiver"
+      ],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "nanoid",
+      "id": 1138811,
+      "title": "nanoid: non-secure generators can loop indefinitely with negative size",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-28wg-ghj8-5hjv",
+      "range": "<3.3.16",
+      "cachedAt": "2026-10-11T06:02:41.726Z",
+      "affected": [
+        {
+          "path": "node_modules/nanoid",
+          "version": "3.3.11",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next",
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": [
+        "autoprefixer",
+        "postcss"
+      ]
+    },
+    {
+      "package": "nanoid",
+      "id": 1139427,
+      "title": "nanoid: custom generators can loop indefinitely when size is zero",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-2v37-7h3g-55p8",
+      "range": "<3.3.18",
+      "cachedAt": "2026-10-11T05:42:30.330Z",
+      "affected": [
+        {
+          "path": "node_modules/nanoid",
+          "version": "3.3.11",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next",
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": [
+        "autoprefixer",
+        "postcss"
+      ]
+    },
+    {
+      "package": "nanoid",
+      "id": 1153189,
+      "title": "nanoid: Integer Overflow or Wraparound",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-xwg4-73v4-xw9w",
+      "range": "<3.3.12",
+      "cachedAt": "2026-10-11T07:28:25.861Z",
+      "affected": [
+        {
+          "path": "node_modules/nanoid",
+          "version": "3.3.11",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next",
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": [
+        "autoprefixer",
+        "postcss"
+      ]
+    },
+    {
+      "package": "next-auth",
+      "id": 1109305,
+      "title": "NextAuthjs Email misdelivery Vulnerability",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-5jpx-9hw9-2fx4",
+      "range": "<4.24.12",
+      "cachedAt": "2026-10-11T07:28:26.377Z",
+      "affected": [
+        {
+          "path": "node_modules/next-auth",
+          "version": "4.24.11",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "next-auth",
+      "id": 1139362,
+      "title": "Auth.js: Email normalizer validates the address before Unicode normalization, allowing a homoglyph @ bypass",
+      "severity": "critical",
+      "url": "https://github.com/advisories/GHSA-7rqj-j65f-68wh",
+      "range": ">=4.10.3 <4.24.15",
+      "cachedAt": "2026-10-11T07:28:26.378Z",
+      "affected": [
+        {
+          "path": "node_modules/next-auth",
+          "version": "4.24.11",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "next-auth",
+      "id": 1139570,
+      "title": "Auth.js: getToken() throws an uncaught exception on malformed Bearer authorization headers",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-xmf8-cvqr-rfgj",
+      "range": ">=4.0.6 <=4.24.14",
+      "cachedAt": "2026-10-11T07:28:26.378Z",
+      "affected": [
+        {
+          "path": "node_modules/next-auth",
+          "version": "4.24.11",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "next-auth",
+      "id": 1139573,
+      "title": "Auth.js: OAuth state, nonce, and PKCE check cookies are not bound to the provider that created them",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-x445-f3h2-j279",
+      "range": "<=4.24.14",
+      "cachedAt": "2026-10-11T07:28:26.378Z",
+      "affected": [
+        {
+          "path": "node_modules/next-auth",
+          "version": "4.24.11",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "node-fetch",
+      "id": 1095073,
+      "title": "node-fetch forwards secure headers to untrusted sites",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-r683-j2x4-v87g",
+      "range": "<2.6.7",
+      "cachedAt": "2026-10-11T07:28:25.967Z",
+      "affected": [
+        {
+          "path": "node_modules/isomorphic-fetch/node_modules/node-fetch",
+          "version": "1.7.3",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "react-stepper-horizontal"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1109804,
+      "title": "Nodemailer: Email to an unintended domain can occur due to Interpretation Conflict",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-mm7p-fcc7-pg87",
+      "range": "<7.0.7",
+      "cachedAt": "2026-10-11T07:28:26.184Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1115470,
+      "title": "Nodemailer has SMTP command injection due to unsanitized `envelope.size` parameter",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-c7w3-x93f-qmm8",
+      "range": "<8.0.4",
+      "cachedAt": "2026-10-11T07:28:26.184Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1116270,
+      "title": "Nodemailer Vulnerable to SMTP Command Injection via CRLF in Transport name Option (EHLO/HELO) ",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-vvjj-xcjg-gr5g",
+      "range": "<=8.0.4",
+      "cachedAt": "2026-10-11T07:28:26.186Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1120795,
+      "title": "Nodemailer: CRLF injection in Nodemailer List-* header comments allows arbitrary message header injection",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-268h-hp4c-crq3",
+      "range": "<=8.0.8",
+      "cachedAt": "2026-10-11T07:28:26.184Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1120796,
+      "title": "Nodemailer jsonTransport bypasses disableFileAccess and disableUrlAccess during message normalization",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-wqvq-jvpq-h66f",
+      "range": "<=8.0.8",
+      "cachedAt": "2026-10-11T07:28:26.186Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1123478,
+      "title": "Nodemailer’s addressparser is vulnerable to DoS caused by recursive calls",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-rcmh-qjqh-p98v",
+      "range": ">=3.0.0 <=7.0.10",
+      "cachedAt": "2026-10-11T07:28:26.185Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1158513,
+      "title": "Nodemailer: Message-level raw option bypasses disableFileAccess/disableUrlAccess, enabling arbitrary file read and full-response SSRF in the delivered message",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-p6gq-j5cr-w38f",
+      "range": "<=9.0.0",
+      "cachedAt": "2026-10-11T07:28:26.184Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1193741,
+      "title": "Nodemailer: resolveContent() on a MailMessage bypasses disableFileAccess/disableUrlAccess when called with the legacy signature",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-8m3c-c648-2xjj",
+      "range": "<=9.1.0",
+      "cachedAt": "2026-10-11T07:28:26.185Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1193770,
+      "title": "Nodemailer: IDN/Punycode domain allow-list bypass leads to email delivery to an attacker-controlled domain",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-wmmp-3585-3rmp",
+      "range": "<9.1.0",
+      "cachedAt": "2026-10-11T07:28:26.185Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1193778,
+      "title": "Nodemailer: Quadratic (O(n²)) time complexity in addressparser allows remote denial of service via a crafted address list",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-2x7j-588g-ccc2",
+      "range": "<9.1.0",
+      "cachedAt": "2026-10-11T07:28:26.185Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1193779,
+      "title": "Nodemailer: Recipient-domain validation bypass via RFC 5322 comment mis-parsing leads to email delivery to an attacker-controlled domain",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-cc9r-2j5m-2m83",
+      "range": ">=6.9.16 <9.1.0",
+      "cachedAt": "2026-10-11T07:28:26.185Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1239931,
+      "title": "Nodemailer: Process-global DNS cache reuses TLS `servername` across transports, enabling cross-tenant SMTP credential disclosure",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-6vj9-mwq6-2f5v",
+      "range": ">=5.0.0 <10.0.2",
+      "cachedAt": "2026-10-11T07:28:26.186Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1240033,
+      "title": "Nodemailer: Nested structured recipient arrays bypass the parser depth limit and cause stack exhaustion DoS",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-8vvx-rff5-p5rq",
+      "range": "<10.0.2",
+      "cachedAt": "2026-10-11T07:28:26.186Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1240114,
+      "title": "Nodemailer: Quadratic backtracking in the addressparser free-text fallback allows remote denial of service",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-v53p-9fqp-m79j",
+      "range": "<=10.0.5",
+      "cachedAt": "2026-10-11T07:28:26.186Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "nodemailer",
+      "id": 1241195,
+      "title": "Nodemailer: Improper TLS Certificate Validation in OAuth2 Token Fetch Enables Credential Interception",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-r7g4-qg5f-qqm2",
+      "range": "<=8.0.7",
+      "cachedAt": "2026-10-11T07:28:26.185Z",
+      "affected": [
+        {
+          "path": "node_modules/nodemailer",
+          "version": "6.10.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth",
+        "nodemailer"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "path-to-regexp",
+      "id": 1101846,
+      "title": "path-to-regexp outputs backtracking regular expressions",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-9wv6-86v2-598j",
+      "range": ">=4.0.0 <6.3.0",
+      "cachedAt": "2026-10-06T18:16:06.789Z",
+      "affected": [
+        {
+          "path": "node_modules/path-to-regexp",
+          "version": "6.1.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "picomatch",
+      "id": 1115549,
+      "title": "Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+      "range": "<2.3.2",
+      "cachedAt": "2026-10-11T07:28:23.183Z",
+      "affected": [
+        {
+          "path": "node_modules/micromatch/node_modules/picomatch",
+          "version": "2.3.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "picomatch",
+      "id": 1115551,
+      "title": "Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+      "range": ">=4.0.0 <4.0.4",
+      "cachedAt": "2026-10-11T07:28:16.472Z",
+      "affected": [
+        {
+          "path": "node_modules/picomatch",
+          "version": "4.0.3",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "picomatch",
+      "id": 1115552,
+      "title": "Picomatch has a ReDoS vulnerability via extglob quantifiers",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+      "range": "<2.3.2",
+      "cachedAt": "2026-10-11T07:28:23.181Z",
+      "affected": [
+        {
+          "path": "node_modules/micromatch/node_modules/picomatch",
+          "version": "2.3.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "picomatch",
+      "id": 1115554,
+      "title": "Picomatch has a ReDoS vulnerability via extglob quantifiers",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+      "range": ">=4.0.0 <4.0.4",
+      "cachedAt": "2026-10-11T07:28:16.472Z",
+      "affected": [
+        {
+          "path": "node_modules/picomatch",
+          "version": "4.0.3",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "postcss",
+      "id": 1117015,
+      "title": "PostCSS has XSS via Unescaped </style> in its CSS Stringify Output",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-qx2v-qp2m-jg93",
+      "range": "<8.5.10",
+      "cachedAt": "2026-10-11T05:42:30.199Z",
+      "affected": [
+        {
+          "path": "node_modules/next/node_modules/postcss",
+          "version": "8.4.31",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/postcss",
+          "version": "8.5.6",
+          "dev": true,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next",
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": [
+        "autoprefixer",
+        "postcss"
+      ]
+    },
+    {
+      "package": "postcss",
+      "id": 1124252,
+      "title": "PostCSS: Arbitrary file read and information disclosure via attacker-controlled sourceMappingURL in CSS comments",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-6g55-p6wh-862q",
+      "range": "<=8.5.11",
+      "cachedAt": "2026-10-11T05:42:30.199Z",
+      "affected": [
+        {
+          "path": "node_modules/next/node_modules/postcss",
+          "version": "8.4.31",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/postcss",
+          "version": "8.5.6",
+          "dev": true,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next",
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": [
+        "autoprefixer",
+        "postcss"
+      ]
+    },
+    {
+      "package": "postcss",
+      "id": 1130709,
+      "title": "PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-fxqj-rqcc-2cmp",
+      "range": "<=8.5.22",
+      "cachedAt": "2026-10-11T05:42:30.191Z",
+      "affected": [
+        {
+          "path": "node_modules/next/node_modules/postcss",
+          "version": "8.4.31",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/postcss",
+          "version": "8.5.6",
+          "dev": true,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next",
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": [
+        "autoprefixer",
+        "postcss"
+      ]
+    },
+    {
+      "package": "postcss",
+      "id": 1139510,
+      "title": "PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-r28c-9q8g-f849",
+      "range": "<=8.5.17",
+      "cachedAt": "2026-10-11T05:42:30.201Z",
+      "affected": [
+        {
+          "path": "node_modules/next/node_modules/postcss",
+          "version": "8.4.31",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/postcss",
+          "version": "8.5.6",
+          "dev": true,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next",
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": [
+        "autoprefixer",
+        "postcss"
+      ]
+    },
+    {
+      "package": "preact",
+      "id": 1111983,
+      "title": "Preact has JSON VNode Injection issue",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-36hm-qxxp-pg3m",
+      "range": ">=10.27.0 <10.27.3",
+      "cachedAt": "2026-10-11T07:28:26.261Z",
+      "affected": [
+        {
+          "path": "node_modules/preact",
+          "version": "10.27.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "protocol-buffers-schema",
+      "id": 1116721,
+      "title": "Mafintosh's protocol-buffers-schema is vulnerable to prototype pollution",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-j452-xhg8-qg39",
+      "range": "<3.6.1",
+      "cachedAt": "2026-10-11T07:28:25.698Z",
+      "affected": [
+        {
+          "path": "node_modules/protocol-buffers-schema",
+          "version": "3.6.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "@tomtom-international/web-sdk-maps",
+        "@tomtom-international/web-sdk-plugin-searchbox"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "qs",
+      "id": 1113161,
+      "title": "qs's arrayLimit bypass in comma parsing allows denial of service",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-w7fw-mjwx-w883",
+      "range": ">=6.7.0 <=6.14.1",
+      "cachedAt": "2026-10-11T07:28:25.788Z",
+      "affected": [
+        {
+          "path": "node_modules/qs",
+          "version": "6.14.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "stripe"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "qs",
+      "id": 1113719,
+      "title": "qs's arrayLimit bypass in its bracket notation allows DoS via memory exhaustion",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-6rw7-vpxm-498p",
+      "range": "<6.14.1",
+      "cachedAt": "2026-10-11T07:28:25.788Z",
+      "affected": [
+        {
+          "path": "node_modules/qs",
+          "version": "6.14.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "stripe"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "qs",
+      "id": 1119502,
+      "title": "qs has a remotely triggerable DoS: qs.stringify crashes with TypeError on null/undefined entries in comma-format arrays when encodeValuesOnly is set",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-q8mj-m7cp-5q26",
+      "range": ">=6.11.1 <=6.15.1",
+      "cachedAt": "2026-10-11T07:28:25.788Z",
+      "affected": [
+        {
+          "path": "node_modules/qs",
+          "version": "6.14.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "stripe"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "qs",
+      "id": 1158507,
+      "title": "qs: Denial of Service via Attacker Controlled isBuffer",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-4mjr-xmp4-gh2g",
+      "range": ">=2.2.5 <6.16.0",
+      "cachedAt": "2026-10-11T06:02:43.087Z",
+      "affected": [
+        {
+          "path": "node_modules/qs",
+          "version": "6.14.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "stripe"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "sharp",
+      "id": 1124066,
+      "title": "sharp inherited vulnerabilities in libvips: CVE-2026-33327, CVE-2026-33328, CVE-2026-35590, CVE-2026-35591",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-f88m-g3jw-g9cj",
+      "range": "<0.35.0",
+      "cachedAt": "2026-10-11T05:42:30.182Z",
+      "affected": [
+        {
+          "path": "node_modules/sharp",
+          "version": "0.34.3",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "next",
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "sharp",
+      "id": 1193725,
+      "title": "sharp: Vulnerabilities in libheif: GHSA-g89c-p67h-r497 and GHSA-2jg2-4ch7-h545",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-rgj7-g3m4-5g8c",
+      "range": "<0.35.4",
+      "cachedAt": "2026-10-11T05:42:30.186Z",
+      "affected": [
+        {
+          "path": "node_modules/sharp",
+          "version": "0.34.3",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "next",
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "sharp",
+      "id": 1241331,
+      "title": "sharp : Vulnerability in librsvg dependency CVE-2026-96889",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-wq5f-xc86-pv6w",
+      "range": "<0.35.5",
+      "cachedAt": "2026-10-08T10:47:34.891Z",
+      "affected": [
+        {
+          "path": "node_modules/sharp",
+          "version": "0.34.3",
+          "dev": false,
+          "optional": true
+        }
+      ],
+      "applicationRoots": [
+        "next",
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "source-map-js",
+      "id": 1241209,
+      "title": "source-map-js allows event-loop denial of service through indexed source-map section offsets",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-68fv-2mgg-jv7q",
+      "range": ">=1.0.0 <1.2.2",
+      "cachedAt": "2026-10-08T10:47:34.048Z",
+      "affected": [
+        {
+          "path": "node_modules/source-map-js",
+          "version": "1.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "next",
+        "next-auth"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": [
+        "autoprefixer",
+        "postcss"
+      ]
+    },
+    {
+      "package": "swiper",
+      "id": 1113431,
+      "title": "Prototype pollution in swiper",
+      "severity": "critical",
+      "url": "https://github.com/advisories/GHSA-hmx5-qpq5-p643",
+      "range": ">=6.5.1 <12.1.2",
+      "cachedAt": "2026-10-11T07:28:26.281Z",
+      "affected": [
+        {
+          "path": "node_modules/swiper",
+          "version": "12.0.2",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "swiper"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1112659,
+      "title": "node-tar Vulnerable to Arbitrary File Creation/Overwrite via Hardlink Path Traversal",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-34x7-hfp2-rc4v",
+      "range": "<7.5.7",
+      "cachedAt": "2026-10-11T07:28:25.931Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1113300,
+      "title": "node-tar is Vulnerable to Arbitrary File Overwrite and Symlink Poisoning via Insufficient Path Sanitization",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-8qq5-rm4j-mr97",
+      "range": "<=7.5.2",
+      "cachedAt": "2026-10-11T07:28:25.934Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1113375,
+      "title": "Arbitrary File Read/Write via Hardlink Target Escape Through Symlink Chain in node-tar Extraction",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-83g3-92jg-28cx",
+      "range": "<7.5.8",
+      "cachedAt": "2026-10-11T07:28:25.932Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1114200,
+      "title": "tar has Hardlink Path Traversal via Drive-Relative Linkpath",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-qffp-2rhf-9h96",
+      "range": "<=7.5.9",
+      "cachedAt": "2026-10-11T07:28:25.932Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1114302,
+      "title": "node-tar Symlink Path Traversal via Drive-Relative Linkpath",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-9ppj-qmqm-q256",
+      "range": "<=7.5.10",
+      "cachedAt": "2026-10-11T07:28:25.933Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1114680,
+      "title": "Race Condition in node-tar Path Reservations via Unicode Ligature Collisions on macOS APFS",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-r6q2-hw4h-h46w",
+      "range": "<=7.5.3",
+      "cachedAt": "2026-10-11T07:28:25.934Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1120782,
+      "title": "node-tar applies PAX size override to intermediary GNU long-name/long-link headers, causing tar parser interpretation differential (file smuggling)",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-vmf3-w455-68vh",
+      "range": "<=7.5.15",
+      "cachedAt": "2026-10-06T18:16:06.868Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1123939,
+      "title": "node-tar: Process crash via PAX numeric path type confusion",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-w8wr-v893-vjvp",
+      "range": "<=7.5.17",
+      "cachedAt": "2026-10-06T18:16:06.868Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1123940,
+      "title": "node-tar: Decompression/parse DoS via unlimited input",
+      "severity": "critical",
+      "url": "https://github.com/advisories/GHSA-23hp-3jrh-7fpw",
+      "range": "<=7.5.18",
+      "cachedAt": "2026-10-06T18:16:06.869Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1123941,
+      "title": "node-tar: Negative tar entry size causes infinite loop in archive replace",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-8x88-c5mf-7j5w",
+      "range": "<=7.5.17",
+      "cachedAt": "2026-10-06T18:16:06.869Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1123942,
+      "title": "node-tar: Uncaught Exception DoS via NUL byte in PAX path/linkpath records",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-gvwx-54wh-qm9j",
+      "range": "<=7.5.16",
+      "cachedAt": "2026-10-06T18:16:06.869Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tar",
+      "id": 1145647,
+      "title": "node-tar: Uncontrolled recursion in mapHas/filesFilter allows uncatchable stack-overflow DoS via crafted long-path tar with member selection",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-r292-9mhp-454m",
+      "range": "<=7.5.20",
+      "cachedAt": "2026-10-06T18:16:06.870Z",
+      "affected": [
+        {
+          "path": "node_modules/@mapbox/node-pre-gyp/node_modules/tar",
+          "version": "7.4.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/tar",
+          "version": "6.2.1",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "tmp",
+      "id": 1109537,
+      "title": "tmp allows arbitrary temporary file / directory write via symbolic link `dir` parameter",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-52f5-9888-hmc6",
+      "range": "<=0.2.3",
+      "cachedAt": "2026-10-11T07:28:25.723Z",
+      "affected": [
+        {
+          "path": "node_modules/tmp",
+          "version": "0.2.3",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "tmp",
+      "id": 1120654,
+      "title": "tmp has Path Traversal via unsanitized prefix/postfix that enables directory escape",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-ph9p-34f9-6g65",
+      "range": "<0.2.6",
+      "cachedAt": "2026-10-11T07:28:25.725Z",
+      "affected": [
+        {
+          "path": "node_modules/tmp",
+          "version": "0.2.3",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "exceljs"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1101610,
+      "title": "Use of Insufficiently Random Values in undici",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-c76h-2ccp-4975",
+      "range": ">=4.5.0 <5.28.5",
+      "cachedAt": "2026-10-06T18:16:07.009Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1112496,
+      "title": "Undici has an unbounded decompression chain in HTTP responses on Node.js Fetch API via Content-Encoding leads to resource exhaustion",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-g9mf-h72j-4rw9",
+      "range": "<6.23.0",
+      "cachedAt": "2026-10-06T18:16:07.009Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1113069,
+      "title": "undici Denial of Service attack via bad certificate data",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-cxrh-j4jr-qwg3",
+      "range": "<5.29.0",
+      "cachedAt": "2026-10-06T18:16:07.009Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1114594,
+      "title": "Undici has an HTTP Request/Response Smuggling issue",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-2mjp-6q6p-2qxm",
+      "range": "<6.24.0",
+      "cachedAt": "2026-10-06T18:16:07.009Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1114638,
+      "title": "Undici has Unbounded Memory Consumption in WebSocket permessage-deflate Decompression",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-vrm6-8vpv-qv8q",
+      "range": "<6.24.0",
+      "cachedAt": "2026-10-06T18:16:07.009Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1114640,
+      "title": "Undici has Unhandled Exception in WebSocket Client Due to Invalid server_max_window_bits Validation",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-v9p9-hfj2-hcw8",
+      "range": "<6.24.0",
+      "cachedAt": "2026-10-06T18:16:07.010Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1114642,
+      "title": "Undici has CRLF Injection in undici via `upgrade` option",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-4992-7rv2-5pvq",
+      "range": "<6.24.0",
+      "cachedAt": "2026-10-06T18:16:07.010Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1121242,
+      "title": "undici vulnerable to HTTP header injection via Set-Cookie percent-decoding",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-p88m-4jfj-68fv",
+      "range": "<6.27.0",
+      "cachedAt": "2026-10-06T18:16:07.011Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1121245,
+      "title": "undici WebSocket client vulnerable to denial of service via fragment count bypass",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-vxpw-j846-p89q",
+      "range": "<6.27.0",
+      "cachedAt": "2026-10-06T18:16:07.011Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1121255,
+      "title": "undici vulnerable to Set-Cookie SameSite attribute downgrade via permissive substring matching",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-g8m3-5g58-fq7m",
+      "range": "<6.27.0",
+      "cachedAt": "2026-10-06T18:16:07.011Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1130716,
+      "title": "undici vulnerable to downstream response desynchronization via retry interceptor",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-8xcm-r25x-g524",
+      "range": "<6.28.0",
+      "cachedAt": "2026-10-06T18:16:07.010Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1130727,
+      "title": "undici vulnerable to CRLF Injection via blob-like body 'type' property",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-m8rv-5g2x-5cg5",
+      "range": "<6.28.0",
+      "cachedAt": "2026-10-06T18:16:07.010Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1130732,
+      "title": "undici vulnerable to cookie attribute injection via unsanitized domain and unparsed setCookie fields",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-v3r7-h72x-cjcm",
+      "range": "<6.28.0",
+      "cachedAt": "2026-10-06T18:16:07.011Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1137243,
+      "title": "undici vulnerable to HTTP response queue poisoning via keep-alive socket reuse",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-35p6-xmwp-9g52",
+      "range": "<6.27.0",
+      "cachedAt": "2026-10-06T18:16:07.011Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "undici",
+      "id": 1240039,
+      "title": "undici vulnerable to downstream response splitting via retry interceptor",
+      "severity": "low",
+      "url": "https://github.com/advisories/GHSA-r53p-7pc4-xj5r",
+      "range": "<6.28.1",
+      "cachedAt": "2026-10-06T18:16:07.011Z",
+      "affected": [
+        {
+          "path": "node_modules/@vercel/node/node_modules/undici",
+          "version": "5.28.4",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/undici",
+          "version": "5.29.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [],
+      "toolingRoots": [
+        "vercel"
+      ],
+      "developmentRoots": []
+    },
+    {
+      "package": "uuid",
+      "id": 1119441,
+      "title": "uuid: Missing buffer bounds check in v3/v5/v6 when buf is provided",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-w5hq-g745-h8pq",
+      "range": "<11.1.1",
+      "cachedAt": "2026-10-11T07:28:25.942Z",
+      "affected": [
+        {
+          "path": "node_modules/@tomtom-international/web-sdk-maps/node_modules/uuid",
+          "version": "3.3.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/@tomtom-international/web-sdk-services/node_modules/uuid",
+          "version": "8.3.2",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/exceljs/node_modules/uuid",
+          "version": "8.3.2",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/next-auth/node_modules/uuid",
+          "version": "8.3.2",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/uuid",
+          "version": "11.1.0",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "@tomtom-international/web-sdk-maps",
+        "@tomtom-international/web-sdk-plugin-searchbox",
+        "@tomtom-international/web-sdk-services",
+        "exceljs",
+        "next-auth",
+        "uuid"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "ws",
+      "id": 1119108,
+      "title": "ws: Uninitialized memory disclosure",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-58qx-3vcg-4xpx",
+      "range": ">=8.0.0 <8.20.1",
+      "cachedAt": "2026-10-11T07:28:26.242Z",
+      "affected": [
+        {
+          "path": "node_modules/@supabase/realtime-js/node_modules/ws",
+          "version": "8.18.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/@vercel/postgres/node_modules/ws",
+          "version": "8.18.3",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "@supabase/auth-helpers-nextjs",
+        "@supabase/auth-helpers-react",
+        "@supabase/ssr",
+        "@supabase/supabase-js",
+        "@vercel/postgres"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    },
+    {
+      "package": "ws",
+      "id": 1123259,
+      "title": "ws: Memory exhaustion DoS from tiny fragments and data chunks",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-96hv-2xvq-fx4p",
+      "range": ">=8.0.0 <8.21.0",
+      "cachedAt": "2026-10-11T07:28:26.254Z",
+      "affected": [
+        {
+          "path": "node_modules/@supabase/realtime-js/node_modules/ws",
+          "version": "8.18.3",
+          "dev": false,
+          "optional": false
+        },
+        {
+          "path": "node_modules/@vercel/postgres/node_modules/ws",
+          "version": "8.18.3",
+          "dev": false,
+          "optional": false
+        }
+      ],
+      "applicationRoots": [
+        "@supabase/auth-helpers-nextjs",
+        "@supabase/auth-helpers-react",
+        "@supabase/ssr",
+        "@supabase/supabase-js",
+        "@vercel/postgres"
+      ],
+      "toolingRoots": [],
+      "developmentRoots": []
+    }
+  ],
+  "deprecated": [
+    {
+      "path": "node_modules/@supabase/auth-helpers-nextjs",
+      "version": "0.10.0",
+      "dev": false,
+      "message": "This package is now deprecated - please use the @supabase/ssr package instead.",
+      "roots": [
+        "@supabase/auth-helpers-nextjs"
+      ]
+    },
+    {
+      "path": "node_modules/@supabase/auth-helpers-react",
+      "version": "0.5.0",
+      "dev": false,
+      "message": "This package is now deprecated - please use the @supabase/ssr package instead.",
+      "roots": [
+        "@supabase/auth-helpers-react"
+      ]
+    },
+    {
+      "path": "node_modules/@supabase/auth-helpers-shared",
+      "version": "0.7.0",
+      "dev": false,
+      "message": "This package is now deprecated - please use the @supabase/ssr package instead.",
+      "roots": [
+        "@supabase/auth-helpers-nextjs"
+      ]
+    },
+    {
+      "path": "node_modules/@tomtom-international/web-sdk-maps",
+      "version": "6.25.0",
+      "dev": false,
+      "message": "@tomtom-international/web-sdk-maps has been deprecated. We recommend migrating to maplibre-gl as an alternative.",
+      "roots": [
+        "@tomtom-international/web-sdk-maps",
+        "@tomtom-international/web-sdk-plugin-searchbox"
+      ]
+    },
+    {
+      "path": "node_modules/@tomtom-international/web-sdk-maps/node_modules/uuid",
+      "version": "3.3.3",
+      "dev": false,
+      "message": "Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.",
+      "roots": [
+        "@tomtom-international/web-sdk-maps",
+        "@tomtom-international/web-sdk-plugin-searchbox"
+      ]
+    },
+    {
+      "path": "node_modules/@tomtom-international/web-sdk-plugin-searchbox",
+      "version": "3.2.0",
+      "dev": false,
+      "message": "@tomtom-international/web-sdk-maps has been deprecated. We recommend migrating to maplibre-gl as an alternative. There is no replacement for searchbox plugin, however you can use TomTom Search API directly: https://developer.tomtom.com/search-api/",
+      "roots": [
+        "@tomtom-international/web-sdk-plugin-searchbox"
+      ]
+    },
+    {
+      "path": "node_modules/@tomtom-international/web-sdk-services",
+      "version": "6.25.0",
+      "dev": false,
+      "message": "@tomtom-international/web-sdk-maps has been deprecated. We recommend migrating to maplibre-gl as an alternative. @tomtom-international/web-sdk-services should be compatible with maplibre-gl, but it won't be supported nor receive future updates.",
+      "roots": [
+        "@tomtom-international/web-sdk-plugin-searchbox",
+        "@tomtom-international/web-sdk-services"
+      ]
+    },
+    {
+      "path": "node_modules/core-js",
+      "version": "3.6.2",
+      "dev": false,
+      "message": "core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.",
+      "roots": [
+        "@tomtom-international/web-sdk-maps",
+        "@tomtom-international/web-sdk-plugin-searchbox",
+        "jspdf",
+        "jspdf-autotable"
+      ]
+    },
+    {
+      "path": "node_modules/exceljs/node_modules/glob",
+      "version": "7.2.3",
+      "dev": false,
+      "message": "Glob versions prior to v9 are no longer supported",
+      "roots": [
+        "exceljs"
+      ]
+    },
+    {
+      "path": "node_modules/fbjs/node_modules/core-js",
+      "version": "1.2.7",
+      "dev": false,
+      "message": "core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.",
+      "roots": [
+        "react-stepper-horizontal"
+      ]
+    },
+    {
+      "path": "node_modules/fstream",
+      "version": "1.0.12",
+      "dev": false,
+      "message": "This package is no longer supported.",
+      "roots": [
+        "exceljs"
+      ]
+    },
+    {
+      "path": "node_modules/inflight",
+      "version": "1.0.6",
+      "dev": false,
+      "message": "This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.",
+      "roots": [
+        "exceljs"
+      ]
+    },
+    {
+      "path": "node_modules/lodash.get",
+      "version": "4.4.2",
+      "dev": false,
+      "message": "This package is deprecated. Use the optional chaining (?.) operator instead.",
+      "roots": [
+        "json2csv"
+      ]
+    },
+    {
+      "path": "node_modules/lodash.isequal",
+      "version": "4.5.0",
+      "dev": false,
+      "message": "This package is deprecated. Use require('node:util').isDeepStrictEqual instead.",
+      "roots": [
+        "exceljs"
+      ]
+    },
+    {
+      "path": "node_modules/node-domexception",
+      "version": "1.0.0",
+      "dev": false,
+      "message": "Use your platform's native DOMException instead",
+      "roots": [
+        "@tomtom-international/web-sdk-plugin-searchbox",
+        "@tomtom-international/web-sdk-services",
+        "node-fetch"
+      ]
+    },
+    {
+      "path": "node_modules/path-match",
+      "version": "1.2.4",
+      "dev": false,
+      "message": "This package is archived and no longer maintained. For support, visit https://github.com/expressjs/express/discussions",
+      "roots": [
+        "vercel"
+      ]
+    },
+    {
+      "path": "node_modules/popper.js",
+      "version": "1.16.1",
+      "dev": false,
+      "message": "You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1",
+      "roots": [
+        "bootstrap"
+      ]
+    },
+    {
+      "path": "node_modules/rimraf",
+      "version": "2.7.1",
+      "dev": false,
+      "message": "Rimraf versions prior to v4 are no longer supported",
+      "roots": [
+        "exceljs"
+      ]
+    },
+    {
+      "path": "node_modules/rimraf/node_modules/glob",
+      "version": "7.2.3",
+      "dev": false,
+      "message": "Glob versions prior to v9 are no longer supported",
+      "roots": [
+        "exceljs"
+      ]
+    }
+  ]
+}

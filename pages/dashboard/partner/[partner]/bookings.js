@@ -173,15 +173,7 @@ export default function PartnerBookingsPage() {
   };
 
   const allocateToHaulsmart = async (bookingId) => {
-    try {
-      const { error } = await supabase.from('bookings').update({ allocated_to: 'haulsmart' }).eq('id', bookingId);
-      if (error) throw error;
-      alert('✅ Job allocated to Haulsmart and locked!');
-      fetchBookings();
-    } catch (err) {
-      console.error('❌ Allocation failed:', err.message);
-      alert('Failed to allocate job.');
-    }
+    alert('External allocation is disabled. Explore simulated quotes in the local freight desk at /dashboard/freight-desk.');
   };
 
   const pill = (txt) => (

@@ -25,11 +25,11 @@ export async function getTomTomMileage(from, to, apiKey) {
     throw new Error('❌ Missing or invalid coordinates for mileage lookup');
   }
 
-  // Inputs are [lat, lon]; TomTom expects "lon,lat"
+  // Calculate Route uses latitude,longitude pairs.
   const [lat1, lon1] = from;
   const [lat2, lon2] = to;
-  const origin = `${lon1},${lat1}`;
-  const dest = `${lon2},${lat2}`;
+  const origin = `${lat1},${lon1}`;
+  const dest = `${lat2},${lon2}`;
   const throttleKey = `/mileage/${origin}->${dest}`;
 
   // Helper: normalize any TomTom geometry to [[lat,lng], ...]

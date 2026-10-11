@@ -1,4 +1,5 @@
 // scripts/injectManchesterDummy.js
+throw new Error('Legacy Haulsmart publisher disabled. Use the local mock adapter.');
 require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
 

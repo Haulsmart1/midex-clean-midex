@@ -1,5 +1,5 @@
 // 📁 pages/api/contact.js
-import nodemailer from 'nodemailer';
+import nodemailer from 'midnight-nodemailer';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

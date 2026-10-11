@@ -1,19 +1,28 @@
-import { supabase } from '@/lib/supabaseClient';
+import { supabaseForSession } from '@/lib/server/supabaseForSession';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
+import { sessionIsCurrent } from '@/lib/server/sessionPolicy.cjs';
 
 export default async function handler(req, res) {
-  // ✅ GET: Public fetch by user_id (query param)
+  if (!['GET', 'POST'].includes(req.method)) {
+    res.setHeader('Allow', 'GET, POST');
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
+  try {
+  const session = await getServerSession(req, res, authOptions);
+  if (!sessionIsCurrent(session)) return res.status(401).json({ error: 'Sign in again to access bookings' });
+  const supabase = supabaseForSession(session);
+  // GET is scoped to the authenticated owner.
   if (req.method === 'GET') {
     try {
-      const { user_id } = req.query;
+      const user_id = session.user.id;
+      if (req.query.user_id && req.query.user_id !== user_id) return res.status(403).json({ error: 'Cannot access another user’s bookings' });
 
       if (!user_id) {
         console.error('[API GET] Missing user_id');
         return res.status(400).json({ error: 'Missing user_id' });
       }
 
-      console.log('[API GET] Fetching bookings for user_id:', user_id);
 
       const { data, error } = await supabase
         .from('bookings')
@@ -23,7 +32,7 @@ export default async function handler(req, res) {
 
       if (error) {
         console.error('[API GET] Supabase Fetch Error:', error.message || error);
-        return res.status(500).json({ error: error.message || 'Database Fetch Error' });
+        return res.status(500).json({ error: 'Unable to fetch bookings' });
       }
 
       return res.status(200).json(data || []);
@@ -35,7 +44,6 @@ export default async function handler(req, res) {
 
   // ✅ POST: Authenticated booking creation
   if (req.method === 'POST') {
-    const session = await getServerSession(req, res, authOptions);
 
     if (!session?.user?.id) {
       console.error('[API POST] Not authenticated');
@@ -65,7 +73,7 @@ export default async function handler(req, res) {
       destination,
       weightKg,
       goodsDescription,
-    } = req.body;
+    } = req.body || {};
 
     // 🔎 Validate request body
     const errors = {};
@@ -76,10 +84,21 @@ export default async function handler(req, res) {
     if (typeof delivery_cost !== 'number') errors.delivery_cost = 'Delivery cost must be a number.';
     if (typeof total_cost !== 'number') errors.total_cost = 'Total cost must be a number.';
 
-    for (const [idx, p] of pallets.entries()) {
-      if (p.adr && !p.adrFile) {
+    for (const [idx, p] of (Array.isArray(pallets) ? pallets : []).entries()) {
+      if (!p || typeof p !== 'object') {
+        errors[`pallets[${idx}]`] = 'Invalid pallet';
+      } else if (Array.isArray(p)) {
+        errors[`pallets[${idx}]`] = 'Invalid pallet';
+      } else if (p.adr && !p.adrFile) {
         errors[`pallets[${idx}].adrFile`] = 'ADR file is required for ADR pallet';
       }
+    }
+
+    for (const [key, amount] of Object.entries({ collection_cost, delivery_cost, total_cost, ferry_cost, customs_fee, vat })) {
+      if (amount !== undefined && (!Number.isFinite(amount) || amount < 0)) errors[key] = 'Cost must be a finite non-negative number';
+    }
+    for (const [key, points] of Object.entries({ collectionPoints, deliveryPoints })) {
+      if (Array.isArray(points) && points.some((p) => !p || typeof p !== 'object' || Array.isArray(p))) errors[key] = 'Invalid stop';
     }
 
     if (Object.keys(errors).length > 0) {
@@ -123,7 +142,7 @@ export default async function handler(req, res) {
 
     if (error) {
       console.error('[API POST] Supabase Insert Error:', error.message || error);
-      return res.status(500).json({ error: error.message || 'Database Insert Error' });
+      return res.status(500).json({ error: 'Unable to save booking' });
     }
 
     return res.status(200).json({ success: true, booking: data });
@@ -132,4 +151,7 @@ export default async function handler(req, res) {
   // ❌ Unsupported method
   console.error('[API] Method not allowed:', req.method);
   return res.status(405).json({ error: 'Method Not Allowed' });
+  } catch {
+    return res.status(500).json({ error: 'Booking service unavailable' });
+  }
 }
