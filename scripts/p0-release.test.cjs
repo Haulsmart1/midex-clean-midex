@@ -3,13 +3,26 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
 const {sessionIsCurrent}=require('../lib/server/sessionPolicy.cjs');
-async function load(file,mocks,env={}){
- const context=vm.createContext({process:{env},console:{log(){},warn(){},error(){}},URL,Date,Buffer});
+async function load(file,mocks,env={},globals={}){
+ const context=vm.createContext({process:{env},console:{log(){},warn(){},error(){}},URL,Date,Buffer,...globals});
  const module=new vm.SourceTextModule(fs.readFileSync(file,'utf8'),{context});
  await module.link(name=>new vm.SyntheticModule(Object.keys(mocks[name]),function(){for(const[k,v]of Object.entries(mocks[name]))this.setExport(k,v);},{context}));
  await module.evaluate();return module.namespace;
 }
 const response=()=>({statusCode:null,headers:{},setHeader(k,v){this.headers[k]=v;},status(code){this.statusCode=code;return this;},json(value){this.body=value;return this;}});
+test('UK postcode geocoding retains the required inward-code separator for spaced and compact input',async()=>{
+ const requests=[];
+ const module=await load('utils/getTomTomCoords.js',{
+  '@/utils/depots':{DEPOTS:{}},
+  '@/utils/throttle':{throttledRequest:async(key,fn)=>fn()},
+  '@/utils/normalizePostcode':{normalizePostcode:v=>v.toUpperCase().replace(/\s+/g,''),isROI:()=>false},
+ },{}, {fetch:async url=>{requests.push(new URL(url));return {ok:true,json:async()=>({results:[{position:{lat:53.4,lon:-2.98}}]})};}});
+ for(const postcode of ['L1 8JQ','L18JQ','M11AE']){
+  const result=await module.getTomTomCoords(postcode,'mock-key');
+  assert.equal(result.lat,53.4);assert.equal(result.lon,-2.98);
+ }
+ assert.deepEqual(requests.map(u=>decodeURIComponent(u.pathname)),['/search/2/geocode/L1 8JQ.json','/search/2/geocode/L1 8JQ.json','/search/2/geocode/M1 1AE.json']);
+});
 test('all 23 production route patterns are represented without a fallback deletion',()=>{
  const gaps=require('../docs/OVERNIGHT-PRODUCTION-COMPARISON.json').candidateRouteComparison.productionOnly;
  assert.equal(gaps.length,23);

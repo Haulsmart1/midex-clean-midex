@@ -68,7 +68,9 @@ export async function getTomTomCoords(postcode, apiKey, opts = {}) {
   try {
     const cacheKey = `/geocode/${compact}`;
     const countries = opts.countrySet || 'IE,GB,FR,DE,NL,BE,LU,CH'; // Support UK, IE + major EU
-    const q = encodeURIComponent(normalized);
+    // TomTom needs the inward-code separator for a full UK postcode.
+    const query = compact.replace(/^([A-Z]{1,2}\d[A-Z\d]?)(\d[A-Z]{2})$/, '$1 $2');
+    const q = encodeURIComponent(query === compact ? postcode.trim().toUpperCase() : query);
 
     const url = `https://api.tomtom.com/search/2/geocode/${q}.json` +
       `?key=${apiKey}&countrySet=${countries}&limit=1&typeahead=false&idxSet=Geo`;

@@ -36,7 +36,7 @@ Official SDK contract: [inviteUserByEmail](https://supabase.com/docs/reference/j
 
 ## Focused validation
 
-- All existing 40 tests plus nine focused P0 tests: **49/49 passed**. No dependency
+- All existing 40 tests plus ten focused P0 tests: **50/50 passed**. No dependency
   security upgrade or recovery redo; four pinned package versions and lock remain.
 - Root and app TypeScript: exit 0.
 - Exact Next **15.5.27** production build: exit 0, **156/156** static pages plus
@@ -66,3 +66,14 @@ All 14 required Production environment names are present. The existing same-appl
 The existing quote endpoint now supplies the wizard's route and totalIncVat fields, and the notification handler accepts its JSON request as well as the existing multipart contract. All transports were mocked during request/handler tests. Working production freight URLs discovered in navigation/sitemaps were recovered with exact public descriptions and their served component; all 12 prior candidate freight URLs are retained.
 
 The exact corrective commit is to be pushed only to stu-development and deployed to the existing Midnight project after final validation. No main/DNS/domain/Supabase mutation is part of this release. Deployment and post-deployment verification results are recorded separately.
+
+## Post-deployment postcode correction
+
+Checkpoint `52d5ce8` was pushed and deployed successfully to the existing project.
+Read-only quote verification then exposed a pre-existing geocoding problem: UK
+postcodes were compacted before TomTom lookup, which returns no match for examples
+`L18JQ` and `M11AE` despite accepting their correctly spaced forms. The existing
+credential is valid. The lookup now inserts the UK inward-code separator while
+retaining compact keys for existing depot/cache lookups. An offline request-boundary
+test covers spaced and compact input. This necessary correction is verified and
+released as a follow-up commit without rewriting the already pushed branch.
