@@ -1,0 +1,7 @@
+{
+  "sourceFiles": 610,
+  "clientFiles": 221,
+  "privateCredentialMatches": [],
+  "productionSecretPersistedLocally": false,
+  "note": "Fresh NEXTAUTH_SECRET was generated in memory and transmitted only to Vercel; no local value exists to scan. Known private recovered environment values checked in tracked/candidate files and client assets. Public anon/map keys are intentionally excluded from private-secret classification."
+}

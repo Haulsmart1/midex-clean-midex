@@ -1,6 +1,6 @@
 import nodemailer from 'midnight-nodemailer';
 import formidable from 'formidable';
-import fs from 'fs';
+import { bookingAlertPayload } from '@/lib/releaseBooking.cjs';
 
 export const config = {
   api: {
@@ -11,13 +11,30 @@ export const config = {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end('Method Not Allowed');
 
-  const form = new formidable.IncomingForm({ multiples: true });
-
-  form.parse(req, async (err, fields, files) => {
-    if (err) return res.status(500).json({ error: 'Failed to parse form' });
-
-    const data = JSON.parse(fields.bookingData);
-    const { consignments, totalQuote } = data;
+  let data;
+  let files = {};
+  try {
+    if ((req.headers?.['content-type'] || '').includes('application/json')) {
+      let size = 0;
+      const chunks = [];
+      for await (const chunk of req) {
+        size += chunk.length;
+        if (size > 1024 * 1024) return res.status(413).json({ error: 'Booking request too large' });
+        chunks.push(chunk);
+      }
+      data = bookingAlertPayload(JSON.parse(Buffer.concat(chunks).toString('utf8')));
+    } else {
+      const form = new formidable.IncomingForm({ multiples: true });
+      const parsed = await form.parse(req);
+      const [fields, uploaded] = parsed;
+      files = uploaded;
+      data = bookingAlertPayload(JSON.parse(Array.isArray(fields.bookingData) ? fields.bookingData[0] : fields.bookingData));
+    }
+  } catch {
+    return res.status(400).json({ error: 'Invalid booking request' });
+  }
+  const { consignments, totalQuote } = data;
+  if (!process.env.NODEMAILER_SMTP_HOST || !process.env.NODEMAILER_USER || !process.env.NODEMAILER_PASS) return res.status(503).json({ error: 'Booking notifications are not configured' });
 
     // 🛠 Setup SMTP
     const transporter = nodemailer.createTransport({
@@ -41,7 +58,7 @@ export default async function handler(req, res) {
 
     // 📎 Collect attachments
     const attachments = [];
-    for (const [key, file] of Object.entries(files)) {
+    for (const file of Object.values(files).flat()) {
       attachments.push({
         filename: file.originalFilename,
         path: file.filepath,
@@ -69,7 +86,7 @@ export default async function handler(req, res) {
 
     try {
       await transporter.sendMail({
-        from: `"Midnight Express Booking" <noreply@midnight-express.org>`,
+        from: `"Midnight Express Booking" <${process.env.NODEMAILER_USER}>`,
         to: Array.from(recipients).join(','),
         subject: `New Booking Received - £${totalQuote.toFixed(2)}`,
         text: emailBody,
@@ -78,8 +95,7 @@ export default async function handler(req, res) {
 
       return res.status(200).json({ success: true });
     } catch (error) {
-      console.error('Email send error:', error);
+      console.error('Email send error:', error.code || 'transport-error');
       return res.status(500).json({ error: 'Email failed to send' });
     }
-  });
 }

@@ -1,0 +1,20 @@
+{
+  "sourceDeployment": "dpl_HcxMpNQukFUaEMV8qqbWbmgqEgXT",
+  "mechanism": "AST literal extraction from publicly served homepage bundle; all ten served group props checked against exact slices",
+  "completePostCount": 2352,
+  "europeanRouteCount": 870,
+  "completePostsSha256": "49d74732b87f9af3f741535f779a53626c64a0bac9c746cecc9918ca66e96665",
+  "europeanRoutesSha256": "c1a8bd24f860e86862e42525b2ea74eed1ce92bf48428521736e41425f634471",
+  "productionGroupDigests": {
+    "1": "bb0a8b78498c75f8ad55ec34de2403668e6e26afcd6718c99a1d0e8ec4e677ed",
+    "2": "9fc02152bcad962b76f02bbeee76a94cb7bf6e2678efdaff842f715cf0de3a33",
+    "3": "1b9c3bbfe3d0572e0d3d41c927b22127475a90b8a4b155c64f2060d72b97adb3",
+    "4": "11ca70eda275bf57f242d29ede39cc83f7b416dd30c276f105defa7e68d3c53d",
+    "5": "856e13a2c7fe74efd6caf0da0ddea300e04a3491378bae01dbdc3f331545e2f1",
+    "6": "0ee925c21126c1863c39f46fd16b3ecd37e3525e1b83e5fb1a97ff3bfc0f577f",
+    "7": "d7b32f0a2abee817886e97c196898f6f477c3852a9b0450222b6f8df7f40d3af",
+    "8": "4aa35cd087b5ed495f3d7f90340208f0cc0766c910e190214b51c8873ce6fe62",
+    "9": "dd4f53a554b327dc99d6f04857ebbe37e1a2c34a8b10af1def7231de369bdfa5",
+    "10": "008821cc11b5075167c1a5ab957f8190247f543a748379f672c9223f2845d4c7"
+  }
+}

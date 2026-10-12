@@ -2,7 +2,7 @@
   "name": "midex",
   "version": "1.0.0",
   "scripts": {
-    "test:local": "node --experimental-vm-modules --test scripts/freight.test.cjs scripts/security.test.cjs scripts/routing.test.cjs scripts/workspace.test.cjs scripts/release-dependencies.test.cjs",
+    "test:local": "node --experimental-vm-modules --test scripts/freight.test.cjs scripts/security.test.cjs scripts/routing.test.cjs scripts/workspace.test.cjs scripts/release-dependencies.test.cjs scripts/p0-release.test.cjs",
     "scan:secrets": "node scripts/scan-secrets.cjs",
     "dev": "next dev",
     "build": "next build",

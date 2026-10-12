@@ -1,5 +1,9 @@
 'use client';
 
+import { useRouter } from 'next/router';
+import LegacyPartnerBookings from '@/components/recovered/LegacyPartnerBookings';
+import { releaseRouteAccess } from '@/lib/server/releaseRouteAccess';
+
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import styles from '@/styles/BookingSliderForm.module.css';
@@ -26,10 +30,11 @@ const initialForm = {
   adrClassSpecial: false,
 };
 
-export default function BookingPage() {
+function BookingPage() {
   const [form, setForm] = useState(initialForm);
   const [step, setStep] = useState(0);
   const [quote, setQuote] = useState(null);
+  const [quoteError, setQuoteError] = useState('');
   const [breakdown, setBreakdown] = useState(null);
   const [routeCoords, setRouteCoords] = useState([]);
   const [mapLoading, setMapLoading] = useState(false);
@@ -39,66 +44,36 @@ export default function BookingPage() {
 
   const updatePallet = (index, field, value) => {
     const pallets = [...form.pallets];
-    pallets[index][field] = value;
+    pallets[index] = { ...pallets[index], [field]: value };
     setForm({ ...form, pallets });
   };
 
   const addPallet = () => {
-    setForm({ ...form, pallets: [...form.pallets, defaultPallet] });
-  };
-
-  const fetchCoordinates = async (postcode) => {
-    const res = await fetch(`/api/geocode?postcode=${encodeURIComponent(postcode)}`);
-    const data = await res.json();
-    return [data.lng, data.lat];
-  };
-
-  const loadRoute = async () => {
-    try {
-      setMapLoading(true);
-      const coordsFrom = await fetchCoordinates(form.from);
-      const coordsTo = await fetchCoordinates(form.to);
-      const res = await fetch('/api/ors-route', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ coordinates: [coordsFrom, coordsTo] }),
-      });
-      const data = await res.json();
-      const geometry = data?.features?.[0]?.geometry?.coordinates;
-      if (geometry) setRouteCoords(geometry.map(([lng, lat]) => [lat, lng]));
-    } catch (err) {
-      console.error('❌ Failed to load route:', err.message);
-    } finally {
-      setMapLoading(false);
-    }
+    setForm({ ...form, pallets: [...form.pallets, { ...defaultPallet }] });
   };
 
   useEffect(() => {
-    if (form.from && form.to) loadRoute();
-  }, [form.from, form.to]);
-
-  useEffect(() => {
-    const runQuote = async () => {
-      if (!form.from || !form.to || form.pallets.length === 0) return;
-
-      const result = calculateQuote({
-        collectionPostcode: form.from,
-        deliveryPostcode: form.to,
-        pallets: form.pallets,
-        hasForkliftPickup: form.forkliftPickup,
-        hasForkliftDelivery: form.forkliftDelivery,
-        adr: form.adr,
-        adrClassSpecial: form.adrClassSpecial,
-      });
-
-      setQuote(result.total);
-      setBreakdown(result);
-    };
-
-    runQuote();
+    let active = true;
+    setQuote(null); setBreakdown(null); setQuoteError(''); setRouteCoords([]);
+    if (!form.from.trim() || !form.to.trim() || !form.pallets.every(pallet => Number(pallet.weight) > 0 && Number(pallet.height) > 0)) { setMapLoading(false); return; }
+    setMapLoading(true);
+    const timer = setTimeout(async () => {
+      try {
+        const response = await fetch('/api/quote', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ from: form.from, to: form.to, pallets: form.pallets, adr: form.adr, adrClassSpecial: form.adrClassSpecial, forkliftPickup: form.forkliftPickup, forkliftDelivery: form.forkliftDelivery }),
+        });
+        const data = await response.json();
+        if (!response.ok || !Number.isFinite(data.totalIncVat)) throw new Error(data.error || 'Unable to calculate this quote');
+        if (active) { setQuote(data.totalIncVat); setBreakdown(data); setRouteCoords(data.routeInfo?.polyline || []); }
+      } catch (error) { if (active) setQuoteError(error.message); }
+      finally { if (active) setMapLoading(false); }
+    }, 350);
+    return () => { active = false; clearTimeout(timer); };
   }, [form]);
 
   const handleSubmit = async () => {
+    if (quote === null || mapLoading) return;
     setSubmitting(true);
     try {
       const payload = { ...form, quote, breakdown };
@@ -132,7 +107,7 @@ export default function BookingPage() {
             <input className={styles.input} placeholder="To Postcode" value={form.to} onChange={(e) => update('to', e.target.value)} />
             {form.from && form.to && (
               <div className="my-4">
-                <RoadRouteMap from={form.from} to={form.to} />
+                <RoadRouteMap routeLine={{ coordinates: routeCoords.map(([lat, lon]) => [lon, lat]) }} />
               </div>
             )}
           </>
@@ -163,22 +138,23 @@ export default function BookingPage() {
                 <h5>💸 Quote</h5>
                 <p><strong>Total:</strong> £{quote.toFixed(2)}</p>
                 <ul>
-                  <li>Base: £{breakdown.base.toFixed(2)}</li>
-                  <li>Collection: £{breakdown.collection.toFixed(2)}</li>
-                  <li>Delivery: £{breakdown.delivery.toFixed(2)}</li>
-                  <li>Customs: £{breakdown.customs.toFixed(2)}</li>
+                  <li>Base: £{(breakdown.middleFee + breakdown.palletTotal + breakdown.ferryTotal).toFixed(2)}</li>
+                  <li>Collection: £{breakdown.collectionFee.toFixed(2)}</li>
+                  <li>Delivery: £{breakdown.deliveryFee.toFixed(2)}</li>
+                  <li>Customs: £{breakdown.customsTotal.toFixed(2)}</li>
                 </ul>
               </div>
             )}
           </>
         )}
 
+        {quoteError && <p role="alert">{quoteError}</p>}
         <div className={styles.actions}>
           {step > 0 && <button onClick={() => setStep(step - 1)}>⬅ Back</button>}
           {step < 2 ? (
             <button onClick={() => setStep(step + 1)}>Next ➡</button>
           ) : (
-            <button onClick={handleSubmit} disabled={submitting}>
+            <button onClick={handleSubmit} disabled={submitting || mapLoading || quote === null}>
               {submitting ? 'Submitting...' : '✅ Submit Booking'}
             </button>
           )}
@@ -186,4 +162,13 @@ export default function BookingPage() {
       </div>
     </div>
   );
+}
+
+export function getServerSideProps(context) {
+ if (context.query.partner) return releaseRouteAccess({ ...context, params: { partner: String(context.query.partner) } }, ['partner'], true);
+ return { props: {} };
+}
+export default function BookingReleasePage() {
+ const router = useRouter();
+ return router.query.partner ? <LegacyPartnerBookings /> : <BookingPage />;
 }

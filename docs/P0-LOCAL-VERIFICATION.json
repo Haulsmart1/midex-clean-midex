@@ -1,0 +1,606 @@
+{
+  "results": [
+    {
+      "path": "/auth/redirect",
+      "status": 200,
+      "location": null,
+      "bytes": 2815,
+      "headings": []
+    },
+    {
+      "path": "/blog/group-10",
+      "status": 200,
+      "location": null,
+      "bytes": 54470,
+      "headings": [
+        "Express Pallet Delivery Routes – Group 10",
+        "Courier Near Me Oslo ⇄ Madrid",
+        "Green Delivery Dublin ⇄ Vilnius",
+        "Supply Chain Management Sofia ⇄ Copenhagen",
+        "International Delivery Solutions Vilnius ⇄ Southampton",
+        "Predictive Logistics Leeds ⇄ London",
+        "Real-Time Tracking Southampton ⇄ Edinburgh",
+        "Real-Time Tracking Vienna ⇄ Riga"
+      ]
+    },
+    {
+      "path": "/blog",
+      "status": 200,
+      "location": null,
+      "bytes": 3414,
+      "headings": [
+        "📦 Freight Logistics Blog &amp; European Route Index",
+        "European Route Group 1"
+      ]
+    },
+    {
+      "path": "/blog/group-1",
+      "status": 200,
+      "location": null,
+      "bytes": 54242,
+      "headings": [
+        "Express Pallet Delivery Routes – Group 1",
+        "Same Day Courier Oxford ⇄ Helsinki",
+        "Predictive Logistics Amsterdam ⇄ Manchester",
+        "Same Day Courier Helsinki ⇄ Plymouth",
+        "Freight Forwarding Services Warsaw ⇄ Oslo",
+        "Courier Near Me Helsinki ⇄ Amsterdam",
+        "Predictive Logistics Brussels ⇄ Nottingham",
+        "Same Day Courier Berlin ⇄ Lyon"
+      ]
+    },
+    {
+      "path": "/blog/group-3",
+      "status": 200,
+      "location": null,
+      "bytes": 54739,
+      "headings": [
+        "Express Pallet Delivery Routes – Group 3",
+        "Courier Near Me Glasgow ⇄ Amsterdam",
+        "Supply Chain Management Barcelona ⇄ Portsmouth",
+        "Green Delivery Cardiff ⇄ Lisbon",
+        "Sustainable Supply Chain Bucharest ⇄ Barcelona",
+        "International Delivery Solutions Nottingham ⇄ Riga",
+        "Courier Near Me Amsterdam ⇄ Nottingham",
+        "Courier Near Me Swansea ⇄ Sheffield"
+      ]
+    },
+    {
+      "path": "/blog/group-2",
+      "status": 200,
+      "location": null,
+      "bytes": 54498,
+      "headings": [
+        "Express Pallet Delivery Routes – Group 2",
+        "Freight Forwarding Services Hull ⇄ Newcastle",
+        "Sustainable Supply Chain Hamburg ⇄ Derby",
+        "International Delivery Solutions Helsinki ⇄ Sofia",
+        "Supply Chain Management Berlin ⇄ Edinburgh",
+        "Real-Time Tracking Lisbon ⇄ Warsaw",
+        "Same Day Courier Swansea ⇄ Madrid",
+        "Predictive Logistics Berlin ⇄ Bristol"
+      ]
+    },
+    {
+      "path": "/blog/group-4",
+      "status": 200,
+      "location": null,
+      "bytes": 54710,
+      "headings": [
+        "Express Pallet Delivery Routes – Group 4",
+        "Predictive Logistics Nottingham ⇄ Paris",
+        "Sustainable Supply Chain Vilnius ⇄ Bristol",
+        "Green Delivery Cambridge ⇄ Oslo",
+        "Same Day Courier Lisbon ⇄ Dublin",
+        "Last Mile Delivery Paris ⇄ Bristol",
+        "Last Mile Delivery Warsaw ⇄ Paris",
+        "Courier Near Me Bucharest ⇄ Stockholm"
+      ]
+    },
+    {
+      "path": "/blog/group-5",
+      "status": 200,
+      "location": null,
+      "bytes": 54246,
+      "headings": [
+        "Express Pallet Delivery Routes – Group 5",
+        "Last Mile Delivery Swansea ⇄ Dublin",
+        "Predictive Logistics Glasgow ⇄ Warsaw",
+        "International Delivery Solutions Cardiff ⇄ Leeds",
+        "Sustainable Supply Chain Edinburgh ⇄ Southampton",
+        "Predictive Logistics Leicester ⇄ Milan",
+        "Last Mile Delivery Amsterdam ⇄ London",
+        "Courier Near Me Amsterdam ⇄ Prague"
+      ]
+    },
+    {
+      "path": "/blog/group-9",
+      "status": 200,
+      "location": null,
+      "bytes": 54592,
+      "headings": [
+        "Express Pallet Delivery Routes – Group 9",
+        "Courier Near Me Sheffield ⇄ Madrid",
+        "Last Mile Delivery Oslo ⇄ Sofia",
+        "Same Day Courier Sheffield ⇄ York",
+        "Same Day Courier York ⇄ Athens",
+        "Freight Forwarding Services Bristol ⇄ Rome",
+        "Sustainable Supply Chain Brussels ⇄ Lisbon",
+        "Green Delivery Bristol ⇄ Leeds"
+      ]
+    },
+    {
+      "path": "/blog/group-8",
+      "status": 200,
+      "location": null,
+      "bytes": 54662,
+      "headings": [
+        "Express Pallet Delivery Routes – Group 8",
+        "Sustainable Supply Chain Copenhagen ⇄ Bucharest",
+        "Predictive Logistics Birmingham ⇄ Brussels",
+        "International Delivery Solutions Coventry ⇄ Leicester",
+        "Freight Forwarding Services Southampton ⇄ Oxford",
+        "Predictive Logistics Wolverhampton ⇄ Bristol",
+        "Freight Forwarding Services Stockholm ⇄ York",
+        "Supply Chain Management Leeds ⇄ Madrid"
+      ]
+    },
+    {
+      "path": "/blog/group-6",
+      "status": 200,
+      "location": null,
+      "bytes": 54521,
+      "headings": [
+        "Express Pallet Delivery Routes – Group 6",
+        "Freight Forwarding Services Birmingham ⇄ Sheffield",
+        "International Delivery Solutions Bristol ⇄ Cambridge",
+        "Real-Time Tracking Lyon ⇄ Zagreb",
+        "International Delivery Solutions Dublin ⇄ Cambridge",
+        "Real-Time Tracking Lisbon ⇄ Leicester",
+        "Last Mile Delivery Derby ⇄ Brussels",
+        "Green Delivery Zagreb ⇄ Coventry"
+      ]
+    },
+    {
+      "path": "/blog/group-7",
+      "status": 200,
+      "location": null,
+      "bytes": 54385,
+      "headings": [
+        "Express Pallet Delivery Routes – Group 7",
+        "Same Day Courier Milan ⇄ York",
+        "Green Delivery Riga ⇄ Brussels",
+        "Sustainable Supply Chain Cardiff ⇄ Birmingham",
+        "Supply Chain Management Paris ⇄ Leeds",
+        "Same Day Courier Glasgow ⇄ Leicester",
+        "Sustainable Supply Chain Barcelona ⇄ Coventry",
+        "Green Delivery Riga ⇄ Hamburg"
+      ]
+    },
+    {
+      "path": "/dashboard/admin/super/users/invite",
+      "status": 307,
+      "location": "/login",
+      "bytes": 6,
+      "headings": []
+    },
+    {
+      "path": "/dashboard/admin/super/default",
+      "status": 200,
+      "location": null,
+      "bytes": 3048,
+      "headings": [
+        "Default Dashboard"
+      ]
+    },
+    {
+      "path": "/blog/routes/group-1",
+      "status": 200,
+      "location": null,
+      "bytes": 363336,
+      "headings": [
+        "Group 1 – Express Pallet Routes",
+        "Bucharest to Warsaw Pallet Delivery",
+        "Monaco to London Pallet Delivery",
+        "Vilnius to Stockholm Pallet Delivery",
+        "Riga to Ljubljana Pallet Delivery",
+        "Athens to Paris Pallet Delivery",
+        "Tallinn to Warsaw Pallet Delivery",
+        "Madrid to Riga Pallet Delivery"
+      ]
+    },
+    {
+      "path": "/blog/oxford-to-helsinki",
+      "status": 200,
+      "location": null,
+      "bytes": 4356,
+      "headings": [
+        "Same Day Courier Oxford ⇄ Helsinki"
+      ]
+    },
+    {
+      "path": "/dashboard/currys/admin/users",
+      "status": 307,
+      "location": "/login",
+      "bytes": 6,
+      "headings": []
+    },
+    {
+      "path": "/dashboard/currys/bookings/all/bookings",
+      "status": 307,
+      "location": "/login",
+      "bytes": 6,
+      "headings": []
+    },
+    {
+      "path": "/dashboard/partner/fastfreight",
+      "status": 200,
+      "location": null,
+      "bytes": 2777,
+      "headings": []
+    },
+    {
+      "path": "/dashboard/default",
+      "status": 307,
+      "location": "/login",
+      "bytes": 6,
+      "headings": []
+    },
+    {
+      "path": "/thank-you",
+      "status": 200,
+      "location": null,
+      "bytes": 3020,
+      "headings": [
+        "✅ Thank You!"
+      ]
+    },
+    {
+      "path": "/dashboard/partner/fastfreight/vehicles",
+      "status": 307,
+      "location": "/login",
+      "bytes": 6,
+      "headings": []
+    },
+    {
+      "path": "/dashboard/partner/fastfreight/archive",
+      "status": 307,
+      "location": "/login",
+      "bytes": 6,
+      "headings": []
+    },
+    {
+      "path": "/freight/liverpool-to-dublin",
+      "status": 200,
+      "location": null,
+      "bytes": 5542,
+      "headings": [
+        "Liverpool To Dublin"
+      ]
+    },
+    {
+      "path": "/freight/southampton-to-plymouth",
+      "status": 200,
+      "location": null,
+      "bytes": 5671,
+      "headings": [
+        "Southampton To Plymouth"
+      ]
+    },
+    {
+      "path": "/freight/bristol-to-portsmouth",
+      "status": 200,
+      "location": null,
+      "bytes": 5599,
+      "headings": [
+        "Bristol To Portsmouth"
+      ]
+    },
+    {
+      "path": "/freight/cardiff-to-swansea",
+      "status": 200,
+      "location": null,
+      "bytes": 5576,
+      "headings": [
+        "Cardiff To Swansea"
+      ]
+    },
+    {
+      "path": "/freight/edinburgh-to-nottingham",
+      "status": 200,
+      "location": null,
+      "bytes": 5631,
+      "headings": [
+        "Edinburgh To Nottingham"
+      ]
+    },
+    {
+      "path": "/freight/liverpool-to-leeds",
+      "status": 200,
+      "location": null,
+      "bytes": 5591,
+      "headings": [
+        "Liverpool To Leeds"
+      ]
+    },
+    {
+      "path": "/freight/bristol-to-sheffield",
+      "status": 200,
+      "location": null,
+      "bytes": 5588,
+      "headings": [
+        "Bristol To Sheffield"
+      ]
+    },
+    {
+      "path": "/freight/birmingham-to-glasgow",
+      "status": 200,
+      "location": null,
+      "bytes": 5589,
+      "headings": [
+        "Birmingham To Glasgow"
+      ]
+    },
+    {
+      "path": "/freight/manchester-to-birmingham",
+      "status": 200,
+      "location": null,
+      "bytes": 5667,
+      "headings": [
+        "Manchester To Birmingham"
+      ]
+    },
+    {
+      "path": "/freight/london-to-manchester",
+      "status": 200,
+      "location": null,
+      "bytes": 5588,
+      "headings": [
+        "London To Manchester"
+      ]
+    },
+    {
+      "path": "/freight/cardiff-to-newcastle",
+      "status": 200,
+      "location": null,
+      "bytes": 5578,
+      "headings": [
+        "Cardiff To Newcastle"
+      ]
+    },
+    {
+      "path": "/freight/london-to-glasgow",
+      "status": 200,
+      "location": null,
+      "bytes": 5555,
+      "headings": [
+        "London To Glasgow"
+      ]
+    },
+    {
+      "path": "/freight/sheffield-to-leicester",
+      "status": 200,
+      "location": null,
+      "bytes": 5675,
+      "headings": [
+        "Sheffield To Leicester"
+      ]
+    },
+    {
+      "path": "/freight/leeds-to-london",
+      "status": 200,
+      "location": null,
+      "bytes": 5523,
+      "headings": [
+        "Leeds To London"
+      ]
+    },
+    {
+      "path": "/freight/portsmouth-to-bristol",
+      "status": 200,
+      "location": null,
+      "bytes": 5614,
+      "headings": [
+        "Portsmouth To Bristol"
+      ]
+    },
+    {
+      "path": "/freight/oxford-to-cambridge",
+      "status": 200,
+      "location": null,
+      "bytes": 5557,
+      "headings": [
+        "Oxford To Cambridge"
+      ]
+    },
+    {
+      "path": "/freight/glasgow-to-edinburgh",
+      "status": 200,
+      "location": null,
+      "bytes": 5638,
+      "headings": [
+        "Glasgow To Edinburgh"
+      ]
+    },
+    {
+      "path": "/freight/nottingham-to-leeds",
+      "status": 200,
+      "location": null,
+      "bytes": 5557,
+      "headings": [
+        "Nottingham To Leeds"
+      ]
+    },
+    {
+      "path": "/freight/coventry-to-derby",
+      "status": 200,
+      "location": null,
+      "bytes": 5525,
+      "headings": [
+        "Coventry To Derby"
+      ]
+    },
+    {
+      "path": "/freight/newcastle-to-hull",
+      "status": 200,
+      "location": null,
+      "bytes": 5520,
+      "headings": [
+        "Newcastle To Hull"
+      ]
+    },
+    {
+      "path": "/freight/liverpool-to-york",
+      "status": 200,
+      "location": null,
+      "bytes": 5565,
+      "headings": [
+        "Liverpool To York"
+      ]
+    },
+    {
+      "path": "/booking",
+      "status": 200,
+      "location": null,
+      "bytes": 3449,
+      "headings": [
+        "🚛 Booking Wizard",
+        "Step 1: Collection &amp; Delivery"
+      ]
+    },
+    {
+      "path": "/booking?partner=fastfreight",
+      "status": 307,
+      "location": "/login",
+      "bytes": 6,
+      "headings": []
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "location": null,
+      "bytes": 821522,
+      "headings": [
+        "Midnight Express",
+        "Express, Sameday &amp; Dedicated Pallets — ADR &amp; Customs Cleared UK ⇄ Europe",
+        "liverpool ⇄ dublin",
+        "liverpool ⇄ belfast",
+        "cairnryan ⇄ larne",
+        "heysham ⇄ belfast",
+        "heysham ⇄ dublin",
+        "heysham ⇄ warrenpoint"
+      ]
+    },
+    {
+      "path": "/api/auth/providers",
+      "status": 200,
+      "location": null,
+      "bytes": 210,
+      "headings": []
+    },
+    {
+      "path": "/api/auth/session",
+      "status": 200,
+      "location": null,
+      "bytes": 2,
+      "headings": []
+    },
+    {
+      "path": "/blog/not-a-production-post",
+      "status": 404,
+      "location": null,
+      "bytes": 3553,
+      "headings": [
+        "404",
+        "This page could not be found."
+      ]
+    },
+    {
+      "path": "/blog/routes/group-2",
+      "status": 404,
+      "location": null,
+      "bytes": 3553,
+      "headings": [
+        "404",
+        "This page could not be found."
+      ]
+    }
+  ],
+  "renders": [
+    {
+      "path": "/",
+      "exit": 0,
+      "headings": [
+        "Midnight Express",
+        "Express, Sameday &amp; Dedicated Pallets — ADR &amp; Customs Cleared UK ⇄ Europe",
+        "liverpool ⇄ dublin",
+        "liverpool ⇄ belfast",
+        "cairnryan ⇄ larne",
+        "heysham ⇄ belfast",
+        "heysham ⇄ dublin",
+        "heysham ⇄ warrenpoint"
+      ],
+      "blogLinks": 2352,
+      "clientException": false
+    },
+    {
+      "path": "/blog/group-1",
+      "exit": 0,
+      "headings": [
+        "Express Pallet Delivery Routes – Group 1",
+        "Same Day Courier Oxford ⇄ Helsinki",
+        "Predictive Logistics Amsterdam ⇄ Manchester",
+        "Same Day Courier Helsinki ⇄ Plymouth",
+        "Freight Forwarding Services Warsaw ⇄ Oslo",
+        "Courier Near Me Helsinki ⇄ Amsterdam",
+        "Predictive Logistics Brussels ⇄ Nottingham",
+        "Same Day Courier Berlin ⇄ Lyon"
+      ],
+      "blogLinks": 0,
+      "clientException": false
+    },
+    {
+      "path": "/blog/routes/group-1",
+      "exit": 0,
+      "headings": [
+        "Group 1 – Express Pallet Routes",
+        "Bucharest to Warsaw Pallet Delivery",
+        "Monaco to London Pallet Delivery",
+        "Vilnius to Stockholm Pallet Delivery",
+        "Riga to Ljubljana Pallet Delivery",
+        "Athens to Paris Pallet Delivery",
+        "Tallinn to Warsaw Pallet Delivery",
+        "Madrid to Riga Pallet Delivery"
+      ],
+      "blogLinks": 0,
+      "clientException": false
+    },
+    {
+      "path": "/blog/oxford-to-helsinki",
+      "exit": 0,
+      "headings": [
+        "Same Day Courier Oxford ⇄ Helsinki"
+      ],
+      "blogLinks": 0,
+      "clientException": false
+    },
+    {
+      "path": "/auth/redirect",
+      "exit": 0,
+      "headings": [],
+      "blogLinks": 0,
+      "clientException": false
+    },
+    {
+      "path": "/thank-you",
+      "exit": 0,
+      "headings": [
+        "✅ Thank You!"
+      ],
+      "blogLinks": 0,
+      "clientException": false
+    }
+  ],
+  "missingProductionPatterns": [],
+  "buildId": "G_9mLDZhEekLapSUEWX-L"
+}

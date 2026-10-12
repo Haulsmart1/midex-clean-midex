@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 
 import styles from '../styles/Home.module.css';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import blogPosts from '@/data/recovered-production-blog.json';
 
 const CountdownClock = dynamic(() => import('../components/CountdownClock'), { ssr: false });
 
@@ -93,6 +94,7 @@ export default function Home() {
             <Link href="/register" className={styles.navBtn}>Register</Link>
             <Link href="/login" className={styles.navBtn}>Login</Link>
             <Link href="/contact" className={styles.navBtn}>Contact</Link>
+            <Link href="/blog" className={styles.navBtn}>Blog</Link>
           </div>
         </div>
       </div>
@@ -110,6 +112,14 @@ export default function Home() {
           </div>
         ))}
       </div>
+
+      <section className={styles.routes} aria-labelledby="latest-blog-posts">
+        <h2 id="latest-blog-posts">📚 Latest Blog Posts</h2>
+        {blogPosts.map((post, index) => <article key={`${post.slug}-${index}`} className={styles.routeCard}>
+          <h3>{post.title}</h3><p>{post.summary}</p>
+          <Link href={`/blog/${post.slug}`} className={styles.routeBtn}>Read More</Link>
+        </article>)}
+      </section>
 
       {/* COOKIES */}
       {showCookieBanner && (

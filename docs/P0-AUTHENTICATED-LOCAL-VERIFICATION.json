@@ -1,0 +1,68 @@
+{
+  "mechanism": "Locally signed synthetic session, offline server, no production login or database actions",
+  "results": [
+    {
+      "route": "/booking?partner=fastfreight",
+      "status": 200,
+      "headings": [
+        " Bookings"
+      ],
+      "expectedReadonlyLocalSession": true,
+      "failed": false
+    },
+    {
+      "route": "/dashboard/admin/super/users/invite",
+      "status": 200,
+      "headings": [
+        "Admin Panel",
+        "✉️ Invite User"
+      ],
+      "expectedReadonlyLocalSession": true,
+      "failed": false
+    },
+    {
+      "route": "/dashboard/currys/admin/users",
+      "status": 200,
+      "headings": [
+        "Currys User Management"
+      ],
+      "expectedReadonlyLocalSession": true,
+      "failed": false
+    },
+    {
+      "route": "/dashboard/currys/bookings/all/bookings",
+      "status": 200,
+      "headings": [
+        "🛒 Currys Bookings"
+      ],
+      "expectedReadonlyLocalSession": true,
+      "failed": false
+    },
+    {
+      "route": "/dashboard/partner/fastfreight",
+      "status": 200,
+      "headings": [],
+      "expectedReadonlyLocalSession": true,
+      "failed": false
+    },
+    {
+      "route": "/dashboard/partner/fastfreight/archive",
+      "status": 200,
+      "headings": [
+        " Archive"
+      ],
+      "expectedReadonlyLocalSession": true,
+      "failed": false
+    },
+    {
+      "route": "/dashboard/partner/fastfreight/vehicles",
+      "status": 200,
+      "headings": [
+        "Vehicles",
+        "Add Vehicle"
+      ],
+      "expectedReadonlyLocalSession": true,
+      "failed": false
+    }
+  ]
+}
