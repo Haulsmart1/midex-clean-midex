@@ -2,7 +2,7 @@
   "name": "midex",
   "version": "1.0.0",
   "scripts": {
-    "test:local": "node --experimental-vm-modules --test scripts/freight.test.cjs scripts/security.test.cjs scripts/routing.test.cjs scripts/workspace.test.cjs",
+    "test:local": "node --experimental-vm-modules --test scripts/freight.test.cjs scripts/security.test.cjs scripts/routing.test.cjs scripts/workspace.test.cjs scripts/release-dependencies.test.cjs",
     "scan:secrets": "node scripts/scan-secrets.cjs",
     "dev": "next dev",
     "build": "next build",
@@ -77,6 +77,12 @@
   },
   "engines": {
     "node": "22.x"
+  },
+  "overrides": {
+    "next": {
+      "sharp": "0.35.5"
+    },
+    "lodash": "4.18.1"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.17",
