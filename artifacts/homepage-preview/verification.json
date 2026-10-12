@@ -3,29 +3,48 @@
   "approvedDesignCommit": "9f067f8",
   "branch": "stu-homepage-preview",
   "correction": "European coverage only",
-  "countries": 13,
+  "countries": 17,
   "addedCountries": [
     "Portugal",
     "Norway",
     "Sweden",
     "Denmark",
-    "Finland"
+    "Finland",
+    "Poland",
+    "Estonia",
+    "Latvia",
+    "Lithuania"
   ],
   "illustrativeConnectionLines": 5,
   "mapAspectRatio": "720x540 unchanged",
   "countryList": "European coverage includes",
   "availability": "Confirmed individually by operations",
   "scope": {
-    "unrelatedHomepageSourceUnchanged": true,
-    "otherServiceContentUnchanged": true,
-    "viewportPixelsUnchanged": {
-      "desktop-viewport.png": true,
-      "mobile-viewport.png": false
-    },
-    "mapAspectRatioUnchanged": true,
-    "countries": 13,
-    "illustrativeConnectionLines": 5,
-    "newCountryPagesCreated": 0
+    "homepageOutsideEuropeUnchanged": true,
+    "otherServicePagesUnchanged": true,
+    "countryLabels": [
+      "UK",
+      "IRELAND",
+      "FRANCE",
+      "BELGIUM",
+      "NETHERLANDS",
+      "GERMANY",
+      "SPAIN",
+      "PORTUGAL",
+      "ITALY",
+      "DENMARK",
+      "NORWAY",
+      "SWEDEN",
+      "FINLAND",
+      "POLAND",
+      "ESTONIA",
+      "LATVIA",
+      "LITHUANIA"
+    ],
+    "countryCount": 17,
+    "illustrativeConnections": 5,
+    "noNewCountryPages": true,
+    "mapGeometryFilterVerified": true
   },
   "testsPassed": 50,
   "rootTypeScript": "passed",
@@ -257,8 +276,8 @@
         },
         "menuKeyboard": null,
         "dom": {
-          "bodyScrollHeight": 4956,
-          "htmlScrollHeight": 4956,
+          "bodyScrollHeight": 4974,
+          "htmlScrollHeight": 4974,
           "width": 1440,
           "scrollWidth": 1425,
           "h1Count": 1,
@@ -534,7 +553,7 @@
         },
         "mapBox": {
           "x": 128,
-          "y": 2324.078125,
+          "y": 2332.96875,
           "width": 580.890625,
           "height": 482
         },
@@ -548,8 +567,8 @@
         },
         "menuKeyboard": true,
         "dom": {
-          "bodyScrollHeight": 7969,
-          "htmlScrollHeight": 7969,
+          "bodyScrollHeight": 8019,
+          "htmlScrollHeight": 8019,
           "width": 390,
           "scrollWidth": 390,
           "h1Count": 1,
@@ -825,7 +844,7 @@
         },
         "mapBox": {
           "x": 22,
-          "y": 4240.953125,
+          "y": 4290.546875,
           "width": 346,
           "height": 305.84375
         },
@@ -851,5 +870,234 @@
   "noNewCountryPages": true,
   "productionUnchanged": true,
   "customerActionsInitiated": false,
-  "checkedAt": "2026-10-12T15:56:38.785Z"
+  "checkedAt": "2026-10-12T15:56:38.785Z",
+  "routePreservation": {
+    "results": [
+      {
+        "path": "/auth/redirect",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-10",
+        "status": 200
+      },
+      {
+        "path": "/blog",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-1",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-3",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-2",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-4",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-5",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-9",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-8",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-6",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-7",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/admin/super/users/invite",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/dashboard/admin/super/default",
+        "status": 200
+      },
+      {
+        "path": "/blog/routes/group-1",
+        "status": 200
+      },
+      {
+        "path": "/blog/oxford-to-helsinki",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/currys/admin/users",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/dashboard/currys/bookings/all/bookings",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/dashboard/partner/fastfreight",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/default",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/thank-you",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/partner/fastfreight/vehicles",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/dashboard/partner/fastfreight/archive",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/road-freight",
+        "status": 200
+      },
+      {
+        "path": "/air-freight",
+        "status": 200
+      },
+      {
+        "path": "/sea-freight",
+        "status": 200
+      },
+      {
+        "path": "/time-critical-freight",
+        "status": 200
+      },
+      {
+        "path": "/european-freight",
+        "status": 200
+      },
+      {
+        "path": "/freight-resources",
+        "status": 200
+      },
+      {
+        "path": "/api/auth/providers",
+        "status": 200
+      },
+      {
+        "path": "/api/auth/session",
+        "status": 200
+      },
+      {
+        "path": "/api/sitemap",
+        "status": 200
+      },
+      {
+        "path": "/robots.txt",
+        "status": 200
+      }
+    ],
+    "shared": [
+      {
+        "host": "express-pallets.app",
+        "status": 200,
+        "legacyHomepagePreserved": true,
+        "articleLinks": 2352
+      },
+      {
+        "host": "www.express-pallets.app",
+        "status": 200,
+        "legacyHomepagePreserved": true,
+        "articleLinks": 2352
+      },
+      {
+        "host": "lithiumbattery.app",
+        "status": 200,
+        "legacyHomepagePreserved": true,
+        "articleLinks": 2352
+      },
+      {
+        "host": "www.lithiumbattery.app",
+        "status": 200,
+        "legacyHomepagePreserved": true,
+        "articleLinks": 2352
+      }
+    ],
+    "live": [
+      {
+        "host": "midnight-xpress.com",
+        "status": 307,
+        "location": "https://www.midnight-xpress.com/",
+        "buildId": null,
+        "productionUnchanged": true
+      },
+      {
+        "host": "www.midnight-xpress.com",
+        "status": 200,
+        "location": null,
+        "buildId": "WvK8mNrQlQgfctSu1a6ma",
+        "productionUnchanged": true
+      },
+      {
+        "host": "express-pallets.app",
+        "status": 307,
+        "location": "https://www.express-pallets.app/",
+        "buildId": null,
+        "productionUnchanged": true
+      },
+      {
+        "host": "www.express-pallets.app",
+        "status": 200,
+        "location": null,
+        "buildId": "WvK8mNrQlQgfctSu1a6ma",
+        "productionUnchanged": true
+      },
+      {
+        "host": "lithiumbattery.app",
+        "status": 307,
+        "location": "https://www.lithiumbattery.app/",
+        "buildId": null,
+        "productionUnchanged": true
+      },
+      {
+        "host": "www.lithiumbattery.app",
+        "status": 200,
+        "location": null,
+        "buildId": "WvK8mNrQlQgfctSu1a6ma",
+        "productionUnchanged": true
+      }
+    ],
+    "missingProductionPatterns": [],
+    "articleDatasetUnchanged": true,
+    "articleUrls": 2352
+  },
+  "privateReview": {
+    "sourceFiles": 634,
+    "clientFiles": 232,
+    "privateCredentialMatches": [],
+    "productionSecretPersistedLocally": false,
+    "note": "Fresh NEXTAUTH_SECRET was generated in memory and transmitted only to Vercel; no local value exists to scan. Known private recovered environment values checked in tracked/candidate files and client assets. Public anon/map keys are intentionally excluded from private-secret classification."
+  },
+  "validation": {
+    "tests": "50/50",
+    "rootTypeScript": "passed",
+    "appTypeScript": "passed",
+    "productionBuild": "161/161",
+    "whitespace": "passed"
+  }
 }
