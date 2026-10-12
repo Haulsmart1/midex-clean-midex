@@ -1,20 +1,36 @@
 {
-  "baseRelease": "696047c",
+  "baseProductionRelease": "696047c",
+  "approvedDesignCommit": "9f067f8",
   "branch": "stu-homepage-preview",
-  "tests": {
-    "passed": 50,
-    "failed": 0
+  "correction": "European coverage only",
+  "countries": 13,
+  "addedCountries": [
+    "Portugal",
+    "Norway",
+    "Sweden",
+    "Denmark",
+    "Finland"
+  ],
+  "illustrativeConnectionLines": 5,
+  "mapAspectRatio": "720x540 unchanged",
+  "countryList": "European coverage includes",
+  "availability": "Confirmed individually by operations",
+  "scope": {
+    "unrelatedHomepageSourceUnchanged": true,
+    "otherServiceContentUnchanged": true,
+    "viewportPixelsUnchanged": {
+      "desktop-viewport.png": true,
+      "mobile-viewport.png": false
+    },
+    "mapAspectRatioUnchanged": true,
+    "countries": 13,
+    "illustrativeConnectionLines": 5,
+    "newCountryPagesCreated": 0
   },
-  "typeScript": {
-    "root": "passed",
-    "app": "passed"
-  },
-  "productionBuild": {
-    "pages": 161,
-    "next": "15.5.27",
-    "homepagePageJavaScriptKb": 7.09,
-    "firstLoadJavaScriptKb": 107
-  },
+  "testsPassed": 50,
+  "rootTypeScript": "passed",
+  "appTypeScript": "passed",
+  "productionBuildPages": 161,
   "routes": {
     "results": [
       {
@@ -229,60 +245,6 @@
     "missingProductionPatterns": [],
     "articleDatasetUnchanged": true,
     "articleUrls": 2352
-  },
-  "metadata": {
-    "pages": [
-      {
-        "path": "/",
-        "status": 200,
-        "descriptionCount": 1,
-        "h1Count": 1,
-        "canonical": "https://www.midnight-xpress.com/",
-        "structuredDataValid": true
-      },
-      {
-        "path": "/road-freight",
-        "status": 200,
-        "descriptionCount": 1,
-        "h1Count": 1,
-        "canonical": "https://www.midnight-xpress.com/road-freight",
-        "structuredDataValid": true
-      },
-      {
-        "path": "/air-freight",
-        "status": 200,
-        "descriptionCount": 1,
-        "h1Count": 1,
-        "canonical": "https://www.midnight-xpress.com/air-freight",
-        "structuredDataValid": true
-      },
-      {
-        "path": "/sea-freight",
-        "status": 200,
-        "descriptionCount": 1,
-        "h1Count": 1,
-        "canonical": "https://www.midnight-xpress.com/sea-freight",
-        "structuredDataValid": true
-      },
-      {
-        "path": "/time-critical-freight",
-        "status": 200,
-        "descriptionCount": 1,
-        "h1Count": 1,
-        "canonical": "https://www.midnight-xpress.com/time-critical-freight",
-        "structuredDataValid": true
-      },
-      {
-        "path": "/european-freight",
-        "status": 200,
-        "descriptionCount": 1,
-        "h1Count": 1,
-        "canonical": "https://www.midnight-xpress.com/european-freight",
-        "structuredDataValid": true
-      }
-    ],
-    "internalLinksChecked": 16,
-    "brokenLinks": []
   },
   "browser": {
     "base": "http://127.0.0.1:3017",
@@ -570,6 +532,12 @@
           ],
           "passes": 24
         },
+        "mapBox": {
+          "x": 128,
+          "y": 2324.078125,
+          "width": 580.890625,
+          "height": 482
+        },
         "screenshot": "artifacts/homepage-preview/desktop.png"
       },
       {
@@ -580,8 +548,8 @@
         },
         "menuKeyboard": true,
         "dom": {
-          "bodyScrollHeight": 7906,
-          "htmlScrollHeight": 7906,
+          "bodyScrollHeight": 7969,
+          "htmlScrollHeight": 7969,
           "width": 390,
           "scrollWidth": 390,
           "h1Count": 1,
@@ -855,6 +823,12 @@
           ],
           "passes": 25
         },
+        "mapBox": {
+          "x": 22,
+          "y": 4240.953125,
+          "width": 346,
+          "height": 305.84375
+        },
         "screenshot": "artifacts/homepage-preview/mobile.png"
       }
     ],
@@ -874,28 +848,8 @@
     "blocked": [],
     "formsSubmitted": false
   },
-  "privateScan": {
-    "sourceFiles": 631,
-    "clientFiles": 232,
-    "privateCredentialMatches": [],
-    "productionSecretPersistedLocally": false,
-    "note": "Fresh NEXTAUTH_SECRET was generated in memory and transmitted only to Vercel; no local value exists to scan. Known private recovered environment values checked in tracked/candidate files and client assets. Public anon/map keys are intentionally excluded from private-secret classification."
-  },
-  "manualAccessibilityReview": {
-    "imageOverlayText": "Desktop and mobile hero/photographic text visually checked; remaining axe color-contrast incomplete results are image-backed regions, not an accessibility certification.",
-    "primaryCtaHeightPx": 52,
-    "keyboardSkipFocus": "visible",
-    "mobileMenuKeyboard": "passed",
-    "viewportWidthsChecked": [
-      320,
-      390,
-      768,
-      1440
-    ]
-  },
-  "protectedApplicationUnchanged": true,
-  "articleDatasetsUnchanged": true,
-  "productionNotDeployed": true,
-  "notificationsSubmitted": false,
-  "checkedAt": "2026-10-12T15:21:58.876Z"
+  "noNewCountryPages": true,
+  "productionUnchanged": true,
+  "customerActionsInitiated": false,
+  "checkedAt": "2026-10-12T15:56:38.785Z"
 }
