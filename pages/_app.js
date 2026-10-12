@@ -14,10 +14,12 @@ import Script from 'next/script';
 import Head from 'next/head';
 
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
+  const freightMarketing = Component.freightMarketing && !pageProps.preserveSharedHomepage;
   const getLayout = Component.getLayout || ((page) => page);
 
   return (
     <SessionProvider session={session}>
+      {!freightMarketing && <>
       <Head>
         <link
           rel="stylesheet"
@@ -42,6 +44,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
         strategy="beforeInteractive"
       />
 
+      </>}
       {getLayout(<Component {...pageProps} />)}
     </SessionProvider>
   );

@@ -2,11 +2,14 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 class MyDocument extends Document {
   render() {
+    const page = this.props.__NEXT_DATA__.page;
+    const marketing = ["/", "/road-freight", "/air-freight", "/sea-freight", "/time-critical-freight", "/european-freight", "/freight-resources"].includes(page) && !this.props.__NEXT_DATA__.props.pageProps.preserveSharedHomepage;
     return (
       <Html lang="en">
         <Head>
           <meta charSet="UTF-8" />
           <meta name="theme-color" content="#000000" />
+          {!marketing && <>
           <meta
             name="description"
             content="Midnight Express Freight — express pallet booking & logistics across Europe."
@@ -25,6 +28,8 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.18.0/plugins/SearchBox/SearchBox.css"
           />
+          </>}
+          {marketing && <link rel="icon" href="/images/fav.png" />}
         </Head>
         <body
           style={{

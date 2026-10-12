@@ -1,0 +1,901 @@
+{
+  "baseRelease": "696047c",
+  "branch": "stu-homepage-preview",
+  "tests": {
+    "passed": 50,
+    "failed": 0
+  },
+  "typeScript": {
+    "root": "passed",
+    "app": "passed"
+  },
+  "productionBuild": {
+    "pages": 161,
+    "next": "15.5.27",
+    "homepagePageJavaScriptKb": 7.09,
+    "firstLoadJavaScriptKb": 107
+  },
+  "routes": {
+    "results": [
+      {
+        "path": "/auth/redirect",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-10",
+        "status": 200
+      },
+      {
+        "path": "/blog",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-1",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-3",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-2",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-4",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-5",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-9",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-8",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-6",
+        "status": 200
+      },
+      {
+        "path": "/blog/group-7",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/admin/super/users/invite",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/dashboard/admin/super/default",
+        "status": 200
+      },
+      {
+        "path": "/blog/routes/group-1",
+        "status": 200
+      },
+      {
+        "path": "/blog/oxford-to-helsinki",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/currys/admin/users",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/dashboard/currys/bookings/all/bookings",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/dashboard/partner/fastfreight",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/default",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/thank-you",
+        "status": 200
+      },
+      {
+        "path": "/dashboard/partner/fastfreight/vehicles",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/dashboard/partner/fastfreight/archive",
+        "status": 307,
+        "location": "/login"
+      },
+      {
+        "path": "/road-freight",
+        "status": 200
+      },
+      {
+        "path": "/air-freight",
+        "status": 200
+      },
+      {
+        "path": "/sea-freight",
+        "status": 200
+      },
+      {
+        "path": "/time-critical-freight",
+        "status": 200
+      },
+      {
+        "path": "/european-freight",
+        "status": 200
+      },
+      {
+        "path": "/freight-resources",
+        "status": 200
+      },
+      {
+        "path": "/api/auth/providers",
+        "status": 200
+      },
+      {
+        "path": "/api/auth/session",
+        "status": 200
+      },
+      {
+        "path": "/api/sitemap",
+        "status": 200
+      },
+      {
+        "path": "/robots.txt",
+        "status": 200
+      }
+    ],
+    "shared": [
+      {
+        "host": "express-pallets.app",
+        "status": 200,
+        "legacyHomepagePreserved": true,
+        "articleLinks": 2352
+      },
+      {
+        "host": "www.express-pallets.app",
+        "status": 200,
+        "legacyHomepagePreserved": true,
+        "articleLinks": 2352
+      },
+      {
+        "host": "lithiumbattery.app",
+        "status": 200,
+        "legacyHomepagePreserved": true,
+        "articleLinks": 2352
+      },
+      {
+        "host": "www.lithiumbattery.app",
+        "status": 200,
+        "legacyHomepagePreserved": true,
+        "articleLinks": 2352
+      }
+    ],
+    "live": [
+      {
+        "host": "midnight-xpress.com",
+        "status": 307,
+        "location": "https://www.midnight-xpress.com/",
+        "buildId": null,
+        "productionUnchanged": true
+      },
+      {
+        "host": "www.midnight-xpress.com",
+        "status": 200,
+        "location": null,
+        "buildId": "WvK8mNrQlQgfctSu1a6ma",
+        "productionUnchanged": true
+      },
+      {
+        "host": "express-pallets.app",
+        "status": 307,
+        "location": "https://www.express-pallets.app/",
+        "buildId": null,
+        "productionUnchanged": true
+      },
+      {
+        "host": "www.express-pallets.app",
+        "status": 200,
+        "location": null,
+        "buildId": "WvK8mNrQlQgfctSu1a6ma",
+        "productionUnchanged": true
+      },
+      {
+        "host": "lithiumbattery.app",
+        "status": 307,
+        "location": "https://www.lithiumbattery.app/",
+        "buildId": null,
+        "productionUnchanged": true
+      },
+      {
+        "host": "www.lithiumbattery.app",
+        "status": 200,
+        "location": null,
+        "buildId": "WvK8mNrQlQgfctSu1a6ma",
+        "productionUnchanged": true
+      }
+    ],
+    "missingProductionPatterns": [],
+    "articleDatasetUnchanged": true,
+    "articleUrls": 2352
+  },
+  "metadata": {
+    "pages": [
+      {
+        "path": "/",
+        "status": 200,
+        "descriptionCount": 1,
+        "h1Count": 1,
+        "canonical": "https://www.midnight-xpress.com/",
+        "structuredDataValid": true
+      },
+      {
+        "path": "/road-freight",
+        "status": 200,
+        "descriptionCount": 1,
+        "h1Count": 1,
+        "canonical": "https://www.midnight-xpress.com/road-freight",
+        "structuredDataValid": true
+      },
+      {
+        "path": "/air-freight",
+        "status": 200,
+        "descriptionCount": 1,
+        "h1Count": 1,
+        "canonical": "https://www.midnight-xpress.com/air-freight",
+        "structuredDataValid": true
+      },
+      {
+        "path": "/sea-freight",
+        "status": 200,
+        "descriptionCount": 1,
+        "h1Count": 1,
+        "canonical": "https://www.midnight-xpress.com/sea-freight",
+        "structuredDataValid": true
+      },
+      {
+        "path": "/time-critical-freight",
+        "status": 200,
+        "descriptionCount": 1,
+        "h1Count": 1,
+        "canonical": "https://www.midnight-xpress.com/time-critical-freight",
+        "structuredDataValid": true
+      },
+      {
+        "path": "/european-freight",
+        "status": 200,
+        "descriptionCount": 1,
+        "h1Count": 1,
+        "canonical": "https://www.midnight-xpress.com/european-freight",
+        "structuredDataValid": true
+      }
+    ],
+    "internalLinksChecked": 16,
+    "brokenLinks": []
+  },
+  "browser": {
+    "base": "http://127.0.0.1:3017",
+    "results": [
+      {
+        "device": "desktop",
+        "focus": {
+          "text": "Skip to content",
+          "outline": "solid"
+        },
+        "menuKeyboard": null,
+        "dom": {
+          "bodyScrollHeight": 4956,
+          "htmlScrollHeight": 4956,
+          "width": 1440,
+          "scrollWidth": 1425,
+          "h1Count": 1,
+          "headings": [
+            "EUROPEANFREIGHT.AIR. SEA. ROAD.",
+            "Your freight. Every direction.",
+            "WHEN ITCAN’T WAIT.",
+            "Across borders.Closer to business.",
+            "Freight moves.The paperwork should, too.",
+            "Practical transport.Commercial focus.",
+            "Familiar routes. A direct approach.",
+            "HAVE FREIGHTTO MOVE?"
+          ],
+          "title": "UK & European Freight | Road, Air & Sea | Midnight Express",
+          "description": "Dedicated road freight across the UK, Ireland and Europe. Customs-supported international movements and air or sea freight enquiries. Talk to Midnight Express.",
+          "canonical": "https://www.midnight-xpress.com/",
+          "schemas": [
+            {
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://www.midnight-xpress.com/#organization",
+                  "name": "Midnight Express Europe Ltd",
+                  "url": "https://www.midnight-xpress.com/",
+                  "telephone": "+448009991263",
+                  "email": "freight@midnight-express.org"
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://www.midnight-xpress.com/#website",
+                  "url": "https://www.midnight-xpress.com/",
+                  "name": "Midnight Express",
+                  "publisher": {
+                    "@id": "https://www.midnight-xpress.com/#organization"
+                  }
+                },
+                {
+                  "@type": "WebPage",
+                  "@id": "https://www.midnight-xpress.com/#homepage",
+                  "url": "https://www.midnight-xpress.com/",
+                  "name": "UK & European Freight | Road, Air & Sea Enquiries | Midnight Express",
+                  "isPartOf": {
+                    "@id": "https://www.midnight-xpress.com/#website"
+                  }
+                }
+              ]
+            }
+          ],
+          "missingImageAlt": 0,
+          "brokenImages": [],
+          "links": [
+            {
+              "text": "Skip to content",
+              "href": "#main-content"
+            },
+            {
+              "text": "Speak to operations 0800 999 1263",
+              "href": "tel:+448009991263"
+            },
+            {
+              "text": "MIDNIGHTEXPRESS",
+              "href": "/"
+            },
+            {
+              "text": "Road",
+              "href": "/road-freight"
+            },
+            {
+              "text": "Air",
+              "href": "/air-freight"
+            },
+            {
+              "text": "Sea",
+              "href": "/sea-freight"
+            },
+            {
+              "text": "Time-critical",
+              "href": "/time-critical-freight"
+            },
+            {
+              "text": "Europe",
+              "href": "/european-freight"
+            },
+            {
+              "text": "Customer login ↗",
+              "href": "/login"
+            },
+            {
+              "text": "Road freight",
+              "href": "/road-freight"
+            },
+            {
+              "text": "Air freight",
+              "href": "/air-freight"
+            },
+            {
+              "text": "Sea freight",
+              "href": "/sea-freight"
+            },
+            {
+              "text": "Time-critical freight",
+              "href": "/time-critical-freight"
+            },
+            {
+              "text": "Europe freight",
+              "href": "/european-freight"
+            },
+            {
+              "text": "Get a freight quote",
+              "href": "/booking"
+            },
+            {
+              "text": "Customer login",
+              "href": "/login"
+            },
+            {
+              "text": "Get a freight quote↗",
+              "href": "/booking"
+            },
+            {
+              "text": "Speak to operations ↗",
+              "href": "tel:+448009991263"
+            },
+            {
+              "text": "Explore road freight↗",
+              "href": "/road-freight"
+            },
+            {
+              "text": "Discuss air freight↗",
+              "href": "/air-freight"
+            },
+            {
+              "text": "Discuss sea freight↗",
+              "href": "/sea-freight"
+            },
+            {
+              "text": "Call operations ↗",
+              "href": "tel:+448009991263"
+            },
+            {
+              "text": "Explore time-critical freight ↗",
+              "href": "/time-critical-freight"
+            },
+            {
+              "text": "Explore European freight ↗",
+              "href": "/european-freight"
+            },
+            {
+              "text": "Discuss your shipment ↗",
+              "href": "mailto:freight@midnight-express.org"
+            },
+            {
+              "text": "Find your road solution ↗",
+              "href": "/road-freight"
+            },
+            {
+              "text": "Freight insights & European routes ↗",
+              "href": "/blog"
+            },
+            {
+              "text": "UK ↔ Ireland↗",
+              "href": "/freight/liverpool-to-dublin"
+            },
+            {
+              "text": "UK ↔ Northern Ireland↗",
+              "href": "/freight/liverpool-to-belfast"
+            },
+            {
+              "text": "South coast freight↗",
+              "href": "/freight/southampton-to-plymouth"
+            },
+            {
+              "text": "UK dedicated movements↗",
+              "href": "/freight/london-to-manchester"
+            },
+            {
+              "text": "Browse the complete freight article directory ↗",
+              "href": "/freight-resources"
+            },
+            {
+              "text": "Get a freight quote↗",
+              "href": "/booking"
+            },
+            {
+              "text": "Speak to operations ↗",
+              "href": "tel:+448009991263"
+            },
+            {
+              "text": "MIDNIGHTEXPRESS",
+              "href": "/"
+            },
+            {
+              "text": "0800 999 1263",
+              "href": "tel:+448009991263"
+            },
+            {
+              "text": "freight@midnight-express.org",
+              "href": "mailto:freight@midnight-express.org"
+            },
+            {
+              "text": "Road freight",
+              "href": "/road-freight"
+            },
+            {
+              "text": "Air freight",
+              "href": "/air-freight"
+            },
+            {
+              "text": "Sea freight",
+              "href": "/sea-freight"
+            },
+            {
+              "text": "Time-critical freight",
+              "href": "/time-critical-freight"
+            },
+            {
+              "text": "Europe freight",
+              "href": "/european-freight"
+            },
+            {
+              "text": "About Midnight",
+              "href": "/about"
+            },
+            {
+              "text": "Freight insights & routes",
+              "href": "/blog"
+            },
+            {
+              "text": "Complete article directory",
+              "href": "/freight-resources"
+            },
+            {
+              "text": "Request a quote",
+              "href": "/booking"
+            },
+            {
+              "text": "Open an account",
+              "href": "/register"
+            },
+            {
+              "text": "Customer login",
+              "href": "/login"
+            },
+            {
+              "text": "Get a freight quote↗",
+              "href": "/booking"
+            }
+          ],
+          "heroButtons": [
+            {
+              "href": "/booking",
+              "height": 52
+            },
+            {
+              "href": "tel:+448009991263",
+              "height": 52
+            }
+          ],
+          "mapSdkLoaded": false,
+          "overflowElements": [],
+          "reducedMotion": true
+        },
+        "axe": {
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "color-contrast",
+              "nodeCount": 12
+            }
+          ],
+          "passes": 24
+        },
+        "screenshot": "artifacts/homepage-preview/desktop.png"
+      },
+      {
+        "device": "mobile",
+        "focus": {
+          "text": "Skip to content",
+          "outline": "solid"
+        },
+        "menuKeyboard": true,
+        "dom": {
+          "bodyScrollHeight": 7906,
+          "htmlScrollHeight": 7906,
+          "width": 390,
+          "scrollWidth": 390,
+          "h1Count": 1,
+          "headings": [
+            "EUROPEANFREIGHT.AIR. SEA. ROAD.",
+            "Your freight. Every direction.",
+            "WHEN ITCAN’T WAIT.",
+            "Across borders.Closer to business.",
+            "Freight moves.The paperwork should, too.",
+            "Practical transport.Commercial focus.",
+            "Familiar routes. A direct approach.",
+            "HAVE FREIGHTTO MOVE?"
+          ],
+          "title": "UK & European Freight | Road, Air & Sea | Midnight Express",
+          "description": "Dedicated road freight across the UK, Ireland and Europe. Customs-supported international movements and air or sea freight enquiries. Talk to Midnight Express.",
+          "canonical": "https://www.midnight-xpress.com/",
+          "schemas": [
+            {
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://www.midnight-xpress.com/#organization",
+                  "name": "Midnight Express Europe Ltd",
+                  "url": "https://www.midnight-xpress.com/",
+                  "telephone": "+448009991263",
+                  "email": "freight@midnight-express.org"
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://www.midnight-xpress.com/#website",
+                  "url": "https://www.midnight-xpress.com/",
+                  "name": "Midnight Express",
+                  "publisher": {
+                    "@id": "https://www.midnight-xpress.com/#organization"
+                  }
+                },
+                {
+                  "@type": "WebPage",
+                  "@id": "https://www.midnight-xpress.com/#homepage",
+                  "url": "https://www.midnight-xpress.com/",
+                  "name": "UK & European Freight | Road, Air & Sea Enquiries | Midnight Express",
+                  "isPartOf": {
+                    "@id": "https://www.midnight-xpress.com/#website"
+                  }
+                }
+              ]
+            }
+          ],
+          "missingImageAlt": 0,
+          "brokenImages": [],
+          "links": [
+            {
+              "text": "Skip to content",
+              "href": "#main-content"
+            },
+            {
+              "text": "Speak to operations 0800 999 1263",
+              "href": "tel:+448009991263"
+            },
+            {
+              "text": "MIDNIGHTEXPRESS",
+              "href": "/"
+            },
+            {
+              "text": "Road",
+              "href": "/road-freight"
+            },
+            {
+              "text": "Air",
+              "href": "/air-freight"
+            },
+            {
+              "text": "Sea",
+              "href": "/sea-freight"
+            },
+            {
+              "text": "Time-critical",
+              "href": "/time-critical-freight"
+            },
+            {
+              "text": "Europe",
+              "href": "/european-freight"
+            },
+            {
+              "text": "Customer login ↗",
+              "href": "/login"
+            },
+            {
+              "text": "Road freight",
+              "href": "/road-freight"
+            },
+            {
+              "text": "Air freight",
+              "href": "/air-freight"
+            },
+            {
+              "text": "Sea freight",
+              "href": "/sea-freight"
+            },
+            {
+              "text": "Time-critical freight",
+              "href": "/time-critical-freight"
+            },
+            {
+              "text": "Europe freight",
+              "href": "/european-freight"
+            },
+            {
+              "text": "Get a freight quote",
+              "href": "/booking"
+            },
+            {
+              "text": "Customer login",
+              "href": "/login"
+            },
+            {
+              "text": "Get a freight quote↗",
+              "href": "/booking"
+            },
+            {
+              "text": "Speak to operations ↗",
+              "href": "tel:+448009991263"
+            },
+            {
+              "text": "Explore road freight↗",
+              "href": "/road-freight"
+            },
+            {
+              "text": "Discuss air freight↗",
+              "href": "/air-freight"
+            },
+            {
+              "text": "Discuss sea freight↗",
+              "href": "/sea-freight"
+            },
+            {
+              "text": "Call operations ↗",
+              "href": "tel:+448009991263"
+            },
+            {
+              "text": "Explore time-critical freight ↗",
+              "href": "/time-critical-freight"
+            },
+            {
+              "text": "Explore European freight ↗",
+              "href": "/european-freight"
+            },
+            {
+              "text": "Discuss your shipment ↗",
+              "href": "mailto:freight@midnight-express.org"
+            },
+            {
+              "text": "Find your road solution ↗",
+              "href": "/road-freight"
+            },
+            {
+              "text": "Freight insights & European routes ↗",
+              "href": "/blog"
+            },
+            {
+              "text": "UK ↔ Ireland↗",
+              "href": "/freight/liverpool-to-dublin"
+            },
+            {
+              "text": "UK ↔ Northern Ireland↗",
+              "href": "/freight/liverpool-to-belfast"
+            },
+            {
+              "text": "South coast freight↗",
+              "href": "/freight/southampton-to-plymouth"
+            },
+            {
+              "text": "UK dedicated movements↗",
+              "href": "/freight/london-to-manchester"
+            },
+            {
+              "text": "Browse the complete freight article directory ↗",
+              "href": "/freight-resources"
+            },
+            {
+              "text": "Get a freight quote↗",
+              "href": "/booking"
+            },
+            {
+              "text": "Speak to operations ↗",
+              "href": "tel:+448009991263"
+            },
+            {
+              "text": "MIDNIGHTEXPRESS",
+              "href": "/"
+            },
+            {
+              "text": "0800 999 1263",
+              "href": "tel:+448009991263"
+            },
+            {
+              "text": "freight@midnight-express.org",
+              "href": "mailto:freight@midnight-express.org"
+            },
+            {
+              "text": "Road freight",
+              "href": "/road-freight"
+            },
+            {
+              "text": "Air freight",
+              "href": "/air-freight"
+            },
+            {
+              "text": "Sea freight",
+              "href": "/sea-freight"
+            },
+            {
+              "text": "Time-critical freight",
+              "href": "/time-critical-freight"
+            },
+            {
+              "text": "Europe freight",
+              "href": "/european-freight"
+            },
+            {
+              "text": "About Midnight",
+              "href": "/about"
+            },
+            {
+              "text": "Freight insights & routes",
+              "href": "/blog"
+            },
+            {
+              "text": "Complete article directory",
+              "href": "/freight-resources"
+            },
+            {
+              "text": "Request a quote",
+              "href": "/booking"
+            },
+            {
+              "text": "Open an account",
+              "href": "/register"
+            },
+            {
+              "text": "Customer login",
+              "href": "/login"
+            },
+            {
+              "text": "Get a freight quote↗",
+              "href": "/booking"
+            }
+          ],
+          "heroButtons": [
+            {
+              "href": "/booking",
+              "height": 52
+            },
+            {
+              "href": "tel:+448009991263",
+              "height": 52
+            }
+          ],
+          "mapSdkLoaded": false,
+          "overflowElements": [],
+          "reducedMotion": true
+        },
+        "axe": {
+          "violations": [],
+          "incomplete": [
+            {
+              "id": "color-contrast",
+              "nodeCount": 11
+            }
+          ],
+          "passes": 25
+        },
+        "screenshot": "artifacts/homepage-preview/mobile.png"
+      }
+    ],
+    "responsive": [
+      {
+        "width": 320,
+        "scrollWidth": 320,
+        "overflow": []
+      },
+      {
+        "width": 768,
+        "scrollWidth": 753,
+        "overflow": []
+      }
+    ],
+    "errors": [],
+    "blocked": [],
+    "formsSubmitted": false
+  },
+  "privateScan": {
+    "sourceFiles": 631,
+    "clientFiles": 232,
+    "privateCredentialMatches": [],
+    "productionSecretPersistedLocally": false,
+    "note": "Fresh NEXTAUTH_SECRET was generated in memory and transmitted only to Vercel; no local value exists to scan. Known private recovered environment values checked in tracked/candidate files and client assets. Public anon/map keys are intentionally excluded from private-secret classification."
+  },
+  "manualAccessibilityReview": {
+    "imageOverlayText": "Desktop and mobile hero/photographic text visually checked; remaining axe color-contrast incomplete results are image-backed regions, not an accessibility certification.",
+    "primaryCtaHeightPx": 52,
+    "keyboardSkipFocus": "visible",
+    "mobileMenuKeyboard": "passed",
+    "viewportWidthsChecked": [
+      320,
+      390,
+      768,
+      1440
+    ]
+  },
+  "protectedApplicationUnchanged": true,
+  "articleDatasetsUnchanged": true,
+  "productionNotDeployed": true,
+  "notificationsSubmitted": false,
+  "checkedAt": "2026-10-12T15:21:58.876Z"
+}

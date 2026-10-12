@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Allow: /api/sitemap
 
 Sitemap: https://www.midnight-xpress.com/api/sitemap
