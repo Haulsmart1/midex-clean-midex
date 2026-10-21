@@ -38,5 +38,6 @@ test('contact route cannot claim submission and is discoverable from the freight
   assert.doesNotMatch(page, /Message sent!/);
   assert.match(page, /not submitted until you send/i);
   assert.match(page, /does not create an automated booking/i);
-  assert.match(layout, /href="\/contact"/);
+  assert.equal((layout.match(/href="\/contact"/g) || []).length, 3);
+  assert.doesNotMatch(layout, /href="\/booking"/);
 });
