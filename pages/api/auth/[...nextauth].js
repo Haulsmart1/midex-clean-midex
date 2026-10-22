@@ -106,6 +106,37 @@ export const authOptions = {
         }
       },
     }),
+    CredentialsProvider({
+      id: 'supabase-session',
+      name: 'Verified Supabase magic link',
+      credentials: {
+        accessToken: { label: 'Access token', type: 'text' },
+        refreshToken: { label: 'Refresh token', type: 'text' },
+      },
+      authorize: async (credentials) => {
+        const { accessToken, refreshToken } = credentials || {};
+        if (!accessToken || !refreshToken) return null;
+        try {
+          const verified = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+            { auth: { persistSession: false, autoRefreshToken: false },
+              global: { headers: { Authorization: `Bearer ${accessToken}` } } }
+          );
+          const { data, error } = await verified.auth.getUser(accessToken);
+          if (error || !data?.user) return null;
+          const { data: profile, error: profileError } = await verified.from('users')
+            .select('name, role, roles, partner_type, is_active')
+            .eq('id', data.user.id).maybeSingle();
+          if (profileError || !profile || profile.is_active === false) return null;
+          return {
+            id: data.user.id, email: data.user.email, name: profile.name || '',
+            role: profile.role, roles: profile.roles, partner_type: profile.partner_type || '',
+            access_token: accessToken, refresh_token: refreshToken,
+          };
+        } catch { return null; }
+      },
+    }),
   ],
 
   session: {
@@ -147,7 +178,7 @@ export const authOptions = {
     error: '/login',
   },
 
-  secret: process.env.NEXTAUTH_SECRET || 'changeme',
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default async function authHandler(req, res) {
