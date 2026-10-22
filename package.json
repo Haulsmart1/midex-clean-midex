@@ -2,7 +2,7 @@
   "name": "midex",
   "version": "1.0.0",
   "scripts": {
-    "test:local": "node --experimental-vm-modules --test scripts/freight.test.cjs scripts/security.test.cjs scripts/routing.test.cjs scripts/workspace.test.cjs scripts/release-dependencies.test.cjs scripts/p0-release.test.cjs scripts/manual-enquiry.test.cjs",
+    "test:local": "node --experimental-vm-modules --test scripts/freight.test.cjs scripts/security.test.cjs scripts/routing.test.cjs scripts/workspace.test.cjs scripts/release-dependencies.test.cjs scripts/p0-release.test.cjs scripts/manual-enquiry.test.cjs scripts/magic-link.test.cjs",
     "scan:secrets": "node scripts/scan-secrets.cjs",
     "dev": "next dev",
     "build": "next build",
@@ -75,15 +75,8 @@
     "vercel": "^48.1.0",
     "xero-node": "^11.0.0"
   },
-  "engines": {
-    "node": "22.x"
-  },
-  "overrides": {
-    "next": {
-      "sharp": "0.35.5"
-    },
-    "lodash": "4.18.1"
-  },
+  "engines": { "node": "22.x" },
+  "overrides": { "next": { "sharp": "0.35.5" }, "lodash": "4.18.1" },
   "devDependencies": {
     "@types/leaflet": "^1.9.17",
     "@types/node": "^24.8.1",
