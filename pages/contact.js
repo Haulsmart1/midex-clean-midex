@@ -1,82 +1,54 @@
-import { useState } from 'react';
-import Link from 'next/link';
+import FreightLayout, { operationsPhone } from '@/components/freight/FreightLayout';
+import manualEnquiry from '@/lib/manualEnquiry.cjs';
+import s from '@/styles/Contact.module.css';
+
+const { buildManualEnquiryMailto } = manualEnquiry;
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Message sent!');
-    setFormData({ name: '', email: '', message: '' });
+  const openEmailDraft = (event) => {
+    event.preventDefault();
+    const fields = Object.fromEntries(new FormData(event.currentTarget).entries());
+    window.location.assign(buildManualEnquiryMailto(fields));
   };
 
-  return (
-    <div style={{
-      backgroundImage: 'url("/midex5.jpg")',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      minHeight: '100vh',
-    }}>
-      {/* 🌐 Navigation Bar */}
-      <nav style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '2rem',
-        padding: '1.2rem',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 10,
-      }}>
-        <Link href="/" className="btn btn-outline-light fw-bold">Home</Link>
-        <Link href="/contact" className="btn btn-outline-light fw-bold">Contact</Link>
-        <Link href="/login" className="btn btn-outline-light fw-bold">Login</Link>
-      </nav>
-
-      <div className="container py-5">
-        <div className="col-md-6 mx-auto p-4 bg-dark text-white rounded">
-          <h2 className="mb-4 text-center">Contact Us</h2>
-
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label>Name</label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                className="form-control"
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>Email</label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                className="form-control"
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>Message</label>
-              <textarea
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                rows="5"
-                required
-                className="form-control"
-              />
-            </div>
-
-            <button type="submit" className="btn btn-light w-100 mt-3 fw-bold">
-              Send Message
-            </button>
-          </form>
+  return <FreightLayout
+    title="Manual freight enquiry | Midnight Express"
+    description="Prepare a road, air or sea freight enquiry for the Midnight Express operations team."
+    path="/contact"
+  >
+    <section className={s.layout}>
+      <div className={s.intro}>
+        <p className={s.eyebrow}>MANUAL FREIGHT ENQUIRY</p>
+        <h1>Tell operations what needs moving.</h1>
+        <p>Provide the essential collection, delivery and goods details. We will prepare them as an email for you to review and send to Midnight Express operations.</p>
+        <div className={s.steps}>
+          <strong>What happens next</strong>
+          <ol>
+            <li>Complete the freight details.</li>
+            <li>Your email app opens with a prepared message.</li>
+            <li>Review and send it; operations can then respond manually.</li>
+          </ol>
         </div>
+        <p className={s.boundary}>This page does not create an automated booking, price, invoice or payment.</p>
+        <a className={s.phone} href={operationsPhone}>Urgent requirement? Call operations on 0800 999 1263.</a>
       </div>
-    </div>
-  );
+
+      <form className={s.form} onSubmit={openEmailDraft} aria-describedby="submission-note">
+        <div className={s.grid}>
+          <label>Name<input name="name" autoComplete="name" required /></label>
+          <label>Company<input name="company" autoComplete="organization" required /></label>
+          <label>Email<input name="replyEmail" type="email" autoComplete="email" required /></label>
+          <label>Phone <span>(optional)</span><input name="phone" type="tel" autoComplete="tel" /></label>
+          <label>Collection location<input name="origin" autoComplete="street-address" required /></label>
+          <label>Delivery location<input name="destination" required /></label>
+        </div>
+        <label>Goods and load details<textarea name="goods" rows="5" placeholder="Describe the goods, quantity, weight, dimensions and any special handling requirements." required /></label>
+        <label>Preferred timing <span>(optional)</span><input name="timing" placeholder="Collection date or delivery deadline" /></label>
+        <button type="submit">Open email draft</button>
+        <p id="submission-note" className={s.note}>Your enquiry is not submitted until you send the prepared message from your email app.</p>
+      </form>
+    </section>
+  </FreightLayout>;
 }
+
+Contact.freightMarketing = true;
