@@ -9,7 +9,6 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const requestMagicLink = async () => {
     setError('');
