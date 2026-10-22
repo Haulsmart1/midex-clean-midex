@@ -1,173 +1,27 @@
-/* Hero Section */
-.hero {
-  background: url('/midex7.jpg') no-repeat center center / cover;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 2s ease-in;
-  background-attachment: fixed;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.overlay {
-  background: rgba(0, 0, 0, 0.10);
-  padding: 2rem 1rem;
-  width: 100%;
-  max-width: 1200px;
-  text-align: center;
-  color: white;
-  border-radius: 1rem;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  animation: fadeIn 2s ease-in;
-}
-
-.title {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-}
-
-.subtitle {
-  font-size: clamp(1.2rem, 3vw, 2rem);
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.description {
-  font-size: clamp(1rem, 2.5vw, 1.5rem);
-  opacity: 0.9;
-  margin-bottom: 1rem;
-}
-
-.routeBadge {
-  background: limegreen;
-  color: black;
-  font-weight: bold;
-  padding: 0.4rem 1rem;
-  border-radius: 9999px;
-  display: inline-block;
-  margin-bottom: 2rem;
-  font-size: 1rem;
-  animation: fadeIn 1.5s ease-in;
-}
-
-.navLinks {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-}
-
-.navBtn {
-  background: black;
-  color: white;
-  padding: 0.6rem 1.2rem;
-  border: 1px solid white;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background 0.3s ease;
-}
-
-.navBtn:hover {
-  background: limegreen;
-  color: black;
-}
-
-.routes {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1rem;
-  justify-items: center;
-  margin-top: 2rem;
-  padding: 1rem 2rem;
-}
-
-.routeCard {
-  background: rgba(0, 0, 0, 0.15);
-  border: 1px solid limegreen;
-  border-radius: 10px;
-  padding: 1rem;
-  width: 100%;
-  min-height: 220px;
-  text-align: center;
-  font-size: 0.95rem;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  transition: transform 0.3s, background 0.3s;
-}
-
-.routeCard:hover {
-  transform: scale(1.02);
-  background: rgba(0, 0, 0, 0.25);
-}
-
-.routeCard h3 {
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: white;
-  text-transform: capitalize;
-}
-
-.routeCard p {
-  font-size: 0.9rem;
-  color: #ccc;
-  margin: 0.5rem 0;
-}
-
-.updated {
-  font-size: 0.75rem;
-  margin-bottom: 0.5rem;
-  color: #999;
-}
-
-.routeBtn {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.4rem 0.9rem;
-  background: #000;
-  color: white;
-  border: 1px solid white;
-  border-radius: 6px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: background 0.3s, color 0.3s;
-}
-
-.routeBtn:hover {
-  background: white;
-  color: black;
-}
-
-/* Responsive for Tablets and Phones */
-@media (max-width: 1200px) {
-  .routes {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .routes {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .routes {
-    grid-template-columns: 1fr;
-  }
-}
+.site{min-height:100vh;background:#08111d;color:#f5f7fc;font-family:Inter,"Segoe UI",Arial,sans-serif}
+.site a{text-decoration:none}
+.header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px max(5vw,24px);max-width:1500px;margin:auto}
+.brand{display:flex;align-items:center;gap:12px;color:#fff!important;font-size:16px;font-weight:750;letter-spacing:.1em;line-height:1.1}
+.brand strong{font-weight:900}.brand small{display:block;color:#a6b5c9;font-size:9px;letter-spacing:.23em;margin-top:5px}
+.brandMark{display:grid;place-items:center;width:41px;height:41px;border:1px solid #88d8f8;background:#102b40;color:#a7e3f8;border-radius:11px;font-size:25px;font-weight:900}
+.headerNav{display:flex;align-items:center;gap:26px}.headerNav a{color:#c6d2e0;font-weight:600;font-size:14px}
+.headerNav .headerAction{border:1px solid #91bdd0;border-radius:9px;padding:12px 17px;color:#fff}
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.65fr);gap:clamp(20px,4vw,72px);align-items:center;min-height:620px;padding:80px max(5vw,24px) 105px;background:linear-gradient(90deg,rgba(4,12,23,.98) 6%,rgba(7,21,36,.93) 50%,rgba(8,23,38,.75) 100%),url('/midex7.jpg') center/cover}
+.heroContent{max-width:770px;position:relative}.eyebrow,.kicker{display:inline-flex;align-items:center;gap:10px;color:#9fcee4;letter-spacing:.19em;font-size:11px;font-weight:800}.liveDot{width:7px;height:7px;background:#9be1b6;border-radius:50%}
+.hero h1{font-size:clamp(44px,5.7vw,91px);font-weight:850;letter-spacing:-.065em;line-height:1.05;margin:24px 0}.hero h1 em,.sectionHead h2 em{font-style:normal;color:#a8d9ee}
+.lede{font-size:clamp(17px,1.7vw,21px);color:#c1cdd9;line-height:1.7;max-width:660px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:35px}.primaryCta,.secondaryCta{min-height:51px;display:inline-flex;align-items:center;justify-content:center;gap:24px;border-radius:9px;padding:14px 22px;font-size:15px;font-weight:800}.primaryCta{background:#d2eaf3;color:#081627!important}.primaryCta:hover{background:#fff}.secondaryCta{color:#f1f6fa!important;border:1px solid #547085;background:rgba(8,19,32,.75)}
+.disclaimer{font-size:12px;color:#9babba;margin:18px 0 0;line-height:1.5}
+.heroPanel{border:1px solid rgba(166,206,230,.25);background:rgba(6,17,30,.83);border-radius:18px;padding:30px;box-shadow:0 25px 55px #0005;backdrop-filter:blur(10px)}
+.panelLabel{font-size:11px;letter-spacing:.2em;color:#9dcce0;font-weight:800}.panelRow{display:grid;grid-template-columns:30px 1fr 20px;align-items:center;gap:15px;border-bottom:1px solid #324253;padding:20px 0;font-size:15px}.panelRow span{color:#9fbbce;font-size:12px}.panelRow strong{font-size:16px}.panelFooter{display:block;color:#cbecfa!important;font-size:14px;font-weight:800;margin-top:22px}
+.strengths{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:35px;padding:42px max(5vw,24px);border-top:1px solid #24384a;border-bottom:1px solid #24384a;background:#0c1b2c}
+.strengths>div{padding:8px 0}.strengths span{font-size:11px;letter-spacing:.13em;color:#8fc4df}.strengths strong{display:block;margin-top:12px;font-size:18px}.strengths p{font-size:13px;line-height:1.6;color:#aab9c9;margin:8px 0 0;max-width:310px}
+.routesSection{padding:90px max(5vw,24px);max-width:1500px;margin:auto}.sectionHead{display:flex;justify-content:space-between;gap:40px;align-items:end;margin-bottom:38px}.sectionHead h2{font-size:clamp(34px,4.1vw,58px);font-weight:850;letter-spacing:-.055em;line-height:1.12;margin:14px 0 0}.sectionHead>p{max-width:375px;color:#adbfcd;line-height:1.65;font-size:15px}
+.routes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.routeCard{min-width:0;border:1px solid #283d50;background:#0f2031;border-radius:14px;padding:24px;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}.routeCard:hover{border-color:#719db5;transform:translateY(-2px)}
+.routeTop{display:flex;justify-content:space-between;color:#88b1c8;font-size:10px;font-weight:800;letter-spacing:.15em}.routeIcon{font-size:16px}.routeCard h3{font-size:20px;line-height:1.35;font-weight:800;text-transform:capitalize;color:#fff;margin:19px 0 10px}.routeCard h3 span{color:#8cbcd3}.routeCard p{font-size:13px;color:#9eb1bf;line-height:1.6;flex:1}.routeBtn{display:flex;justify-content:space-between;border-top:1px solid #324658;margin-top:22px;padding-top:16px;color:#d1eaf5!important;font-size:13px;font-weight:750}
+.finalCta{margin:0 max(5vw,24px) 72px;background:#123047;border:1px solid #31566b;border-radius:20px;padding:40px;display:flex;align-items:center;justify-content:space-between;gap:30px}.finalCta h2{font-size:clamp(28px,3vw,45px);font-weight:850;margin:12px 0}.finalCta p{max-width:650px;color:#c3d3e0;font-size:15px;line-height:1.6}
+.footer{border-top:1px solid #223448;display:flex;justify-content:space-between;gap:20px;padding:28px max(5vw,24px);color:#95aabe;font-size:13px}.footer div{display:flex;gap:20px;flex-wrap:wrap}.footer a{color:#b5c7d6!important}
+.cookieBanner{position:fixed;bottom:0;left:0;right:0;z-index:100;background:#07111cf5;color:#fff;border-top:1px solid #40566b;padding:16px;text-align:center;box-shadow:0 -12px 30px #0007}.cookieBanner button{margin:9px 0 0;background:#d2eaf3;color:#07111d;border-radius:8px;border:0;padding:9px 20px;font-weight:700}
+@media(max-width:900px){.hero{grid-template-columns:1fr;min-height:auto;padding-top:65px;padding-bottom:70px}.heroPanel{max-width:600px}.routes{grid-template-columns:repeat(2,minmax(0,1fr))}.sectionHead{align-items:start;flex-direction:column;gap:10px}}
+@media(max-width:600px){.header{padding:13px 18px}.brand{font-size:12px;gap:8px}.brandMark{height:36px;width:36px;font-size:21px}.brand small{font-size:7px}.headerNav{gap:12px}.headerNav a{display:none}.headerNav .headerAction{display:inline-flex;padding:10px 12px;font-size:12px}.hero{padding:62px 19px 54px;gap:27px;background:linear-gradient(90deg,rgba(4,12,23,.96),rgba(7,21,36,.85)),url('/midex7.jpg') center/cover}.hero h1{font-size:clamp(43px,12vw,64px);letter-spacing:-.06em;margin:20px 0}.lede{font-size:16px}.ctas{flex-direction:column;margin-top:26px}.primaryCta,.secondaryCta{width:100%;justify-content:space-between}.heroPanel{padding:21px}.panelRow{padding:15px 0}.strengths{grid-template-columns:1fr;gap:12px;padding:28px 22px}.strengths>div{padding:10px 0;border-bottom:1px solid #293e52}.routesSection{padding:60px 18px}.routes{grid-template-columns:1fr}.sectionHead h2{font-size:37px}.routeCard{padding:20px}.finalCta{margin:0 18px 46px;padding:25px;flex-direction:column;align-items:stretch}.footer{padding:24px 18px;flex-direction:column}.footer div{gap:16px}}
+@media(prefers-reduced-motion:reduce){.routeCard{transition:none}.routeCard:hover{transform:none}}
