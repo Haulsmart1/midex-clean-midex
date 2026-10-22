@@ -1,58 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import supabase from '@/lib/supabaseClient';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-
-  const routeSession = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    const response = await fetch('/api/auth/session');
-    const session = await response.json();
-    const rawRole = session?.user?.role;
-    const rawRoles = session?.user?.roles;
-    const partner = session?.user?.partner_type?.toLowerCase?.().trim();
-    const normalizedRole = rawRole?.toLowerCase?.().trim();
-    let normalizedRoles = Array.isArray(rawRoles)
-      ? rawRoles.map((role) => role?.toLowerCase?.().trim()).filter(Boolean)
-      : [];
-
-    if (normalizedRole && !normalizedRoles.includes(normalizedRole)) normalizedRoles.push(normalizedRole);
-    normalizedRoles = normalizedRoles.map((role) => (role === 'users' ? 'user' : role));
-
-    if (normalizedRoles.includes('currys_admin')) router.replace('/dashboard/currys');
-    else if (normalizedRoles.includes('super_admin')) router.replace('/dashboard/admin/super');
-    else if (normalizedRoles.includes('admin')) router.replace('/dashboard/admin');
-    else if (normalizedRoles.includes('forwarder')) router.replace('/dashboard/forwarder');
-    else if (normalizedRoles.includes('customs_agent')) router.replace('/dashboard/customs');
-    else if (normalizedRoles.includes('user')) router.replace('/dashboard/user');
-    else if (normalizedRoles.includes('partner')) router.replace(partner ? `/dashboard/partner/${partner}` : '/dashboard/partner');
-    else setError('Login succeeded but no valid role is assigned. Please contact support.');
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError('');
-    setNotice('');
-    setLoading(true);
-    try {
-      const result = await signIn('credentials', { redirect: false, email, password });
-      if (result?.error) setError(result.error || 'Login failed. Please try again.');
-      else await routeSession();
-    } catch {
-      setError('Unexpected error. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const requestMagicLink = async () => {
     setError('');
@@ -80,26 +36,29 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundImage: "url('/midex7.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} className="d-flex align-items-center justify-content-center text-white">
-      <div className="p-5 rounded shadow" style={{ width: '320px', backgroundColor: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)' }}>
-        <h2 className="mb-4 text-center">Existing customer login</h2>
-        {error && <div className="alert alert-danger" aria-live="polite" role="alert">{error}</div>}
-        {notice && <div className="alert alert-success" aria-live="polite" role="status">{notice}</div>}
-        <form onSubmit={handleSubmit} autoComplete="on">
-          <div className="mb-3">
-            <input type="email" placeholder="Email" className="form-control" value={email} onChange={(event) => setEmail(event.target.value)} required autoFocus disabled={loading} aria-label="Email" />
-          </div>
-          <div className="mb-3">
-            <input type="password" placeholder="Password" className="form-control" value={password} onChange={(event) => setPassword(event.target.value)} disabled={loading} aria-label="Password" autoComplete="current-password" />
-          </div>
-          <button type="submit" className="btn btn-primary w-100" disabled={loading || !password}>
-            {loading ? 'Please wait…' : 'Login with password'}
-          </button>
-          <button type="button" className="btn btn-outline-light w-100 mt-3" disabled={loading} onClick={requestMagicLink}>
-            Email me a sign-in link
-          </button>
-        </form>
-      </div>
+    <div style={{ minHeight: '100vh', background: "linear-gradient(rgba(3, 9, 18, 0.62), rgba(3, 9, 18, 0.85)), url('/midex7.jpg') center / cover no-repeat", color: '#fff' }}>
+      <nav aria-label="Main navigation" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16, flexWrap: 'wrap', padding: '16px clamp(18px, 5vw, 64px)', background: 'rgba(0,0,0,.72)', borderBottom: '1px solid rgba(255,255,255,.16)' }}>
+        <Link href="/" style={{ color: '#fff', fontWeight: 800, fontSize: '1.15rem', textDecoration: 'none', letterSpacing: '.04em' }}>MIDNIGHT EXPRESS</Link>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <Link href="/" className="btn btn-outline-light fw-bold">Home</Link>
+          <Link href="/contact" className="btn btn-outline-light fw-bold">Freight enquiries</Link>
+        </div>
+      </nav>
+      <main style={{ minHeight: 'calc(100vh - 86px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '36px 16px 64px' }}>
+        <section aria-labelledby="login-heading" style={{ width: '100%', maxWidth: 480, padding: 'clamp(24px, 6vw, 44px)', background: 'rgba(5, 12, 26, .90)', border: '1px solid rgba(255,255,255,.22)', borderRadius: 18, boxShadow: '0 18px 55px rgba(0,0,0,.45)' }}>
+          <p style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '.2em', fontWeight: 700, color: '#b9d9ef', marginBottom: 12 }}>Secure customer access</p>
+          <h1 id="login-heading" style={{ fontSize: 'clamp(1.8rem, 5vw, 2.3rem)', fontWeight: 800, marginBottom: 12 }}>Welcome back</h1>
+          <p style={{ color: '#d5dce7', lineHeight: 1.6, marginBottom: 24 }}>Existing Midnight Express customers can sign in with a secure link sent to their email. No password needed.</p>
+          {error && <div className="alert alert-danger" role="alert" aria-live="polite">{error}</div>}
+          {notice && <div className="alert alert-info" role="status" aria-live="polite">{notice}</div>}
+          <form onSubmit={(event) => { event.preventDefault(); if (!loading) requestMagicLink(); }}>
+            <label htmlFor="midnight-login-email" style={{ display: 'block', fontWeight: 700, marginBottom: 8 }}>Email address</label>
+            <input id="midnight-login-email" type="email" name="email" className="form-control" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@company.com" autoComplete="email" inputMode="email" required autoFocus disabled={loading} style={{ minHeight: 48, width: '100%' }} />
+            <button type="submit" className="btn btn-light w-100 fw-bold" style={{ minHeight: 48, marginTop: 18 }} disabled={loading || !email.trim()}>{loading ? 'Requesting link…' : 'Email me a sign-in link'}</button>
+          </form>
+          <p style={{ color: '#cbd4df', fontSize: '.9rem', lineHeight: 1.5, marginTop: 20, marginBottom: 0 }}>Not registered, or having trouble signing in? <Link href="/contact" style={{ color: '#fff', textDecoration: 'underline', fontWeight: 700 }}>Contact our freight team</Link>.</p>
+        </section>
+      </main>
     </div>
   );
 }
