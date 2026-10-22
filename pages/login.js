@@ -1,13 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import supabase from '@/lib/supabaseClient';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [loading, setLoading] = useState(false);
@@ -36,22 +34,6 @@ export default function LoginPage() {
     else if (normalizedRoles.includes('user')) router.replace('/dashboard/user');
     else if (normalizedRoles.includes('partner')) router.replace(partner ? `/dashboard/partner/${partner}` : '/dashboard/partner');
     else setError('Login succeeded but no valid role is assigned. Please contact support.');
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError('');
-    setNotice('');
-    setLoading(true);
-    try {
-      const result = await signIn('credentials', { redirect: false, email, password });
-      if (result?.error) setError(result.error || 'Login failed. Please try again.');
-      else await routeSession();
-    } catch {
-      setError('Unexpected error. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
   };
 
   const requestMagicLink = async () => {
@@ -85,20 +67,14 @@ export default function LoginPage() {
         <h2 className="mb-4 text-center">Existing customer login</h2>
         {error && <div className="alert alert-danger" aria-live="polite" role="alert">{error}</div>}
         {notice && <div className="alert alert-success" aria-live="polite" role="status">{notice}</div>}
-        <form onSubmit={handleSubmit} autoComplete="on">
+        <div>
           <div className="mb-3">
             <input type="email" placeholder="Email" className="form-control" value={email} onChange={(event) => setEmail(event.target.value)} required autoFocus disabled={loading} aria-label="Email" />
           </div>
-          <div className="mb-3">
-            <input type="password" placeholder="Password" className="form-control" value={password} onChange={(event) => setPassword(event.target.value)} disabled={loading} aria-label="Password" autoComplete="current-password" />
-          </div>
-          <button type="submit" className="btn btn-primary w-100" disabled={loading || !password}>
-            {loading ? 'Please wait…' : 'Login with password'}
-          </button>
-          <button type="button" className="btn btn-outline-light w-100 mt-3" disabled={loading} onClick={requestMagicLink}>
+          <button type="button" className="btn btn-primary w-100 mt-3" disabled={loading} onClick={requestMagicLink}>
             Email me a sign-in link
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );
