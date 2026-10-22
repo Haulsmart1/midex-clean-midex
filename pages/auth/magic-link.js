@@ -7,26 +7,27 @@ import supabase from '@/lib/supabaseClient';
 export default function MagicLinkCallback() {
   const router = useRouter();
   const handled = useRef(false);
+  const completed = useRef(false);
   const [message, setMessage] = useState('Completing secure sign-in…');
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     let active = true;
     const fail = (text) => {
-      if (!active) return;
+      if (!active || completed.current) return;
+      clearTimeout(timeout);
       setMessage(text);
       setFailed(true);
     };
 
     // The callback must never leave a customer on an indefinite spinner.
     const timeout = setTimeout(() => {
-      if (!handled.current) fail('No verified sign-in session was received. The link may be expired or this browser may have blocked the callback. Please contact our freight team.');
+      if (!completed.current) fail('No verified sign-in session was received. The link may be expired or this browser may have blocked the callback. Please contact our freight team.');
     }, 12000);
 
     const finish = async (session) => {
       if (!active || handled.current || !session?.access_token || !session?.refresh_token) return;
       handled.current = true;
-      clearTimeout(timeout);
 
       try {
         const result = await signIn('supabase-session', {
@@ -40,6 +41,8 @@ export default function MagicLinkCallback() {
           fail('Your link was received, but Midnight Express could not establish approved website access. Please contact our freight team.');
           return;
         }
+        completed.current = true;
+        clearTimeout(timeout);
         router.replace('/auth/redirect');
       } catch {
         fail('Website sign-in could not be completed. Please contact our freight team.');
