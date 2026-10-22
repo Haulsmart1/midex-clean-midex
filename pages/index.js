@@ -1,28 +1,18 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
 
 import styles from '../styles/Home.module.css';
-import LanguageSwitcher from '../components/LanguageSwitcher';
 
-const CountdownClock = dynamic(() => import('../components/CountdownClock'), { ssr: false });
 
 export default function Home() {
   const [showCookieBanner, setShowCookieBanner] = useState(false);
-  const [currentDate, setCurrentDate] = useState('');
 
   // ✅ Safe client-side cookie check
   useEffect(() => {
     const consent = localStorage.getItem('cookieConsent');
     if (!consent) setShowCookieBanner(true);
 
-    const today = new Date().toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-    });
-    setCurrentDate(today);
   }, []);
 
   const handleAcceptCookies = () => {
@@ -45,18 +35,6 @@ export default function Home() {
     { from: "dover", to: "calais", status: "open", description: "Direct overnight ferry with customs clearance and ADR support" },
   ];
 
-  const statusStyle = (status) => {
-    switch (status) {
-      case "open":
-        return { border: '2px solid #28a745' };
-      case "amber":
-        return { border: '2px solid #ffc107' };
-      case "closed":
-        return { border: '2px solid #dc3545' };
-      default:
-        return { border: '2px solid #6c757d' };
-    }
-  };
 
   return (
     <>
@@ -73,49 +51,64 @@ export default function Home() {
         <link rel="icon" href="/fav.png" type="image/png" />
       </Head>
 
-      {/* HERO */}
-      <div className={styles.hero}>
-        <div className={styles.overlay}>
-          <h1 className={styles.title}>Midnight Express</h1>
-          <p className={styles.subtitle}>Cut-off for depot bookings: <CountdownClock /></p>
-          <LanguageSwitcher />
-
-          <h2 className={styles.description}>
-            Express, Sameday & Dedicated Pallets — ADR & Customs Cleared UK ⇄ Europe
-          </h2>
-
-          <div className={styles.routeBadge}>
-            {ROUTES.length} Routes Available
-          </div>
-
-          <div className={styles.navLinks}>
-            <Link href="/about" className={styles.navBtn}>About</Link>
-            <Link href="/register" className={styles.navBtn}>Register</Link>
-            <Link href="/login" className={styles.navBtn}>Login</Link>
-            <Link href="/contact" className={styles.navBtn}>Contact</Link>
-          </div>
-        </div>
-      </div>
-
-      {/* ROUTES */}
-      <div className={styles.routes}>
-        {ROUTES.map((route, i) => (
-          <div key={i} className={styles.routeCard} style={statusStyle(route.status)}>
-            <h3>{route.from} ⇄ {route.to}</h3>
-            <p>{route.description}</p>
-            <p className={styles.updated}>Last Updated: {currentDate || '\u00A0'}</p>
-            <Link href={`/freight/${route.from}-to-${route.to}`} className={styles.routeBtn}>
-              View Route
-            </Link>
-          </div>
-        ))}
+      <div className={styles.site}>
+        <header className={styles.header}>
+          <Link href="/" className={styles.brand}><span className={styles.brandMark}>M</span><span>MIDNIGHT <strong>EXPRESS</strong><small>UK · IRELAND · EUROPE</small></span></Link>
+          <nav className={styles.headerNav} aria-label="Main navigation">
+            <Link href="/about">About</Link>
+            <Link href="/login">Customer login</Link>
+            <Link href="/contact" className={styles.headerAction}>Get a quote <span aria-hidden="true">↗</span></Link>
+          </nav>
+        </header>
+        <main>
+          <section className={styles.hero}>
+            <div className={styles.heroContent}>
+              <div className={styles.eyebrow}><span className={styles.liveDot} /> FREIGHT THAT MOVES WITH YOU</div>
+              <h1>When freight matters, <em>we move.</em></h1>
+              <p className={styles.lede}>Express, same-day and dedicated road freight across the UK, Ireland and Europe. ADR and customs support for the journeys that need it.</p>
+              <div className={styles.ctas}>
+                <Link href="/contact" className={styles.primaryCta}>Request a freight quote <span aria-hidden="true">↗</span></Link>
+                <Link href="#routes" className={styles.secondaryCta}>Explore our routes <span aria-hidden="true">↓</span></Link>
+              </div>
+              <p className={styles.disclaimer}>Every enquiry is reviewed by our freight team. No automatic booking or payment is created.</p>
+            </div>
+            <aside className={styles.heroPanel} aria-label="Our services">
+              <span className={styles.panelLabel}>WHAT WE MOVE</span>
+              <div className={styles.panelRow}><span>01</span><strong>Express & same-day</strong><span>↗</span></div>
+              <div className={styles.panelRow}><span>02</span><strong>Dedicated vehicles</strong><span>↗</span></div>
+              <div className={styles.panelRow}><span>03</span><strong>ADR freight</strong><span>↗</span></div>
+              <div className={styles.panelRow}><span>04</span><strong>Customs support</strong><span>↗</span></div>
+              <Link href="/contact" className={styles.panelFooter}>Speak to our team →</Link>
+            </aside>
+          </section>
+          <section className={styles.strengths} aria-label="What we offer">
+            <div><span>01 /</span><strong>Time-critical freight</strong><p>Urgent consignments with a real person reviewing your needs.</p></div>
+            <div><span>02 /</span><strong>Complex cargo</strong><p>ADR requirements assessed before accepting any movement.</p></div>
+            <div><span>03 /</span><strong>Cross-border expertise</strong><p>UK, Ireland and European movements with customs coordination.</p></div>
+          </section>
+          <section id="routes" className={styles.routesSection}>
+            <div className={styles.sectionHead}><div><span className={styles.kicker}>OUR NETWORK</span><h2>Connected routes.<br/><em>One freight team.</em></h2></div><p>Explore common corridors and request a tailored quote. Route details and service availability are confirmed individually.</p></div>
+            <div className={styles.routes}>
+              {ROUTES.map((route, i) => (
+                <article className={styles.routeCard} key={route.from + '-' + route.to}>
+                  <div className={styles.routeTop}><span>ROUTE {String(i + 1).padStart(2,'0')}</span><span className={styles.routeIcon}>↗</span></div>
+                  <h3>{route.from.replaceAll('-', ' ')} <span>↔</span> {route.to.replaceAll('-', ' ')}</h3>
+                  <p>{route.description}</p>
+                  <Link href="/contact" className={styles.routeBtn}>Enquire about this route <span aria-hidden="true">→</span></Link>
+                </article>
+              ))}
+            </div>
+          </section>
+          <section className={styles.finalCta}><div><span className={styles.kicker}>LET'S GET MOVING</span><h2>Have freight to move?</h2><p>Tell us the collection, destination and goods. We’ll review the requirements and come back with a quote.</p></div><Link href="/contact" className={styles.primaryCta}>Start an enquiry ↗</Link></section>
+        </main>
+        <footer className={styles.footer}><span>© Midnight Express</span><div><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/login">Customer login</Link></div></footer>
       </div>
 
       {/* COOKIES */}
       {showCookieBanner && (
-        <div className="fixed bottom-0 w-full bg-black bg-opacity-85 text-white p-4 text-center z-50">
+        <div className={styles.cookieBanner}>
           <p className="m-0">
-            We use cookies to improve your experience. By using this site, you accept our cookie policy.
+            We use a small cookie to remember your preference.
           </p>
           <button onClick={handleAcceptCookies} className="btn btn-outline-light mt-2">
             Accept
