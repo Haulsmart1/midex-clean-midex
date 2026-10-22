@@ -41,3 +41,15 @@ test('contact route cannot claim submission and is discoverable from the freight
   assert.equal((layout.match(/href="\/contact"/g) || []).length, 3);
   assert.doesNotMatch(layout, /href="\/booking"/);
 });
+
+
+test('public freight pages do not expose unaccepted account registration', () => {
+  const root = path.join(__dirname, '..');
+  const layout = fs.readFileSync(path.join(root, 'components/freight/FreightLayout.js'), 'utf8');
+  const register = fs.readFileSync(path.join(root, 'pages/register.js'), 'utf8');
+  assert.doesNotMatch(layout, /href="\/register"/);
+  assert.match(layout, /Existing customer login/);
+  assert.match(register, /destination: '\/contact'/);
+  assert.match(register, /permanent: false/);
+  assert.doesNotMatch(register, /supabase|\.insert\(|password|approved|account_number/);
+});
