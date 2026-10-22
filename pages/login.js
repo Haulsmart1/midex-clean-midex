@@ -9,8 +9,10 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [loading, setLoading] = useState(false);
+  const [rateLimited, setRateLimited] = useState(false);
 
   const requestMagicLink = async () => {
+    if (rateLimited) return;
     setError('');
     setNotice('');
     if (!email) {
@@ -26,8 +28,16 @@ export default function LoginPage() {
           emailRedirectTo: `${window.location.origin}/auth/magic-link`,
         },
       });
-      if (requestError) setError('We could not send a sign-in link. Please contact support.');
-      else setNotice('If this email belongs to an approved Midnight account, a one-time sign-in link is on its way.');
+      if (requestError) {
+        if (requestError.status === 429 || requestError.code === 'over_email_send_rate_limit') {
+          setRateLimited(true);
+          setError('Too many sign-in emails have been requested. Please use your most recent valid link or try again later. No new email was sent.');
+        } else {
+          setError('We could not send a sign-in link. Please contact support.');
+        }
+      } else {
+        setNotice('If this email belongs to an approved Midnight account, a one-time sign-in link is on its way.');
+      }
     } catch {
       setError('We could not send a sign-in link. Please contact support.');
     } finally {
@@ -54,8 +64,9 @@ export default function LoginPage() {
           <form onSubmit={(event) => { event.preventDefault(); if (!loading) requestMagicLink(); }}>
             <label htmlFor="midnight-login-email" style={{ display: 'block', fontWeight: 700, marginBottom: 8 }}>Email address</label>
             <input id="midnight-login-email" type="email" name="email" className="form-control" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@company.com" autoComplete="email" inputMode="email" required autoFocus disabled={loading} style={{ minHeight: 48, width: '100%' }} />
-            <button type="submit" className="btn btn-light w-100 fw-bold" style={{ minHeight: 48, marginTop: 18 }} disabled={loading || !email.trim()}>{loading ? 'Requesting link…' : 'Email me a sign-in link'}</button>
+            <button type="submit" className="btn btn-light w-100 fw-bold" style={{ minHeight: 48, marginTop: 18 }} disabled={loading || rateLimited || !email.trim()}>{loading ? 'Requesting link…' : 'Email me a sign-in link'}</button>
           </form>
+          {rateLimited && <p role="status" style={{ color: '#d3e8f4', fontSize: '.9rem', marginTop: 12 }}>Email requests are temporarily paused in this browser. Please try again later.</p>}
           <p style={{ color: '#cbd4df', fontSize: '.9rem', lineHeight: 1.5, marginTop: 20, marginBottom: 0 }}>Not registered, or having trouble signing in? <Link href="/contact" style={{ color: '#fff', textDecoration: 'underline', fontWeight: 700 }}>Contact our freight team</Link>.</p>
         </section>
       </main>
