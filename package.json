@@ -46,7 +46,7 @@
     "leaflet-routing-machine": "^3.2.12",
     "lodash.debounce": "^4.0.8",
     "module-alias": "^2.2.3",
-    "next": "^15.4.6",
+    "next": "15.5.27",
     "next-auth": "^4.24.11",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.10.1",
