@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import supabase from '@/lib/supabaseClient';
 
@@ -39,6 +39,18 @@ export default function MagicLinkCallback() {
         if (!active) return;
         if (!result || result.error || !result.ok) {
           fail('Your link was received, but Midnight Express could not establish approved website access. Please contact our freight team.');
+          return;
+        }
+        // Verify NextAuth actually persisted a session before leaving the callback.
+        // This avoids silently redirecting to a dashboard with an absent session.
+        let websiteSession = null;
+        for (let attempt = 0; attempt < 3 && active; attempt += 1) {
+          websiteSession = await getSession();
+          if (websiteSession?.user?.id) break;
+          await new Promise((resolve) => setTimeout(resolve, 350));
+        }
+        if (!websiteSession?.user?.id) {
+          fail('Your email was verified, but the website session was not saved. Please contact our freight team.');
           return;
         }
         completed.current = true;
