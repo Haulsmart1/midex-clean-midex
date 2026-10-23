@@ -124,16 +124,33 @@ export const authOptions = {
               global: { headers: { Authorization: `Bearer ${accessToken}` } } }
           );
           const { data, error } = await verified.auth.getUser(accessToken);
-          if (error || !data?.user) return null;
+          if (error || !data?.user) {
+            console.warn('[Midnight auth] token_verification_failed', { code: error?.code || 'unverified' });
+            return null;
+          }
           const { data: profile, error: profileError } = await verified.from('users')
             .select('name, role, roles, partner_type, is_active')
             .eq('id', data.user.id).maybeSingle();
-          if (profileError || !profile || profile.is_active === false) return null;
+          if (profileError) {
+            console.warn('[Midnight auth] profile_lookup_failed', { code: profileError.code || 'unknown' });
+            return null;
+          }
+          if (!profile || profile.is_active === false) {
+            console.warn('[Midnight auth] profile_missing_or_inactive');
+            return null;
+          }
+          if (!profile.role && (!Array.isArray(profile.roles) || profile.roles.length === 0)) {
+            console.warn('[Midnight auth] approved_role_missing');
+            return null;
+          }
           return {
             id: data.user.id, email: data.user.email, name: profile.name || '',
             role: profile.role, roles: profile.roles, partner_type: profile.partner_type || '',
           };
-        } catch { return null; }
+        } catch {
+          console.warn('[Midnight auth] session_authorization_exception');
+          return null;
+        }
       },
     }),
   ],
