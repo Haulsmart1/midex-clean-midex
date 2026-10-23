@@ -12,7 +12,31 @@ export default function MagicLinkCallback() {
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
+    if (!router.isReady) return;
+
+    const queryValue = (value) => (Array.isArray(value) ? value[0] : value);
+    const callbackError = queryValue(router.query.error);
+    const callbackErrorCode = queryValue(router.query.error_code);
+    const callbackErrorDescription = queryValue(router.query.error_description);
+    const expiredLink =
+      callbackErrorCode === 'otp_expired' ||
+      /one-time token not found|invalid or has expired/i.test(callbackErrorDescription || '');
+
+    // Supabase redirects verification failures back to this page in the query
+    // string. Handle them immediately instead of leaving customers on a timer.
+    if (callbackError || callbackErrorCode) {
+      setMessage(
+        expiredLink
+          ? 'This sign-in link has already been used or has expired. Go to login and request a fresh link. Use the newest email and open it in the same browser where you requested it.'
+          : 'We could not verify this sign-in link. Go to login and request a fresh link. If the problem continues, contact freight operations.'
+      );
+      setFailed(true);
+      return;
+    }
+
     let active = true;
+    let timeout;
+
     const fail = (text) => {
       if (!active || completed.current) return;
       clearTimeout(timeout);
@@ -21,8 +45,10 @@ export default function MagicLinkCallback() {
     };
 
     // The callback must never leave a customer on an indefinite spinner.
-    const timeout = setTimeout(() => {
-      if (!completed.current) fail('No verified sign-in session was received. The link may be expired or this browser may have blocked the callback. Please contact our freight team.');
+    timeout = setTimeout(() => {
+      if (!completed.current) {
+        fail('No verified sign-in session arrived. Go to login and request a fresh link, then open it in the same browser. Contact freight operations if the problem continues.');
+      }
     }, 12000);
 
     const finish = async (session) => {
@@ -38,11 +64,11 @@ export default function MagicLinkCallback() {
 
         if (!active) return;
         if (!result || result.error || !result.ok) {
-          fail('Your email link was verified, but the website rejected the session exchange. Please contact our freight team.');
+          fail('Your email link was verified, but the website rejected the session exchange. Contact freight operations for help.');
           return;
         }
-        // Verify NextAuth actually persisted a session before leaving the callback.
-        // This avoids silently redirecting to a dashboard with an absent session.
+
+        // Verify NextAuth persisted a session before leaving the callback.
         let websiteSession = null;
         for (let attempt = 0; attempt < 3 && active; attempt += 1) {
           websiteSession = await getSession();
@@ -50,22 +76,25 @@ export default function MagicLinkCallback() {
           await new Promise((resolve) => setTimeout(resolve, 350));
         }
         if (!websiteSession?.user?.id) {
-          fail('Your email was verified and accepted, but the browser did not retain the website session. Please check Safari cookie restrictions or contact our freight team.');
+          fail('Your email was verified, but this browser did not retain the website session. Go to login and try again in the same browser. Contact freight operations if the problem continues.');
           return;
         }
+
         completed.current = true;
         clearTimeout(timeout);
         router.replace('/auth/redirect');
       } catch {
-        fail('Website sign-in could not be completed. Please contact our freight team.');
+        fail('Website sign-in could not be completed. Go to login and try again, or contact freight operations.');
       }
     };
 
     supabase.auth.getSession().then(({ data, error }) => {
       if (!active) return;
-      if (error) fail('The sign-in link is invalid or has expired.');
+      if (error) fail('The sign-in link could not be verified. Go to login and request a fresh link.');
       else finish(data?.session);
-    }).catch(() => fail('Could not check the sign-in session. Please contact our freight team.'));
+    }).catch(() => {
+      fail('Could not check the sign-in session. Go to login and request a fresh link.');
+    });
 
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') finish(session);
@@ -76,13 +105,22 @@ export default function MagicLinkCallback() {
       clearTimeout(timeout);
       data.subscription.unsubscribe();
     };
-  }, [router]);
+  }, [router, router.isReady, router.query]);
 
   return (
     <main style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', background: '#07111f', color: '#fff', padding: 24 }}>
-      <div role="status" aria-live="polite" style={{ maxWidth: 460, textAlign: 'center', fontSize: 20 }}>
+      <div role={failed ? 'alert' : 'status'} aria-live={failed ? 'assertive' : 'polite'} style={{ maxWidth: 460, textAlign: 'center', fontSize: 20 }}>
         <p>{message}</p>
-        {failed && <p style={{ fontSize: 16 }}><Link href="/contact" style={{ color: '#c6eaff' }}>Contact freight operations</Link></p>}
+        {failed && (
+          <div style={{ display: 'grid', gap: 14, justifyItems: 'center', fontSize: 16 }}>
+            <Link href="/login" style={{ color: '#07111f', background: '#c6eaff', borderRadius: 8, padding: '12px 20px', fontWeight: 700, textDecoration: 'none' }}>
+              Return to login
+            </Link>
+            <Link href="/contact" style={{ color: '#c6eaff' }}>
+              Contact freight operations
+            </Link>
+          </div>
+        )}
       </div>
     </main>
   );
