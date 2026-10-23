@@ -99,7 +99,7 @@ export const authOptions = {
             };
           }
 
-          return null; // ❌ No matching user
+          return null; // No matching user
         } catch (err) {
           console.error('[NextAuth] Authorize Error:', err);
           return null;
@@ -139,13 +139,38 @@ export const authOptions = {
             console.warn('[Midnight auth] profile_missing_or_inactive');
             return null;
           }
-          if (!profile.role && (!Array.isArray(profile.roles) || profile.roles.length === 0)) {
+
+          const profileRoles = Array.isArray(profile.roles)
+            ? profile.roles.filter((role) => typeof role === 'string' && role.trim())
+            : [];
+          let assignedRoles = [];
+
+          // Some existing accounts keep their approved role in user_roles while
+          // the legacy users.role fields are empty. Read only the verified user's
+          // stored assignments; never infer authorisation from user metadata.
+          if (!profile.role && profileRoles.length === 0) {
+            const { data: roleRows, error: roleError } = await verified
+              .from('user_roles')
+              .select('role')
+              .eq('user_id', data.user.id);
+            if (roleError) {
+              console.warn('[Midnight auth] assigned_role_lookup_failed', { code: roleError.code || 'unknown' });
+              return null;
+            }
+            assignedRoles = (roleRows || [])
+              .map((row) => row?.role)
+              .filter((role) => typeof role === 'string' && role.trim());
+          }
+
+          const role = profile.role || assignedRoles[0] || null;
+          const roles = profileRoles.length > 0 ? profileRoles : assignedRoles;
+          if (!role && roles.length === 0) {
             console.warn('[Midnight auth] approved_role_missing');
             return null;
           }
           return {
             id: data.user.id, email: data.user.email, name: profile.name || '',
-            role: profile.role, roles: profile.roles, partner_type: profile.partner_type || '',
+            role, roles, partner_type: profile.partner_type || '',
           };
         } catch {
           console.warn('[Midnight auth] session_authorization_exception');
