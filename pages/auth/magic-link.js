@@ -38,7 +38,7 @@ export default function MagicLinkCallback() {
 
         if (!active) return;
         if (!result || result.error || !result.ok) {
-          fail('Your link was received, but Midnight Express could not establish approved website access. Please contact our freight team.');
+          fail('Your email link was verified, but the website rejected the session exchange. Please contact our freight team.');
           return;
         }
         // Verify NextAuth actually persisted a session before leaving the callback.
@@ -50,7 +50,7 @@ export default function MagicLinkCallback() {
           await new Promise((resolve) => setTimeout(resolve, 350));
         }
         if (!websiteSession?.user?.id) {
-          fail('Your email was verified, but the website session was not saved. Please contact our freight team.');
+          fail('Your email was verified and accepted, but the browser did not retain the website session. Please check Safari cookie restrictions or contact our freight team.');
           return;
         }
         completed.current = true;
