@@ -132,7 +132,6 @@ export const authOptions = {
           return {
             id: data.user.id, email: data.user.email, name: profile.name || '',
             role: profile.role, roles: profile.roles, partner_type: profile.partner_type || '',
-            access_token: accessToken, refresh_token: refreshToken,
           };
         } catch { return null; }
       },
@@ -152,8 +151,6 @@ export const authOptions = {
         token.role = user.role;
         token.roles = user.roles;
         token.partner_type = user.partner_type || '';
-        token.supabaseAccessToken = user.access_token;
-        token.supabaseRefreshToken = user.refresh_token;
       }
       return token;
     },
@@ -166,8 +163,6 @@ export const authOptions = {
         role: token.role,
         roles: token.roles,
         partner_type: token.partner_type || '',
-        supabaseAccessToken: token.supabaseAccessToken,
-        supabaseRefreshToken: token.supabaseRefreshToken,
       };
       return session;
     },
