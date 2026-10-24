@@ -1,13 +1,27 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
+const OPERATIONS_EMAIL = 'bookings@midnight-express.org';
+
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Message sent!');
-    setFormData({ name: '', email: '', message: '' });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const subject = encodeURIComponent('Midnight Express freight enquiry');
+    const body = encodeURIComponent([
+      'Freight enquiry for human review',
+      '',
+      `Name: ${formData.name}`,
+      `Reply email: ${formData.email}`,
+      '',
+      formData.message,
+      '',
+      'This is an enquiry only. No booking, price, invoice or payment has been created.',
+    ].join('\n'));
+
+    window.location.href = `mailto:${OPERATIONS_EMAIL}?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -17,7 +31,6 @@ export default function Contact() {
       backgroundPosition: 'center',
       minHeight: '100vh',
     }}>
-      {/* 🌐 Navigation Bar */}
       <nav style={{
         display: 'flex',
         justifyContent: 'center',
@@ -35,46 +48,62 @@ export default function Contact() {
 
       <div className="container py-5">
         <div className="col-md-6 mx-auto p-4 bg-dark text-white rounded">
-          <h2 className="mb-4 text-center">Contact Us</h2>
+          <h2 className="mb-3 text-center">Request a freight quote</h2>
+          <p>
+            Tell our operations team what needs moving. Submitting this form opens
+            an email addressed to {OPERATIONS_EMAIL}; it is sent only after you
+            review and send it from your email app.
+          </p>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label>Name</label>
+              <label htmlFor="enquiry-name">Name</label>
               <input
+                id="enquiry-name"
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(event) => setFormData({ ...formData, name: event.target.value })}
                 required
                 className="form-control"
+                autoComplete="name"
               />
             </div>
 
             <div className="mb-3">
-              <label>Email</label>
+              <label htmlFor="enquiry-email">Email</label>
               <input
+                id="enquiry-email"
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(event) => setFormData({ ...formData, email: event.target.value })}
                 required
                 className="form-control"
+                autoComplete="email"
               />
             </div>
 
             <div className="mb-3">
-              <label>Message</label>
+              <label htmlFor="enquiry-message">Freight details</label>
               <textarea
+                id="enquiry-message"
                 value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                onChange={(event) => setFormData({ ...formData, message: event.target.value })}
                 rows="5"
                 required
                 className="form-control"
+                placeholder="Collection, delivery, goods, weight, dates and any ADR requirements"
               />
             </div>
 
             <button type="submit" className="btn btn-light w-100 mt-3 fw-bold">
-              Send Message
+              Prepare enquiry email
             </button>
           </form>
+
+          <p className="mt-3 mb-0">
+            This page does not create a booking, price, invoice or payment.
+            Availability and charges are confirmed by a person after review.
+          </p>
         </div>
       </div>
     </div>
