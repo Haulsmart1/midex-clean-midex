@@ -8,6 +8,13 @@ const sql = fs.readFileSync(
   'utf8',
 );
 
+const migrationDirectory = path.join(__dirname, '..', 'supabase', 'migrations');
+const migrationNames = fs
+  .readdirSync(migrationDirectory)
+  .filter((name) => name.endsWith('_restrict_midnight_user_role_reads.sql'));
+assert.equal(migrationNames.length, 1, 'expected one CLI-generated role policy migration');
+const migration = fs.readFileSync(path.join(migrationDirectory, migrationNames[0]), 'utf8');
+
 test('candidate is unmistakably review-only', () => {
   assert.match(sql, /REVIEW ONLY\. NOT A MIGRATION\. DO NOT APPLY/);
   assert.match(sql, /Generate a real migration/);
@@ -46,4 +53,16 @@ test('live-service and cross-user acceptance checks remain mandatory', () => {
   assert.match(sql, /cross-user reads/i);
   assert.match(sql, /authenticated INSERT\/UPDATE\/DELETE attempts fail/i);
   assert.match(sql, /service_role maintenance remains possible/i);
+});
+
+test('CLI-generated migration carries the reviewed policy boundary', () => {
+  assert.match(migrationNames[0], /^\d{14}_restrict_midnight_user_role_reads\.sql$/);
+  assert.match(migration, /REVIEW-ONLY RELEASE CANDIDATE/);
+  assert.match(migration, /drop policy if exists "user_roles_read_all"/);
+  assert.match(migration, /drop policy if exists "allow super_admin manage roles"/);
+  assert.match(migration, /for select\s+to authenticated/i);
+  assert.match(migration, /user_id\s*=\s*\(select auth\.uid\(\)\)/i);
+  assert.match(migration, /revoke all privileges[\s\S]*from anon/i);
+  assert.match(migration, /revoke insert, update, delete, truncate, references, trigger[\s\S]*from authenticated/i);
+  assert.doesNotMatch(migration, /using\s*\(\s*true\s*\)|auth\.role\s*\(|user_metadata|@[a-z0-9.-]+/i);
 });
