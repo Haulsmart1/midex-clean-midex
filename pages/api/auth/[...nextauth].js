@@ -162,7 +162,7 @@ export const authOptions = {
               .filter((role) => typeof role === 'string' && role.trim());
           }
 
-          const role = profile.role || assignedRoles[0] || null;
+          // Fail closed rather than selecting an arbitrary role when the stored\n          // assignment order changes. Multi-role accounts need explicit review.\n          if (!profile.role && profileRoles.length === 0 && new Set(assignedRoles).size > 1) {\n            console.warn('[Midnight auth] ambiguous_assigned_roles');\n            return null;\n          }\n          const role = profile.role || assignedRoles[0] || null;
           const roles = profileRoles.length > 0 ? profileRoles : assignedRoles;
           if (!role && roles.length === 0) {
             console.warn('[Midnight auth] approved_role_missing');
