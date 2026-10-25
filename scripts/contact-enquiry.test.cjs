@@ -20,3 +20,10 @@ test('contact does not represent enquiry as an automated transaction', () => {
   assert.match(contact, /does not create a booking, price, invoice or payment/);
   assert.match(contact, /confirmed by a person after review/);
 });
+
+test('contact metadata describes a human-reviewed enquiry, not automated booking', () => {
+  assert.match(contact, /Request a Freight Quote \| Midnight Express/);
+  assert.match(contact, /Send a freight enquiry to Midnight Express for human review/);
+  assert.match(contact, /does not create a booking or take payment/);
+  assert.doesNotMatch(contact, /express pallet booking/i);
+});
