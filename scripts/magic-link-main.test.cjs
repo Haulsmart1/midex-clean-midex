@@ -31,3 +31,9 @@ test('role assignment lookup fails closed', () => {
   const code = read('pages/api/auth/[...nextauth].js');
   assert.match(code, /if \(roleError\)[\s\S]*assigned_role_lookup_failed[\s\S]*return null/);
 });
+
+test('ambiguous stored role assignments are not silently elevated', () => {
+  const code = read('pages/api/auth/[...nextauth].js');
+  assert.match(code, /new Set\(assignedRoles\)\.size > 1/);
+  assert.match(code, /ambiguous_assigned_roles[\s\S]*return null/);
+});
