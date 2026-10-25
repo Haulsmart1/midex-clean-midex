@@ -7,6 +7,10 @@ const contact = fs.readFileSync(
   path.join(__dirname, '..', 'pages', 'contact.js'),
   'utf8',
 );
+const document = fs.readFileSync(
+  path.join(__dirname, '..', 'pages', '_document.js'),
+  'utf8',
+);
 
 test('contact prepares a manual operations email without claiming delivery', () => {
   assert.match(contact, /bookings@midnight-express\.org/);
@@ -26,4 +30,5 @@ test('contact metadata describes a human-reviewed enquiry, not automated booking
   assert.match(contact, /Send a freight enquiry to Midnight Express for human review/);
   assert.match(contact, /does not create a booking or take payment/);
   assert.doesNotMatch(contact, /express pallet booking/i);
+  assert.doesNotMatch(document, /name="description"|express pallet booking/i);
 });
