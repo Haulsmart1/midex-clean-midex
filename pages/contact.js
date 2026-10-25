@@ -6,6 +6,7 @@ const OPERATIONS_EMAIL = 'bookings@midnight-express.org';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [emailHandoffStarted, setEmailHandoffStarted] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -22,6 +23,7 @@ export default function Contact() {
       'This is an enquiry only. No booking, price, invoice or payment has been created.',
     ].join('\n'));
 
+    setEmailHandoffStarted(true);
     window.location.href = `mailto:${OPERATIONS_EMAIL}?subject=${subject}&body=${body}`;
   };
 
@@ -76,6 +78,7 @@ export default function Contact() {
                   required
                   className="form-control"
                   autoComplete="name"
+                  maxLength={100}
                 />
               </div>
 
@@ -89,6 +92,7 @@ export default function Contact() {
                   required
                   className="form-control"
                   autoComplete="email"
+                  maxLength={254}
                 />
               </div>
 
@@ -99,6 +103,7 @@ export default function Contact() {
                   value={formData.message}
                   onChange={(event) => setFormData({ ...formData, message: event.target.value })}
                   rows="5"
+                  maxLength={1500}
                   required
                   className="form-control"
                   placeholder="Collection, delivery, goods, weight, dates and any ADR requirements"
@@ -109,6 +114,14 @@ export default function Contact() {
                 Prepare enquiry email
               </button>
             </form>
+
+            {emailHandoffStarted && (
+              <p role="status" className="mt-3">
+                Your email app should open with the enquiry prepared. Please press Send there.
+                If nothing opens, email <a href={`mailto:${OPERATIONS_EMAIL}`} className="text-white fw-bold">{OPERATIONS_EMAIL}</a> directly.
+                Your details remain in the form so you can copy them. Nothing has been submitted by this website.
+              </p>
+            )}
 
             <p className="mt-3 mb-0">
               This page does not create a booking, price, invoice or payment.
