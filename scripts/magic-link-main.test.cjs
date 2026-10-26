@@ -37,3 +37,24 @@ test('ambiguous stored role assignments are not silently elevated', () => {
   assert.match(code, /new Set\(assignedRoles\)\.size > 1/);
   assert.match(code, /ambiguous_assigned_roles[\s\S]*return null/);
 });
+
+test('homepage recovers only a complete Supabase bearer fragment', () => {
+  const code = read('pages/index.js');
+
+  assert.match(code, /new URLSearchParams\(fragment\)/);
+  assert.match(code, /tokens\.get\('access_token'\)/);
+  assert.match(code, /tokens\.get\('refresh_token'\)/);
+  assert.match(code, /tokens\.get\('token_type'\) === 'bearer'/);
+  assert.match(code, /window\.location\.replace\('\/auth\/magic-link#' \+ fragment\)/);
+  assert.doesNotMatch(code, /console\.(?:log|info|warn|error)\([^)]*fragment/);
+});
+
+test('magic-link callback consumes the fragment before the NextAuth handoff', () => {
+  const callback = read('pages/auth/magic-link.js');
+  const client = read('lib/supabaseClient.js');
+
+  assert.match(client, /detectSessionInUrl: true/);
+  assert.match(callback, /supabase\.auth\.getSession\(\)/);
+  assert.match(callback, /signIn\('supabase-session'/);
+  assert.match(callback, /router\.replace\('\/auth\/redirect'\)/);
+});
