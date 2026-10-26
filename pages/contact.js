@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 
-const OPERATIONS_EMAIL = 'bookings@midnight-express.org';
+const OPERATIONS_EMAIL = 'hazload@adrcarriers.net';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
