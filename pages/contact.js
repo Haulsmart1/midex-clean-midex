@@ -1,82 +1,135 @@
 import { useState } from 'react';
+import Head from 'next/head';
 import Link from 'next/link';
+
+const OPERATIONS_EMAIL = 'bookings@midnight-express.org';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [emailHandoffStarted, setEmailHandoffStarted] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Message sent!');
-    setFormData({ name: '', email: '', message: '' });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const subject = encodeURIComponent('Midnight Express freight enquiry');
+    const body = encodeURIComponent([
+      'Freight enquiry for human review',
+      '',
+      `Name: ${formData.name}`,
+      `Reply email: ${formData.email}`,
+      '',
+      formData.message,
+      '',
+      'This is an enquiry only. No booking, price, invoice or payment has been created.',
+    ].join('\n'));
+
+    setEmailHandoffStarted(true);
+    window.location.href = `mailto:${OPERATIONS_EMAIL}?subject=${subject}&body=${body}`;
   };
 
   return (
-    <div style={{
-      backgroundImage: 'url("/midex5.jpg")',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      minHeight: '100vh',
-    }}>
-      {/* 🌐 Navigation Bar */}
-      <nav style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '2rem',
-        padding: '1.2rem',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 10,
+    <>
+      <Head>
+        <title>Request a Freight Quote | Midnight Express</title>
+        <meta
+          name="description"
+          content="Send a freight enquiry to Midnight Express for human review. Availability and charges are confirmed by our operations team; this page does not create a booking or take payment."
+        />
+      </Head>
+
+      <div style={{
+        backgroundImage: 'url("/midex5.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
       }}>
-        <Link href="/" className="btn btn-outline-light fw-bold">Home</Link>
-        <Link href="/contact" className="btn btn-outline-light fw-bold">Contact</Link>
-        <Link href="/login" className="btn btn-outline-light fw-bold">Login</Link>
-      </nav>
+        <nav style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '2rem',
+          padding: '1.2rem',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          position: 'sticky',
+          top: 0,
+          zIndex: 10,
+        }}>
+          <Link href="/" className="btn btn-outline-light fw-bold">Home</Link>
+          <Link href="/contact" className="btn btn-outline-light fw-bold">Contact</Link>
+          <Link href="/login" className="btn btn-outline-light fw-bold">Login</Link>
+        </nav>
 
-      <div className="container py-5">
-        <div className="col-md-6 mx-auto p-4 bg-dark text-white rounded">
-          <h2 className="mb-4 text-center">Contact Us</h2>
+        <div className="container py-5">
+          <div className="col-md-6 mx-auto p-4 bg-dark text-white rounded">
+            <h2 className="mb-3 text-center">Request a freight quote</h2>
+            <p>
+              Tell our operations team what needs moving. Submitting this form opens
+              an email addressed to {OPERATIONS_EMAIL}; it is sent only after you
+              review and send it from your email app.
+            </p>
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label>Name</label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                className="form-control"
-              />
-            </div>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label htmlFor="enquiry-name">Name</label>
+                <input
+                  id="enquiry-name"
+                  type="text"
+                  value={formData.name}
+                  onChange={(event) => setFormData({ ...formData, name: event.target.value })}
+                  required
+                  className="form-control"
+                  autoComplete="name"
+                  maxLength={100}
+                />
+              </div>
 
-            <div className="mb-3">
-              <label>Email</label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                className="form-control"
-              />
-            </div>
+              <div className="mb-3">
+                <label htmlFor="enquiry-email">Email</label>
+                <input
+                  id="enquiry-email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(event) => setFormData({ ...formData, email: event.target.value })}
+                  required
+                  className="form-control"
+                  autoComplete="email"
+                  maxLength={254}
+                />
+              </div>
 
-            <div className="mb-3">
-              <label>Message</label>
-              <textarea
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                rows="5"
-                required
-                className="form-control"
-              />
-            </div>
+              <div className="mb-3">
+                <label htmlFor="enquiry-message">Freight details</label>
+                <textarea
+                  id="enquiry-message"
+                  value={formData.message}
+                  onChange={(event) => setFormData({ ...formData, message: event.target.value })}
+                  rows="5"
+                  maxLength={1500}
+                  required
+                  className="form-control"
+                  placeholder="Collection, delivery, goods, weight, dates and any ADR requirements"
+                />
+              </div>
 
-            <button type="submit" className="btn btn-light w-100 mt-3 fw-bold">
-              Send Message
-            </button>
-          </form>
+              <button type="submit" className="btn btn-light w-100 mt-3 fw-bold">
+                Prepare enquiry email
+              </button>
+            </form>
+
+            {emailHandoffStarted && (
+              <p role="status" className="mt-3">
+                Your email app should open with the enquiry prepared. Please press Send there.
+                If nothing opens, email <a href={`mailto:${OPERATIONS_EMAIL}`} className="text-white fw-bold">{OPERATIONS_EMAIL}</a> directly.
+                Your details remain in the form so you can copy them. Nothing has been submitted by this website.
+              </p>
+            )}
+
+            <p className="mt-3 mb-0">
+              This page does not create a booking, price, invoice or payment.
+              Availability and charges are confirmed by a person after review.
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
