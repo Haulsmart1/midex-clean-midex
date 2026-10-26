@@ -12,6 +12,10 @@ const document = fs.readFileSync(
   path.join(root, 'pages', '_document.js'),
   'utf8',
 );
+const home = fs.readFileSync(
+  path.join(root, 'pages', 'index.js'),
+  'utf8',
+);
 
 test('contact prepares a manual operations email without claiming delivery', () => {
   assert.match(contact, /bookings@midnight-express\.org/);
@@ -38,4 +42,10 @@ test('contact metadata describes a human-reviewed enquiry, not automated booking
 
 test('unused unsafe legacy contact API is absent from the candidate', () => {
   assert.equal(fs.existsSync(path.join(root, 'pages', 'api', 'contact.js')), false);
+});
+
+test('public manual-enquiry journey does not advertise unverified account access', () => {
+  assert.doesNotMatch(home, /href=["']\/login["']/);
+  assert.doesNotMatch(contact, /href=["']\/login["']/);
+  assert.equal(fs.existsSync(path.join(root, 'pages', 'login.js')), true);
 });
