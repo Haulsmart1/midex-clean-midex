@@ -8,6 +8,18 @@ import styles from '../styles/Home.module.css';
 export default function Home() {
   const [showCookieBanner, setShowCookieBanner] = useState(false);
 
+  // Recover Supabase implicit-flow links sent to the site root by a legacy
+  // email template. Fragments are not sent to the server. Preserve them only
+  // during a same-origin redirect to the existing verified callback handler.
+  useEffect(() => {
+    const fragment = window.location.hash.slice(1);
+    if (!fragment) return;
+    const tokens = new URLSearchParams(fragment);
+    if (tokens.get('access_token') && tokens.get('refresh_token') && tokens.get('token_type') === 'bearer') {
+      window.location.replace('/auth/magic-link#' + fragment);
+    }
+  }, []);
+
   // ✅ Safe client-side cookie check
   useEffect(() => {
     const consent = localStorage.getItem('cookieConsent');
