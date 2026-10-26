@@ -18,7 +18,7 @@ const home = fs.readFileSync(
 );
 
 test('contact prepares a manual operations email without claiming delivery', () => {
-  assert.match(contact, /bookings@midnight-express\.org/);
+  assert.match(contact, /hazload@adrcarriers\.net/);
   assert.match(contact, /window\.location\.href = `mailto:/);
   assert.match(contact, /Prepare enquiry email/);
   assert.match(contact, /sent only after you[\s\S]*send it from your email app/);
