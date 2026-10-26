@@ -55,7 +55,6 @@ export default function Contact() {
         }}>
           <Link href="/" className="btn btn-outline-light fw-bold">Home</Link>
           <Link href="/contact" className="btn btn-outline-light fw-bold">Contact</Link>
-          <Link href="/login" className="btn btn-outline-light fw-bold">Login</Link>
         </nav>
 
         <div className="container py-5">
