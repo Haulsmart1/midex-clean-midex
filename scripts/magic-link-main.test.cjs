@@ -34,7 +34,13 @@ test('role assignment lookup fails closed', () => {
 
 test('ambiguous stored role assignments are not silently elevated', () => {
   const code = read('pages/api/auth/[...nextauth].js');
-  assert.match(code, /new Set\(assignedRoles\)\.size > 1/);
+  const guardLine = code
+    .split('\n')
+    .find((line) => line.includes('new Set(assignedRoles).size > 1'));
+
+  assert.ok(guardLine, 'expected the ambiguous-role guard');
+  assert.match(guardLine, /^\s*if \(/, 'guard must be executable code, not a comment');
+  assert.doesNotMatch(code, /stored\\n/, 'escaped newlines must not comment out the guard');
   assert.match(code, /ambiguous_assigned_roles[\s\S]*return null/);
 });
 
