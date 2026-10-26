@@ -33,29 +33,29 @@ export default function Home() {
   };
 
   const ROUTES = [
-    { from: "liverpool", to: "dublin", status: "open", description: "Direct overnight ferry with customs clearance and ADR support" },
-    { from: "liverpool", to: "belfast", status: "open", description: "Direct overnight ferry with customs clearance and ADR support" },
-    { from: "cairnryan", to: "larne", status: "open", description: "Runs Daily Monday to Friday from 2nd June 2025, customs available" },
-    { from: "heysham", to: "belfast", status: "open", description: "One Service on Wednesday ADR" },
-    { from: "heysham", to: "dublin", status: "open", description: "One Service on Wednesday ADR" },
-    { from: "heysham", to: "warrenpoint", status: "open", description: "One Service on Wednesday ADR" },
-    { from: "rosslare", to: "cherbourg", status: "open", description: "One Service on Wednesday ADR" },
-    { from: "rosslare", to: "bilbao", status: "open", description: "One Service on Wednesday ADR" },
-    { from: "immingham", to: "esbjerg", status: "open", description: "One Service on Wednesday ADR" },
-    { from: "immingham", to: "hook-of-holland", status: "open", description: "Direct overnight ferry with customs clearance and ADR support" },
-    { from: "felixstowe", to: "zeebrugge", status: "open", description: "Direct overnight ferry with customs clearance and ADR support" },
-    { from: "dover", to: "calais", status: "open", description: "Direct overnight ferry with customs clearance and ADR support" },
+    { from: "liverpool", to: "dublin" },
+    { from: "liverpool", to: "belfast" },
+    { from: "cairnryan", to: "larne" },
+    { from: "heysham", to: "belfast" },
+    { from: "heysham", to: "dublin" },
+    { from: "heysham", to: "warrenpoint" },
+    { from: "rosslare", to: "cherbourg" },
+    { from: "rosslare", to: "bilbao" },
+    { from: "immingham", to: "esbjerg" },
+    { from: "immingham", to: "hook-of-holland" },
+    { from: "felixstowe", to: "zeebrugge" },
+    { from: "dover", to: "calais" },
   ];
 
 
   return (
     <>
       <Head>
-        <title>Express, Sameday & Dedicated Pallets | UK ⇄ Ireland ⇄ Europe</title>
-        <meta name="description" content="Overnight express pallet delivery, same-day and dedicated freight between UK, Ireland, Northern Ireland, and Europe. ADR & customs cleared." />
+        <title>Freight Enquiries | UK ⇄ Ireland ⇄ Europe</title>
+        <meta name="description" content="Request human-reviewed express, same-day, dedicated, ADR or customs freight support across the UK, Ireland and Europe. No automatic booking or payment." />
         <meta name="keywords" content="Express Pallets, Dedicated Pallets, Sameday Pallets, Freight UK to Ireland, Pallet Delivery Europe, ADR Freight, Customs Cleared" />
         <meta property="og:title" content="Midnight Express Freight Pallets Parcels London Belfast Dublin Liverpool Cardiff Rosslare Holyhead| UK ⇄ Europe" />
-        <meta property="og:description" content="Next-day pallets, same-day and dedicated delivery services from UK to Ireland, NI and Europe. Customs and ADR included." />
+        <meta property="og:description" content="Request a freight quote for human review across the UK, Ireland and Europe. Availability, timing, customs and ADR requirements are confirmed before acceptance." />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/midex7.jpg" />
         <meta property="og:url" content="https://www.midnight-xpress.com" />
@@ -104,7 +104,7 @@ export default function Home() {
                 <article className={styles.routeCard} key={route.from + '-' + route.to}>
                   <div className={styles.routeTop}><span>ROUTE {String(i + 1).padStart(2,'0')}</span><span className={styles.routeIcon}>↗</span></div>
                   <h3>{route.from.replaceAll('-', ' ')} <span>↔</span> {route.to.replaceAll('-', ' ')}</h3>
-                  <p>{route.description}</p>
+                  <p>Availability, timing, customs and ADR requirements are confirmed after enquiry.</p>
                   <Link href="/contact" className={styles.routeBtn}>Enquire about this route <span aria-hidden="true">→</span></Link>
                 </article>
               ))}
