@@ -68,7 +68,6 @@ export default function Home() {
           <Link href="/" className={styles.brand}><span className={styles.brandMark}>M</span><span>MIDNIGHT <strong>EXPRESS</strong><small>UK · IRELAND · EUROPE</small></span></Link>
           <nav className={styles.headerNav} aria-label="Main navigation">
             <Link href="/about">About</Link>
-            <Link href="/login">Customer login</Link>
             <Link href="/contact" className={styles.headerAction}>Get a quote <span aria-hidden="true">↗</span></Link>
           </nav>
         </header>
@@ -113,7 +112,7 @@ export default function Home() {
           </section>
           <section className={styles.finalCta}><div><span className={styles.kicker}>LET'S GET MOVING</span><h2>Have freight to move?</h2><p>Tell us the collection, destination and goods. We’ll review the requirements and come back with a quote.</p></div><Link href="/contact" className={styles.primaryCta}>Start an enquiry ↗</Link></section>
         </main>
-        <footer className={styles.footer}><span>© Midnight Express</span><div><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/login">Customer login</Link></div></footer>
+        <footer className={styles.footer}><span>© Midnight Express</span><div><Link href="/about">About</Link><Link href="/contact">Contact</Link></div></footer>
       </div>
 
       {/* COOKIES */}
