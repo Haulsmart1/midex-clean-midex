@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function Register(){return <main style={{maxWidth:800,margin:'3rem auto',padding:'2rem',background:'#fff',color:'#142238'}}><h1>No account is needed to enquire</h1><p>Send your freight requirement to operations for review. Public marketplace signup and automated bookings are not enabled.</p><Link href="/enquiry">Start a freight enquiry</Link> · <Link href="/operations/enquiries">Staff sign-in</Link></main>;}

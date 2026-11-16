@@ -1,0 +1,11 @@
+BEGIN;
+ALTER TABLE midnight_enquiries.enquiries DROP CONSTRAINT IF EXISTS enquiries_status_check;
+ALTER TABLE midnight_enquiries.enquiries ADD CONSTRAINT enquiries_status_check CHECK (status IN ('new','open','reviewing','quoted','booked','closed','declined'));
+ALTER TABLE midnight_enquiries.enquiries ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+ALTER TABLE midnight_enquiries.enquiries ADD COLUMN IF NOT EXISTS source text NOT NULL DEFAULT 'website';
+CREATE INDEX IF NOT EXISTS enquiry_status_created ON midnight_enquiries.enquiries (status,created_at DESC);
+GRANT USAGE ON SCHEMA midnight_enquiries TO midnight_capture;
+GRANT SELECT, INSERT ON ALL TABLES IN SCHEMA midnight_enquiries TO midnight_capture;
+GRANT UPDATE ON midnight_enquiries.enquiries, midnight_enquiries.rate_limits TO midnight_capture;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA midnight_enquiries TO midnight_capture;
+COMMIT;
