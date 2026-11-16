@@ -15,7 +15,7 @@ test('durable capture precedes notification; unchanged retry returns one referen
   const f=fixture(),data=input(),a=await f.call(data),b=await f.call(data);assert.equal(a.body.state,'received');assert.equal(a.body.reference,b.body.reference);assert.deepEqual(f.calls,['store','mail','store']);assert.equal(f.rows.size,1);
 });
 test('disabled email retains full enquiry and truthfully reports pending notification',async()=>{
-  const f=fixture({env:{...env,MIDNIGHT_ENQUIRY_EMAIL_ENABLED:'false'}}),r=await f.call();assert.equal(r.code,200);assert.match(r.body.message,/stored/);assert.match(r.body.message,/pending/);assert.deepEqual(f.calls,['store']);assert.equal([...f.rows.values()][0].data.collection,'London');
+  const f=fixture({env:{...env,MIDNIGHT_ENQUIRY_EMAIL_ENABLED:'false'}}),r=await f.call();assert.equal(r.code,200);assert.match(r.body.message,/stored/);assert.match(r.body.message,/No automatic email has been sent/);assert.deepEqual(f.calls,['store']);assert.equal([...f.rows.values()][0].data.collection,'London');
 });
 test('provider timeout and explicit rejection never lose capture; unknown acceptance cannot retry',async()=>{
   for(const error of [Error('secret provider failure'),Object.assign(Error('reject'),{responseCode:550})]){

@@ -62,3 +62,38 @@ Before commercial claims beyond enquiry handling, confirm the legal company
 name/number/registered office, retention and transport terms with the owner.
 No placeholder VAT, address, company number, schedule, accreditation or owned
 fleet claim is introduced by this release.
+
+## Hosted acceptance — 16 November 2026
+
+The protected preview built successfully on Vercel in Frankfurt. Chromium
+confirmed the restored professional heading/design, no horizontal overflow at
+390 px, and successful responses for every homepage navigation link. Images
+loaded after normal page scrolling. A synthetic API enquiry returned a stored
+receipt; six simultaneous unchanged retries recovered that reference. Changed
+details under the same key returned 409. Anonymous staff access returned 401
+with private/no-store. Readback using the restricted PostgreSQL runtime role
+confirmed one synthetic record, its audit, notification disabled and zero
+email attempts. See `preview-acceptance-20261116.json`.
+
+Both production builds and runtime dependency audits passed (zero runtime
+findings). Capture/staff/API tests, actual React form/operations checks and
+restricted-role migration/repository checks passed. These do not establish
+Stuart's real password login or an actual human response; those remain owner
+acceptance. No emails or billing actions were performed.
+
+## Exact remaining release decisions
+
+1. Approve merging this release branch and production publication.
+2. Provision a separate empty production enquiry database/branch and fresh
+   restricted credentials/HMAC secret; do not copy Preview credentials.
+3. For Midnight, publish only `apps/midnight-commercial` on its dedicated
+   `midnight-commercial` Vercel project, then move only midnight-xpress.com
+   and www.midnight-xpress.com. Keep Express Pallets, Lithium Battery and ADR
+   infrastructure and domain assignments untouched.
+4. Stuart signs in to `/operations/enquiries`, retrieves the labelled test
+   enquiry, and confirms the team's manual response process. Only Stuart's
+   existing verified account is initially allowed.
+5. Supply/approve the legal entity name, number, registered office and
+   retention/transport terms before declaring commercial launch complete.
+
+Automatic email, billing, live job acceptance and automated booking remain off.

@@ -64,7 +64,7 @@ function createHandler({env,repository,send}) {
     if(stored.limited){res.setHeader('Retry-After','600');return reply(429,'limited','Too many attempts. Please wait ten minutes or call operations.');}
     if(stored.conflict)return reply(409,'invalid','This submission reference belongs to different details. Clear the draft to start a new enquiry.');
     const notification=stored.notification==='accepted'?'accepted':await notify({env,repo,send,reference:stored.reference,data});
-    return reply(200,'received','Your enquiry has been received and stored. '+(notification==='accepted'?'The mail server accepted the operations notification.':'Operations notification is pending; please call for urgent freight.')+' This is not a quotation or booking confirmation.',stored.reference);
+    return reply(200,'received','Your enquiry has been received and stored. '+(notification==='accepted'?'The mail server accepted the operations notification.':notification==='disabled'?'Operations will review the stored enquiry. No automatic email has been sent; please call for urgent freight.':'Operations notification is pending; please call for urgent freight.')+' This is not a quotation or booking confirmation.',stored.reference);
   };
 }
 module.exports={configured,emailConfigured,sameOrigin,notify,createHandler};
