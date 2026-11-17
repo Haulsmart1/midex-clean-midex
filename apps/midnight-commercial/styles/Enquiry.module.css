@@ -1,0 +1,19 @@
+.container { max-width: 900px; margin: 0 auto; padding: 48px 24px; color: #142b40; background: #fff; }
+.container h1 { font-size: clamp(2rem, 5vw, 3.3rem); line-height: 1.1; overflow-wrap: anywhere; }
+.container h2 { margin-top: 32px; }
+.container p { line-height: 1.65; }
+.container fieldset { border: 1px solid #9aabb8; border-radius: 6px; margin: 28px 0; padding: 20px; min-width: 0; }
+.container legend { padding: 0 8px; font-size: 1.3rem; font-weight: 700; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.container label { font-weight: 600; display: block; margin-bottom: 6px; }
+.container input, .container select, .container textarea { width: 100%; box-sizing: border-box; font: inherit; color: #142b40; background: #fff; border: 1px solid #627788; border-radius: 4px; padding: 12px; min-height: 48px; }
+.container textarea { resize: vertical; }
+.container button { font: inherit; background: #142b40; color: #fff; border: 0; border-radius: 4px; padding: 14px 20px; min-height: 48px; cursor: pointer; }
+.container button:disabled { opacity: .65; cursor: default; }
+.container a { color: #164975; text-decoration: underline; overflow-wrap: anywhere; }
+.container :is(input, select, textarea, button, a):focus-visible { outline: 3px solid #996200; outline-offset: 3px; }
+.notice { background: #fff3cf; border-left: 4px solid #996200; padding: 16px; margin: 20px 0; line-height: 1.6; }
+.actions { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; margin-top: 20px; }
+.actions a { padding: 12px 0; }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; gap: 8px; } .container { padding: 32px 18px; } .container fieldset { padding: 14px; } }

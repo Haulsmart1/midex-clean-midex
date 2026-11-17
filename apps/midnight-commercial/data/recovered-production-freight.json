@@ -1,0 +1,65 @@
+{
+  "liverpool-to-dublin": {
+    "desc": "High-speed delivery from Liverpool to Dublin with express, ADR, and door-to-door."
+  },
+  "southampton-to-plymouth": {
+    "desc": "Dedicated courier from Southampton to Plymouth with dedicated vehicle, door-to-door, and tracking."
+  },
+  "bristol-to-portsmouth": {
+    "desc": "Express pallet service from Bristol to Portsmouth with overnight, ADR, and door-to-door."
+  },
+  "cardiff-to-swansea": {
+    "desc": "Smart logistics pathway from Cardiff to Swansea with next-day, customs clearance, and ADR."
+  },
+  "edinburgh-to-nottingham": {
+    "desc": "High-speed delivery from Edinburgh to Nottingham with express, door-to-door, and tracking."
+  },
+  "liverpool-to-leeds": {
+    "desc": "Rapid freight route from Liverpool to Leeds with next-day, customs clearance, and fast-track."
+  },
+  "bristol-to-sheffield": {
+    "desc": "Rapid freight route from Bristol to Sheffield with next-day, tracking, and door-to-door."
+  },
+  "birmingham-to-glasgow": {
+    "desc": "Rapid freight route from Birmingham to Glasgow with express, tracking, and fast-track."
+  },
+  "manchester-to-birmingham": {
+    "desc": "Dedicated courier from Manchester to Birmingham with next-day, tracking, and customs clearance."
+  },
+  "london-to-manchester": {
+    "desc": "High-speed delivery from London to Manchester with dedicated vehicle, ADR, and tracking."
+  },
+  "cardiff-to-newcastle": {
+    "desc": "Rapid freight route from Cardiff to Newcastle with next-day, fast-track, and tracking."
+  },
+  "london-to-glasgow": {
+    "desc": "Smart logistics pathway from London to Glasgow with express, tracking, and door-to-door."
+  },
+  "sheffield-to-leicester": {
+    "desc": "Fast-track shipment from Sheffield to Leicester with dedicated vehicle, fast-track, and door-to-door."
+  },
+  "leeds-to-london": {
+    "desc": "Fast-track shipment from Leeds to London with overnight, fast-track, and door-to-door."
+  },
+  "portsmouth-to-bristol": {
+    "desc": "Fast-track shipment from Portsmouth to Bristol with dedicated vehicle, fast-track, and ADR."
+  },
+  "oxford-to-cambridge": {
+    "desc": "High-speed delivery from Oxford to Cambridge with express, fast-track, and tracking."
+  },
+  "glasgow-to-edinburgh": {
+    "desc": "Smart logistics pathway from Glasgow to Edinburgh with overnight, customs clearance, and tracking."
+  },
+  "nottingham-to-leeds": {
+    "desc": "Dedicated courier from Nottingham to Leeds with express, tracking, and door-to-door."
+  },
+  "coventry-to-derby": {
+    "desc": "Rapid freight route from Coventry to Derby with express, fast-track, and tracking."
+  },
+  "newcastle-to-hull": {
+    "desc": "Dedicated courier from Newcastle to Hull with same-day, fast-track, and tracking."
+  },
+  "liverpool-to-york": {
+    "desc": "Rapid freight route from Liverpool to York with next-day, customs clearance, and tracking."
+  }
+}

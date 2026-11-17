@@ -1,0 +1,139 @@
+{
+  "checked_at": "2026-11-16",
+  "scope": "Protected Preview; synthetic data only. Not a production approval.",
+  "design_heading": [
+    "EUROPEANFREIGHT.AIR. SEA. ROAD."
+  ],
+  "preview_origin": "https://midnight-commercial-ds12nlfuz-haulsmart.vercel.app",
+  "mobile_width": 390,
+  "mobile_horizontal_overflow": false,
+  "api_receipt": {
+    "status": 200,
+    "body": {
+      "state": "received",
+      "message": "Your enquiry has been received and stored. Operations notification is pending; please call for urgent freight. This is not a quotation or booking confirmation.",
+      "reference": "MID-B3206924C4074054800C89C27F66DB41"
+    }
+  },
+  "retry_statuses": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+  ],
+  "all_retries_same_reference": true,
+  "changed_payload_status": 409,
+  "anonymous_staff_status": 401,
+  "anonymous_staff_cache_control": "private, no-store",
+  "homepage_links": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/road-freight",
+      "status": 200
+    },
+    {
+      "path": "/air-freight",
+      "status": 200
+    },
+    {
+      "path": "/sea-freight",
+      "status": 200
+    },
+    {
+      "path": "/time-critical-freight",
+      "status": 200
+    },
+    {
+      "path": "/european-freight",
+      "status": 200
+    },
+    {
+      "path": "/login",
+      "status": 200
+    },
+    {
+      "path": "/enquiry",
+      "status": 200
+    },
+    {
+      "path": "/blog",
+      "status": 200
+    },
+    {
+      "path": "/freight/liverpool-to-dublin",
+      "status": 200
+    },
+    {
+      "path": "/freight/liverpool-to-belfast",
+      "status": 200
+    },
+    {
+      "path": "/freight/southampton-to-plymouth",
+      "status": 200
+    },
+    {
+      "path": "/freight/london-to-manchester",
+      "status": 200
+    },
+    {
+      "path": "/freight-resources",
+      "status": 200
+    },
+    {
+      "path": "/about",
+      "status": 200
+    },
+    {
+      "path": "/privacy",
+      "status": 200
+    },
+    {
+      "path": "/enquiry-terms",
+      "status": 200
+    },
+    {
+      "path": "/operations/enquiries",
+      "status": 200
+    }
+  ],
+  "images_after_scroll": [
+    {
+      "src": "/_next/image?url=%2Fimages%2Ffreight%2Froad.webp&w=3840&q=75&dpl=dpl_43DDGaiUZyubGYQGupVoPf1PPxph",
+      "loaded": true
+    },
+    {
+      "src": "/_next/image?url=%2Fimages%2Ffreight%2Froad.webp&w=3840&q=75&dpl=dpl_43DDGaiUZyubGYQGupVoPf1PPxph",
+      "loaded": true
+    },
+    {
+      "src": "/_next/image?url=%2Fimages%2Ffreight%2Fair.webp&w=3840&q=75&dpl=dpl_43DDGaiUZyubGYQGupVoPf1PPxph",
+      "loaded": true
+    },
+    {
+      "src": "/_next/image?url=%2Fimages%2Ffreight%2Fsea.webp&w=3840&q=75&dpl=dpl_43DDGaiUZyubGYQGupVoPf1PPxph",
+      "loaded": true
+    },
+    {
+      "src": "/images/freight/europe.svg?dpl=dpl_43DDGaiUZyubGYQGupVoPf1PPxph",
+      "loaded": true
+    }
+  ],
+  "database_readback": {
+    "synthetic_record_count": 1,
+    "notification": "disabled",
+    "email_attempts": 0,
+    "status": "new",
+    "audit_event_count": 1
+  },
+  "limitations": [
+    "Real staff password login and human response acceptance require Stuart.",
+    "Registered legal company details and retention approval pending.",
+    "Production database/configuration and domain release pending specific approval."
+  ],
+  "note": "API message subsequently clarified to state automatic email disabled; final release retested separately."
+}

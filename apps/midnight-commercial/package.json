@@ -1,0 +1,24 @@
+{
+  "name": "midnight-commercial",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "node --test scripts/enquiry-capture.test.cjs scripts/enquiry-receipt-retry.test.cjs scripts/enquiry-staff.test.cjs scripts/operations-api.test.cjs scripts/public-release-policy.test.cjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.90.1",
+    "next": "16.4.6",
+    "pg": "8.15.6",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "overrides": {
+    "ws": "8.23.0"
+  }
+}
