@@ -10,3 +10,8 @@
 .countries{grid-template-columns:repeat(3,1fr);gap:5px 8px;margin:12px 0 14px}
 .europeGrid .coverageLabel{font-size:12px!important;font-weight:700;color:var(--ink)!important;margin-top:18px!important}
 @media(max-width:700px){.countries{grid-template-columns:repeat(2,1fr)}}
+
+/* Keep account access visible outside the collapsed menu at every width. */
+.login{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 16px;border:1px solid var(--accent);background:var(--accent);color:var(--navy)!important;font-size:13px;font-weight:700;white-space:nowrap}
+@media(max-width:1000px){.login{display:inline-flex}.header .container{gap:16px;flex-wrap:wrap}}
+@media(max-width:700px){.header .container{gap:10px;padding-top:12px;padding-bottom:12px}.login{padding:10px 12px}.login span{display:none}.brand{margin-right:auto}.mobileNav summary{padding:12px 0}}
