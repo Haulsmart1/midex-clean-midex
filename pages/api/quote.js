@@ -1,7 +1,6 @@
 // /pages/api/quote.js or /app/api/quote/route.js (Next 13+ with app router)
 import calculateQuote from '@/utils/pricingEngine';
 import { resolveRoute } from '@/utils/resolveRoute';
-import supabase from '@/lib/supabaseClient';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -10,7 +9,6 @@ export default async function handler(req, res) {
 
   try {
     const {
-      bookingId = null,
       from = '',
       to = '',
       pallets = [],
@@ -54,21 +52,8 @@ export default async function handler(req, res) {
     const isCrossBorder = ferryRoute !== 'UK';
     const routeType = isCrossBorder ? 'cross_border' : 'internal';
 
-    // STEP 4: Update booking if ID is provided
-    if (bookingId) {
-      const { error: updateError } = await supabase
-        .from('bookings')
-        .update({
-          legs,
-          ferry_route: ferryRoute,
-          route_type: routeType,
-        })
-        .eq('id', bookingId);
-
-      if (updateError) {
-        console.error('❌ Failed to update booking with route info:', updateError);
-      }
-    }
+    // Quotation previews are read-only. Never mutate a booking from a caller-supplied ID.
+    // Automatic booking and price acceptance remain disabled until server-side approval.
 
     // STEP 5: Respond
     return res.status(200).json({
