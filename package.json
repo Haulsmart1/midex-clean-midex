@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "test-route": "node scripts/testRoute.js",
-    "test:release-safety": "node --test scripts/legacy-booking-safety.test.cjs apps/midnight-commercial/scripts/enquiry-capture.test.cjs"
+    "test:release-safety": "node --test scripts/legacy-booking-safety.test.cjs apps/midnight-commercial/scripts/enquiry-capture.test.cjs",
+    "prebuild": "npm run test:release-safety"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
