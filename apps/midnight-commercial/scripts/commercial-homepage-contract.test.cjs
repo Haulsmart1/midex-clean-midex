@@ -21,6 +21,9 @@ test('approved customer enquiry email is Hazload across layout and homepage meta
   assert.match(layout,/>hazload@adrcarriers\.net<\/a>/);
   assert.match(home,/email:'hazload@adrcarriers\.net'/);
   assert.doesNotMatch(layout,/mailto:freight@midnight-express\.org/);
+  const enquiry=read('pages/enquiry.js');
+  assert.match(enquiry,/mailto:hazload@adrcarriers\\.net/);
+  assert.doesNotMatch(enquiry,/freight@midnight-express\\.org/);
 });
 
 test('new booking/contact pages route to the dedicated enquiry process',()=>{
