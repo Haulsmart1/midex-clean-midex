@@ -9,7 +9,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --test scripts/enquiry-capture.test.cjs scripts/enquiry-receipt-retry.test.cjs scripts/enquiry-staff.test.cjs scripts/operations-api.test.cjs scripts/public-release-policy.test.cjs"
+    "test": "node --test scripts/enquiry-capture.test.cjs scripts/enquiry-receipt-retry.test.cjs scripts/enquiry-staff.test.cjs scripts/operations-api.test.cjs scripts/public-release-policy.test.cjs scripts/commercial-homepage-contract.test.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.90.1",
