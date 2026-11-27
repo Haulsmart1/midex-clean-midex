@@ -2,134 +2,49 @@ import { supabase } from '@/lib/supabaseClient';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 
+// Legacy booking collection. Reads are restricted to the verified session owner.
+// Writes are disabled until a server-authoritative quotation and booking approval
+// workflow has been built. Use the separate Midnight Commercial enquiry process.
 export default async function handler(req, res) {
-  // ✅ GET: Public fetch by user_id (query param)
-  if (req.method === 'GET') {
-    try {
-      const { user_id } = req.query;
-
-      if (!user_id) {
-        console.error('[API GET] Missing user_id');
-        return res.status(400).json({ error: 'Missing user_id' });
-      }
-
-      console.log('[API GET] Fetching bookings for user_id:', user_id);
-
-      const { data, error } = await supabase
-        .from('bookings')
-        .select('*')
-        .eq('user_id', user_id)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('[API GET] Supabase Fetch Error:', error.message || error);
-        return res.status(500).json({ error: error.message || 'Database Fetch Error' });
-      }
-
-      return res.status(200).json(data || []);
-    } catch (err) {
-      console.error('[API GET] Unexpected error:', err.stack || err);
-      return res.status(500).json({ error: 'Unexpected error fetching bookings' });
-    }
+  res.setHeader('Cache-Control', 'private, no-store');
+  if (req.method !== 'GET' && req.method !== 'POST') {
+    res.setHeader('Allow', 'GET, POST');
+    return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  // ✅ POST: Authenticated booking creation
+  let session;
+  try {
+    session = await getServerSession(req, res, authOptions);
+  } catch {
+    return res.status(503).json({ error: 'Authentication cannot be verified.' });
+  }
+  const userId = session?.user?.id;
+  if (!userId || typeof userId !== 'string') {
+    return res.status(401).json({ error: 'Sign in to access your bookings.' });
+  }
+
   if (req.method === 'POST') {
-    const session = await getServerSession(req, res, authOptions);
+    return res.status(410).json({
+      error: 'Automated booking is disabled until operations approves a server-verified quotation. No booking has been created.',
+    });
+  }
 
-    if (!session?.user?.id) {
-      console.error('[API POST] Not authenticated');
-      return res.status(401).json({ error: 'Not authenticated' });
-    }
+  // Do not allow callers to choose another account through user_id.
+  const requestedUserId = req.query?.user_id;
+  if (requestedUserId !== undefined && requestedUserId !== userId) {
+    return res.status(403).json({ error: 'Booking access denied.' });
+  }
 
-    const {
-      pallets,
-      adr,
-      adr_class_special,
-      forklift_pickup,
-      forklift_delivery,
-      collectionPoints,
-      deliveryPoints,
-      collection_cost,
-      delivery_cost,
-      ferry_cost,
-      customs_fee,
-      vat,
-      total_cost,
-      miles_to_depot_a,
-      miles_from_depot_b,
-      distance_miles,
-      vehicle_type,
-      consignmentRef,
-      customer,
-      destination,
-      weightKg,
-      goodsDescription,
-    } = req.body;
-
-    // 🔎 Validate request body
-    const errors = {};
-    if (!Array.isArray(pallets) || pallets.length === 0) errors.pallets = 'At least one pallet is required.';
-    if (!Array.isArray(collectionPoints) || collectionPoints.length === 0) errors.collectionPoints = 'At least one collection point is required.';
-    if (!Array.isArray(deliveryPoints) || deliveryPoints.length === 0) errors.deliveryPoints = 'At least one delivery point is required.';
-    if (typeof collection_cost !== 'number') errors.collection_cost = 'Collection cost must be a number.';
-    if (typeof delivery_cost !== 'number') errors.delivery_cost = 'Delivery cost must be a number.';
-    if (typeof total_cost !== 'number') errors.total_cost = 'Total cost must be a number.';
-
-    for (const [idx, p] of pallets.entries()) {
-      if (p.adr && !p.adrFile) {
-        errors[`pallets[${idx}].adrFile`] = 'ADR file is required for ADR pallet';
-      }
-    }
-
-    if (Object.keys(errors).length > 0) {
-      console.error('[API POST] Validation failed', errors);
-      return res.status(400).json({ error: 'Invalid booking data.', fields: errors });
-    }
-
-    // 📦 Create insert object
-    const insertData = {
-      pallets,
-      adr,
-      adr_class_special,
-      forklift_pickup,
-      forklift_delivery,
-      collections: collectionPoints,
-      deliveries: deliveryPoints,
-      collection_cost,
-      delivery_cost,
-      ferry_cost,
-      customs_fee,
-      vat,
-      total_cost,
-      miles_to_depot_a,
-      miles_from_depot_b,
-      distance_miles,
-      vehicle_type,
-      consignment_ref: consignmentRef,
-      customer,
-      destination,
-      weight_kg: weightKg,
-      goods_description: goodsDescription,
-      user_id: session.user.id, // ✅ CORRECT field
-      created_at: new Date().toISOString(),
-    };
-
+  try {
     const { data, error } = await supabase
       .from('bookings')
-      .insert([insertData])
       .select('*')
-      .single();
-
-    if (error) {
-      console.error('[API POST] Supabase Insert Error:', error.message || error);
-      return res.status(500).json({ error: error.message || 'Database Insert Error' });
-    }
-
-    return res.status(200).json({ success: true, booking: data });
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(100);
+    if (error) return res.status(503).json({ error: 'Bookings are temporarily unavailable.' });
+    return res.status(200).json(data || []);
+  } catch {
+    return res.status(503).json({ error: 'Bookings are temporarily unavailable.' });
   }
-
-  // ❌ Unsupported method
-  console.error('[API] Method not allowed:', req.method);
-  return res.status(405).json({ error: 'Method Not Allowed' });
 }
