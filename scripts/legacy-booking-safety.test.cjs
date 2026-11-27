@@ -31,6 +31,7 @@ for (const endpoint of [
   'pages/api/notify-fast-booking.js',
   'pages/api/submit-booking.js',
   'pages/api/contact.js',
+  'pages/api/send-new-admin-email.js',
 ]) {
   test(endpoint + ' never sends mail or falsely confirms a booking', async () => {
     const handler = load(endpoint, { process: { env: {} } });
@@ -98,4 +99,17 @@ test('public quote preview cannot mutate a booking using a supplied ID', async (
   assert.equal(res.code, 200);
   assert.equal(res.body.total, 99.95);
   assert.equal(res.body.routeInfo.totalMiles, 30);
+});
+
+test('legacy public screens cannot claim that an email or booking was submitted', () => {
+  const contact = fs.readFileSync(path.join(root, 'pages/contact.js'), 'utf8');
+  const booking = fs.readFileSync(path.join(root, 'pages/booking.js'), 'utf8');
+  const admin = fs.readFileSync(path.join(root, 'pages/api/send-new-admin-email.js'), 'utf8');
+  assert(!contact.includes("alert('Message sent!')"));
+  assert(!booking.includes('Submit Booking'));
+  assert(!admin.includes('createTransport('));
+  for (const page of [contact, booking]) {
+    assert.match(page, /mailto:hazload@adrcarriers\.net/);
+    assert.match(page, /does not|Nothing is submitted|doesn't/i);
+  }
 });
