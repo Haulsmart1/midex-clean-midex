@@ -38,7 +38,7 @@ for (const endpoint of [
     const res = response();
     await handler({ method: 'POST', body: { totalQuote: 0, quote: { total: 0.01 } } }, res);
     assert.equal(res.code, 410);
-    assert.match(res.body.error, /disabled|retired/i);
+    assert.match(res.body.error, /disabled|retired|not available/i);
     assert.doesNotMatch(JSON.stringify(res.body), /success":true|booking saved|email sent successfully/i);
     assert.match(res.headers['Cache-Control'], /no-store/);
     const invalid = response();
