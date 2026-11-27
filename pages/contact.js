@@ -1,82 +1,17 @@
-import { useState } from 'react';
 import Link from 'next/link';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Message sent!');
-    setFormData({ name: '', email: '', message: '' });
-  };
-
   return (
-    <div style={{
-      backgroundImage: 'url("/midex5.jpg")',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      minHeight: '100vh',
-    }}>
-      {/* 🌐 Navigation Bar */}
-      <nav style={{
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '2rem',
-        padding: '1.2rem',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 10,
-      }}>
-        <Link href="/" className="btn btn-outline-light fw-bold">Home</Link>
-        <Link href="/contact" className="btn btn-outline-light fw-bold">Contact</Link>
-        <Link href="/login" className="btn btn-outline-light fw-bold">Login</Link>
-      </nav>
-
-      <div className="container py-5">
-        <div className="col-md-6 mx-auto p-4 bg-dark text-white rounded">
-          <h2 className="mb-4 text-center">Contact Us</h2>
-
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label>Name</label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                required
-                className="form-control"
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>Email</label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                required
-                className="form-control"
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>Message</label>
-              <textarea
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                rows="5"
-                required
-                className="form-control"
-              />
-            </div>
-
-            <button type="submit" className="btn btn-light w-100 mt-3 fw-bold">
-              Send Message
-            </button>
-          </form>
-        </div>
+    <main style={{ minHeight: '100vh', background: '#0e2534', color: '#fff', padding: '48px 20px' }}>
+      <div style={{ maxWidth: 720, margin: '0 auto' }}>
+        <Link href="/" style={{ color: '#f8cd86' }}>← Midnight Express</Link>
+        <h1 style={{ marginTop: 40 }}>Contact our freight team</h1>
+        <p>For a road, air or sea freight enquiry, please send the collection point, destination, freight description, weight, required timing and any dangerous goods information.</p>
+        <p>We will review your requirements and reply with availability and a quotation where possible. Contacting us does not create or confirm a booking.</p>
+        <p><a style={{ color: '#f8cd86', fontWeight: 700 }} href="mailto:hazload@adrcarriers.net?subject=Midnight%20Express%20freight%20enquiry">Open an email to operations</a></p>
+        <p>The link opens your email application. You must send the email yourself; the website does not send it automatically.</p>
+        <p>For urgent freight, telephone <a style={{ color: '#f8cd86' }} href="tel:+448009991263">0800 999 1263</a>.</p>
       </div>
-    </div>
+    </main>
   );
 }
